@@ -10,7 +10,8 @@ public class MainActivity extends AppCompatActivity {
     AnimationDrawable pacmanAnimation;
 
     @Override
-    //GGGGGGG
+    //Hi Ana
+    //GGG
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
