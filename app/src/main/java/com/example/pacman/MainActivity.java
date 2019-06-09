@@ -10,14 +10,13 @@ public class MainActivity extends AppCompatActivity {
     AnimationDrawable pacmanAnimation;
 
     @Override
-    //Hi Ana
-    //GGG
+    //GGGGGGG
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ImageView imageView = (ImageView)findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.pacman_lose_animation);
+        imageView.setBackgroundResource(R.drawable.pacman);
         pacmanAnimation = (AnimationDrawable)imageView.getBackground();
     }
 
