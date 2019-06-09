@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/pacman1"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose2"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose3"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose4"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose5"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose6"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose7"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose8"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose9"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose10"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose11"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose12"
+        android:duration="100"/>
+
+    <item
+        android:drawable="@drawable/pacman_lose13"
+        android:duration="5000"/>
+</animation-list>
