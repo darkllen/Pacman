@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    //list of images for pacman animation
+    <item
+        android:drawable="@drawable/pacman1"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman2"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman3"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman4"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman5"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman6"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman7"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman8"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman7"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman6"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman5"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman4"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman3"
+        android:duration="50"/>
+
+    <item
+        android:drawable="@drawable/pacman2"
+        android:duration="50"/>
+
+
+
+</animation-list>
