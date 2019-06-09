@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageView imageView = (ImageView)findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.pacman);
+        imageView.setBackgroundResource(R.drawable.pacman_lose_animation);
         pacmanAnimation = (AnimationDrawable)imageView.getBackground();
     }
 
