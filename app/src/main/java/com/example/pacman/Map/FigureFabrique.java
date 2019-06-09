@@ -1,5 +1,7 @@
 package com.example.pacman.Map;
 
+import java.util.Random;
+
 public abstract class FigureFabrique {
 
     /**
@@ -17,5 +19,14 @@ public abstract class FigureFabrique {
             case FIGURE011100:return new Figure(new int[][]{{0,1},{1,1},{0,0}});
         }
         return null;
+    }
+
+    /**
+     *
+     * @return random new Figure object
+     */
+    public static Figure getRandomFigure(){
+        Random random=new Random();
+        return getFigure(FigureNum.values()[random.nextInt(6)]);
     }
 }

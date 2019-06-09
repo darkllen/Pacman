@@ -2,7 +2,7 @@ package com.example.pacman.Map;
 
 public class Figure {
     //array, where 1 - wall, 0 - space
-    private int[][] type = new int[2][3];
+    private int[][] type = new int[3][2];
 
     Figure(int[][] type) {
         this.type = type;
