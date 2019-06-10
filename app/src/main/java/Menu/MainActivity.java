@@ -16,8 +16,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    AnimationDrawable pacmanAnimation;
-
     @Override
     //Hi Ana
     //GGG
@@ -41,17 +39,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
-  /*      ImageView imageView = (ImageView)findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.pacman_move_animation);
-        imageView.setRotation(90);
-        imageView.setRotation(180);
-        pacmanAnimation = (AnimationDrawable)imageView.getBackground();*/
+
     }
 
-    //for pacman immediatly animation
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-   /*     pacmanAnimation.start();*/
-    }
+
 }
