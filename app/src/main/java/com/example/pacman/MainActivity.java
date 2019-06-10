@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         imageView.setRotation(90);
         imageView.setRotation(180);
         pacmanAnimation = (AnimationDrawable)imageView.getBackground();
-        Map map=Map.generateMap();
     }
 
     //for pacman immediatly animation

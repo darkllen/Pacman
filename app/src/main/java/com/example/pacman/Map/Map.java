@@ -1,6 +1,6 @@
 package com.example.pacman.Map;
 
-import com.example.pacman.Map.Figure;
+import java.util.Random;
 
 public class Map {
 
@@ -66,10 +66,41 @@ public class Map {
                 }
             }
 
+        //баг, який трапляється раз на півроку
+        if (startMap[1][1]==0)
+            //add figure 1x1
+            startMap[1][1] = figureNumber;
+        figureNumber++;
+        putFigureOnMap(0, 1, new Figure(new int[][]{{0, 0}, {1, 0}, {0, 0}}));
+
         //todo об'єднати деякі фігури
+
+        addTunnels();
 
         mirror();
         return new Map(map);
+    }
+
+    /**
+     * add 1 or 2 tunnels
+     */
+    private static void addTunnels() {
+        Random random=new Random();
+        int k=random.nextInt(18)+7;
+        System.out.println(k);
+        map[k][30]=0;
+        map[k][31]=0;
+        map[k-1][31]=1;
+        map[k+1][31]=1;
+        if(random.nextInt(10)>=6){
+            int kk=random.nextInt(18)+7;
+            while (Math.abs(kk-k)<4) kk=random.nextInt(18)+7;
+            map[kk][30]=0;
+            map[kk][31]=0;
+            map[kk-1][31]=1;
+            map[kk+1][31]=1;
+        }
+
     }
 
     /**
@@ -98,9 +129,9 @@ public class Map {
         startMap[4][1] = 1;
         startMap[5][1] = 1;
 
-        //границі карти
+        //границі карти для гри
         for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
+            for (int j = 1; j < width-1; j++)
                 map[i][j] = 1;
         for (int i = 1; i < height - 1; i++)
             for (int j = 2; j < width - 2; j++)
@@ -137,18 +168,18 @@ public class Map {
                 if (y1 > 0 && x1 > 0)
                     //малюємо клітинку фігури
                     if (figure.getType()[k][l] == 1) {
-                        map[x1][y1] = startMap[i + 1][j];
-                        map[x1 + 1][y1] = startMap[i + 1][j];
-                        map[x1][y1 + 1] = startMap[i + 1][j];
-                        map[x1 + 1][y1 + 1] = startMap[i + 1][j];
+                        map[x1][y1] = 1;
+                        map[x1 + 1][y1] = 1;
+                        map[x1][y1 + 1] = 1;
+                        map[x1 + 1][y1 + 1] = 1;
 
                         if (l != 1) if (figure.getType()[k][l + 1] == 1) {
-                            map[x1][y1 + 2] = startMap[i + 1][j];
-                            map[x1 + 1][y1 + 2] = startMap[i + 1][j];
+                            map[x1][y1 + 2] = 1;
+                            map[x1 + 1][y1 + 2] = 1;
                         }
                         if (k != 2) if (figure.getType()[k + 1][l] == 1) {
-                            map[x1 + 2][y1] = startMap[i + 1][j];
-                            map[x1 + 2][y1 + 1] = startMap[i + 1][j];
+                            map[x1 + 2][y1] = 1;
+                            map[x1 + 2][y1 + 1] = 1;
                         }
                     }
             }
@@ -185,4 +216,7 @@ public class Map {
         return map;
     }
 
+    public int[][] getStartMap() {
+        return startMap;
+    }
 }
