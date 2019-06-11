@@ -1,5 +1,6 @@
 package com.example.pacman.Map;
 
+//Figure object class
 public class Figure {
     //array, where 1 - wall, 0 - space
     private int[][] type = new int[3][2];

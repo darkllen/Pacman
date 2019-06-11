@@ -8,6 +8,7 @@ import com.example.pacman.R;
 
 import java.util.Objects;
 
+// records of last 5 games of each mod
 public class RecordsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

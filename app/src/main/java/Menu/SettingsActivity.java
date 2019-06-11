@@ -8,6 +8,7 @@ import com.example.pacman.R;
 
 import java.util.Objects;
 
+//class for change settings
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

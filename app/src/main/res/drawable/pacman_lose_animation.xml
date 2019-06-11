@@ -49,7 +49,4 @@
         android:drawable="@drawable/pacman_lose12"
         android:duration="100"/>
 
-    <item
-        android:drawable="@drawable/pacman_lose13"
-        android:duration="5000"/>
 </animation-list>

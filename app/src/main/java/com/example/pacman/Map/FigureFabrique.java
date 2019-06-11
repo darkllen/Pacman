@@ -2,6 +2,7 @@ package com.example.pacman.Map;
 
 import java.util.Random;
 
+//fabrique for figure creation
 public abstract class FigureFabrique {
 
     /**

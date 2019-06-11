@@ -16,12 +16,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    AnimationDrawable pacmanAnimation;
-
+    //initial class
     @Override
-    //Hi Ana
-    //GGG
-    //<3
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -29,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         Button game = findViewById(R.id.game);
         Button records = findViewById(R.id.records);
         Button settings = findViewById(R.id.settings);
+        //open menus on button click
         game.setOnClickListener(v->{
             Intent intent = new Intent(MainActivity.this, GameModsActivity.class);
             startActivity(intent);
@@ -41,17 +38,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
-  /*      ImageView imageView = (ImageView)findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.pacman_move_animation);
-        imageView.setRotation(90);
-        imageView.setRotation(180);
-        pacmanAnimation = (AnimationDrawable)imageView.getBackground();*/
+
     }
 
-    //for pacman immediatly animation
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-   /*     pacmanAnimation.start();*/
-    }
+
 }
