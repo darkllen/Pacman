@@ -1,7 +1,7 @@
 package com.example.pacman.Map;
 
 import java.util.Random;
-
+//class for map and actions with it
 public class Map {
 
     private static int x = 5;
