@@ -1,54 +1,91 @@
 package Menu;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.pm.ActivityInfo;
-import android.graphics.drawable.AnimationDrawable;
+import android.annotation.SuppressLint;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.AbsoluteLayout;
-import android.widget.ImageView;
+import android.text.Layout;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.example.pacman.R;
 
 import java.util.Objects;
 
+import Units.Pacman;
+//class for classic game
 public class GameUsualActivity extends AppCompatActivity {
+    //additional variables for define swap
+    final int[] clickX = {0};
+    final int[] clickY = {0};
+    final int[] clickStartX = {0};
+    final int[] clickStartY = {0};
+    final boolean[] first = {true};
+    //1 - move right, 2- move left, 3 - move down, 4 - move up
+    final int[] click = {-1};
 
-    AnimationDrawable pacmanAnimation;
 
-    //class for classic game
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hide top panel
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.game_usual);
+        ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-        //create pacman animated
-        ImageView imageView = (ImageView)findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.pacman_move_animation);
-        imageView.setRotation(90);
-        imageView.setRotation(180);
-        pacmanAnimation = (AnimationDrawable)imageView.getBackground();
-        imageView.setX(500);
+        //create new Thread for pacman unit
+        Pacman pacman = new Pacman(findViewById(R.id.image));
+        pacman.run();
 
-        //set move animation
-        ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "X", 100);
-        AnimatorSet set = new AnimatorSet();
-        set.play(animator);
-        set.setDuration(3000);
-        set.start();
-
-
+        layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
+        layout.setOnClickListener(new ChangeMoveOnClickListener(pacman));
     }
 
+    //listener for record x and y to decide side of swap
+    private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{
 
-    //for pacman immediatly animation
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        pacmanAnimation.start();
-    }}
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (first[0]){
+                clickStartX[0] = (int) event.getX();
+                clickStartY[0] = (int) event.getY();
+                first[0] = false;
+            }
+            clickX[0] = (int) event.getX();
+            clickY[0] = (int) event.getY();
+            return false;
+        }
+    }
+    //listener for the end of the swap, that change pacman movement
+    private class ChangeMoveOnClickListener implements View.OnClickListener{
+        Pacman pacman;
+
+        ChangeMoveOnClickListener(Pacman pacman) {
+            this.pacman = pacman;
+        }
+        @Override
+        public void onClick(View v) {
+            first[0] = true;
+            int differenceX = clickX[0] - clickStartX[0];
+            int differenceY = clickY[0] - clickStartY[0];
+            if (Math.abs(differenceX)>=Math.abs(differenceY)){
+                if (differenceX>0){
+                    click[0] = 1;
+                }else {
+                    click[0] = 2;
+                }
+            }else {
+                if (differenceY>0){
+                    click[0] =3;
+                }else {
+                    click[0] =4;
+                }
+            }
+            pacman.changeMove(click[0]);
+        }
+    }
+}
