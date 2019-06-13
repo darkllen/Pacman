@@ -3,6 +3,10 @@ package Menu;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.AudioRouting;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -15,6 +19,7 @@ import android.widget.ImageView;
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import Units.Pacman;
@@ -29,6 +34,8 @@ public class GameUsualActivity extends AppCompatActivity {
     //1 - move right, 2- move left, 3 - move down, 4 - move up
     final int[] click = {-1};
 
+    MediaPlayer pacman_police;
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -40,7 +47,22 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
+        pacman_police=MediaPlayer.create(this,R.raw.pacman_chomp);
+        pacman_police.start();
+pacman_police.setVolume(1000,1000);
 
+pacman_police.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                          @Override
+                                          public void onCompletion(MediaPlayer mediaPlayer) {
+                                             // pacman_police.stop();
+                                              try {
+                                                  pacman_police.prepare();
+                                              } catch (IOException e) {
+                                                  e.printStackTrace();
+                                              }
+                                              pacman_police.start();
+                                          }
+                                      });
 
         //int side = 1000/30;
 //        Display display = getWindowManager().getDefaultDisplay();//todo передавати параметр ширини в пакмана??
@@ -150,6 +172,13 @@ public class GameUsualActivity extends AppCompatActivity {
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman));
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        pacman_police.release();
+//        finish();
+//    }
 
     //listener for record x and y to decide side of swap
     private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{

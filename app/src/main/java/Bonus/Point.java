@@ -1,5 +1,7 @@
 package Bonus;
 
+import android.widget.ImageView;
+
 public class Point {
 
     private int x;
