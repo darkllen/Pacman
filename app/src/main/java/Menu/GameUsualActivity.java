@@ -1,13 +1,16 @@
 package Menu;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
 import java.util.Objects;
@@ -34,8 +37,26 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
+        int side = 1000/30;
+
+
+        //generate map and create black images for walls
+        Map map = Map.generateMap();
+        int[][] m = map.getMap();
+        for (int i = 0; i<m.length;i++){
+            for (int j = 0; j<m[i].length;j++){
+                ImageView imageView = new ImageView(this);
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side,side);
+                imageView.setLayoutParams(params);
+                if (m[i][j]==1)
+                imageView.setBackgroundColor(Color.BLACK);
+                imageView.setX(i*side+50);
+                imageView.setY(j*side+100);
+                layout.addView(imageView);
+            }
+        }
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image));
+        Pacman pacman = new Pacman(findViewById(R.id.image), m);
         pacman.start();
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
