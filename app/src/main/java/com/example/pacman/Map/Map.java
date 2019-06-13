@@ -1,6 +1,12 @@
 package com.example.pacman.Map;
 
+import android.support.constraint.ConstraintLayout;
+import android.widget.ImageView;
+
+import com.example.pacman.R;
+
 import java.util.Random;
+
 //class for map and actions with it
 public class Map {
 
@@ -12,6 +18,8 @@ public class Map {
     private static int[][] startMap = new int[y + 2][x + 2];
     //карта для гри
     private static int[][] map = new int[height][width];
+    //map with images
+    private static ImageView[][]imageMap=new ImageView[height][width];
 
 
     static int figureNumber = 1;
@@ -78,27 +86,43 @@ public class Map {
         addTunnels();
 
         mirror();
-        return new Map(map);
+
+      // addImages();
+
+        return new Map(getRotateArr(map));
     }
+
+
+    public static int[][] getRotateArr(int[][] array) {
+        int[][] resultArray = new int[array[0].length][array.length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                resultArray[array[i].length - j - 1][i] = array[i][j];
+            }
+        }
+        return resultArray;
+    }
+
+
 
     /**
      * add 1 or 2 tunnels
      */
     private static void addTunnels() {
         Random random=new Random();
-        int k=random.nextInt(18)+7;
+        int k=random.nextInt(18)+7;//todo change bound depending on height
         System.out.println(k);
-        map[k][30]=0;
-        map[k][31]=0;
-        map[k-1][31]=1;
-        map[k+1][31]=1;
+        map[k][width-2]=0;
+        map[k][width-1]=0;
+        map[k-1][width-1]=1;
+        map[k+1][width-1]=1;
         if(random.nextInt(10)>=6){
             int kk=random.nextInt(18)+7;
             while (Math.abs(kk-k)<4) kk=random.nextInt(18)+7;
-            map[kk][30]=0;
-            map[kk][31]=0;
-            map[kk-1][31]=1;
-            map[kk+1][31]=1;
+            map[kk][width-2]=0;
+            map[kk][width-1]=0;
+            map[kk-1][width-1]=1;
+            map[kk+1][width-1]=1;
         }
 
     }
@@ -218,5 +242,9 @@ public class Map {
 
     public int[][] getStartMap() {
         return startMap;
+    }
+
+    public ImageView[][] getImageMap() {
+        return imageMap;
     }
 }

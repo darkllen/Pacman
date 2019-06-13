@@ -43,13 +43,78 @@ public class GameUsualActivity extends AppCompatActivity {
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
+
+        int height=m.length;
+        int width=m[0].length;
+
         for (int i = 0; i<m.length;i++){
             for (int j = 0; j<m[i].length;j++){
                 ImageView imageView = new ImageView(this);
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side,side);
                 imageView.setLayoutParams(params);
-                if (m[i][j]==1)
-                imageView.setBackgroundColor(Color.BLACK);
+
+
+//                if (m[i][j]==1)
+//                imageView.setBackgroundColor(Color.BLACK);
+//                else
+//                imageView.setBackgroundColor(Color.RED);
+
+                // add images
+                int left,right,up,down;//numbers on the sides
+                boolean p=true;
+
+                //границі
+                if(i==1||i==m.length-2)  {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(0);p=false;}
+                if(j==0||j==m[0].length-1)   {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);p=false;}
+                //кути
+                if(i==1&&j==m[0].length-1){imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);p=false;}
+                if(i==m.length-2&&j==0) {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(270);p=false;}
+                if(i==1&&j==0)  {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);p=false;}
+                if(i==m.length-2&&j==m[0].length-1) {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);p=false;}
+
+                //поворот в тунель
+                if (p==false){
+                    if(i==1&&m[0][j]==1&&m[1][j+1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
+                    if(i==1&&m[0][j]==1&&m[1][j-1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
+                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j-1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
+                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j+1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
+
+
+                }
+
+                //порожні клітинки
+                if (m[i][j]==0) {imageView.setImageResource(R.drawable.tile3);}
+                //порожні клітинки та тунель
+                if(i==0||i==m.length-1){p=false;if(m[i][j]==1){imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}}
+                //непорожні клітинки
+                if(m[i][j]==1&&p){
+                        left=m[i-1][j];
+                        right=m[i+1][j];
+                        up=m[i][j-1];
+                        down=m[i][j+1];
+
+                        //полостки
+                    if(left==1&&right==1)
+                    {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}
+
+                    if(up==1&&down==1)
+                    {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(0);}
+
+                    //кути
+                    if((right==0&&down==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j-1]==0))
+                    { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
+
+                    if((left==0&&down==0)||(left==1&&right==1&&up==1&&down==1&&m[i+1][j-1]==0))
+                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
+
+                    if((left==0&&up==0)||(left==1&&right==1&&up==1&&down==1&&m[i+1][j+1]==0))
+                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
+
+                    if((right==0&&up==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j+1]==0))
+                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
+}
+
+
                 imageView.setX(i*side+50);
                 imageView.setY(j*side+100);
                 layout.addView(imageView);
