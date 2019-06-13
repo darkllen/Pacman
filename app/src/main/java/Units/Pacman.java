@@ -3,10 +3,14 @@ package Units;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import com.example.pacman.Map.Map;
 import com.example.pacman.R;
+
+import Menu.GameUsualActivity;
 
 public class Pacman extends Thread {
     //constants, shouldnt be changed in running time
@@ -27,19 +31,23 @@ public class Pacman extends Thread {
     int[][] map;
 
     //position in map
-    int xMap = 10;
-    int yMap = 15;
+    int xMap = 16;
+    int yMap = 28;
 
     //values in numbers are tested and not accurate(
 
+    GameUsualActivity gUA;
+    ConstraintLayout layout;
 
-    public Pacman(ImageView imageView, int[][] map) {
+    public Pacman(ImageView imageView, int[][] map,GameUsualActivity gUA,ConstraintLayout layout) {
         this.imageView = imageView;
         this.map = map;
-        startX = 1000/30*xMap;
-        startY = 1000/30*yMap;
+        this.gUA=gUA;
+        this.layout=layout;
+        startX = 1080/31*xMap;
+        startY = 1080/31*yMap;
         map[xMap][yMap] = 2;
-        imageView.setX(startX+50);
+        imageView.setX(startX);
         imageView.setY(startY+ 100);
     }
 
@@ -49,8 +57,26 @@ public class Pacman extends Thread {
         imageView.setBackgroundResource(R.drawable.pacman_move_animation);
         AnimationDrawable pacmanAnimation = (AnimationDrawable) imageView.getBackground();
         imageView.setY(startY+100);
-        imageView.setX(startX+50);
+        imageView.setX(startX);
+        imageView.bringToFront();
         pacmanAnimation.start();
+
+
+//    //detele point and plus score + check if there is invisible bonus to change monster`s mode
+//    if (Map.getBonus()[xMap][yMap].getType() != 0) {
+//        Map.setScore(Map.getScore() + Map.getBonus()[xMap][yMap].getScore());
+//        Map.setOneBonus(xMap, yMap, 0);
+//        //todo delete bonus (draw tiles3.png)
+//        ImageView imageView = new ImageView(gUA);
+//        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(1080 / 31, 1080 / 31);
+//        imageView.setLayoutParams(params);
+//        imageView.setImageResource(R.drawable.tiles3);
+//
+//        imageView.setX(xMap * 1080 / 31);
+//        imageView.setY(yMap * 1080 / 31 + 100);
+//        layout.addView(imageView);
+//    }
+
     }
 
     /**
@@ -64,15 +90,15 @@ public class Pacman extends Thread {
      */
     public void changeMove(int change){
         //set current location on swap
-        int currX = (Math.round((imageView.getX()-50)/(1000/30)));
-        int currY = Math.round (((imageView.getY()-100)/(1000/30)));
+        int currX = (Math.round((imageView.getX())/(1080/31)));
+        int currY = Math.round (((imageView.getY()-100)/(1080/31)));
         map[xMap][yMap] = 0;
         xMap = currX;
         yMap = currY;
-        startX = 1000/30*xMap;
-        startY = 1000/30*yMap;
+        startX = 1080/31*xMap;
+        startY = 1080/31*yMap;
         map[xMap][yMap] = 2;
-        imageView.setX(startX+50);
+        imageView.setX(startX);
         imageView.setY(startY+ 100);
         float xNew;
         long time;
@@ -92,7 +118,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                rightDestination = 1000/30*(t)+50;
+                rightDestination = 1080/31*(t);
                 imageView.setRotation(0);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -118,7 +144,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                leftDestination = 1000/30*(t)+50;
+                leftDestination = 1080/31*(t);
                 imageView.setRotation(180);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -144,7 +170,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                bottomDestination = 1000/30*(t)+100;
+                bottomDestination = 1080/31*(t)+100;
                 imageView.setRotation(90);
                 xNew = imageView.getY();
                 set[0].cancel();
@@ -170,7 +196,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                upDestination = 1000/30*(t)+100;
+                upDestination = 1080/31*(t)+100;
                 imageView.setRotation(270);
                 xNew = imageView.getY();
                 set[0].cancel();
@@ -183,6 +209,9 @@ public class Pacman extends Thread {
                 set[0].setDuration(time);
                 set[0].start();
         }
+
+
+
     }
 
     public void setLeftDestination(int leftDestination) {

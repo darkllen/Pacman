@@ -2,10 +2,12 @@ package Menu;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ public class GameUsualActivity extends AppCompatActivity {
     final int[] click = {-1};
 
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,15 +40,22 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-        int side = 1000/30;
+
+
+        //int side = 1000/30;
+//        Display display = getWindowManager().getDefaultDisplay();//todo передавати параметр ширини в пакмана??
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+//        int height = size.y;
+        int width=1080;
+        int side=width/31;
+        System.out.println(width);
 
 
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
-
-        int height=m.length;
-        int width=m[0].length;
 
         for (int i = 0; i<m.length;i++){
             for (int j = 0; j<m[i].length;j++){
@@ -53,11 +63,6 @@ public class GameUsualActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side,side);
                 imageView.setLayoutParams(params);
 
-
-//                if (m[i][j]==1)
-//                imageView.setBackgroundColor(Color.BLACK);
-//                else
-//                imageView.setBackgroundColor(Color.RED);
 
                 // add images
                 int left,right,up,down;//numbers on the sides
@@ -114,14 +119,32 @@ public class GameUsualActivity extends AppCompatActivity {
                     {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
 }
 
-
-                imageView.setX(i*side+50);
+                 imageView.setX(i*side);
                 imageView.setY(j*side+100);
                 layout.addView(imageView);
             }
         }
+
+        //add bonus
+        Bonus.Point[][]bonus=map.getBonus();
+        for (int i = 0; i<m.length;i++) {
+            for (int j = 0; j < m[i].length; j++) {
+                ImageView imageView = new ImageView(this);
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
+                imageView.setLayoutParams(params);
+
+                if(bonus[i][j].getType()==1)imageView.setImageResource(R.drawable.point);else
+                if(bonus[i][j].getType()==2)imageView.setImageResource(R.drawable.big_point);
+
+                imageView.setX(i * side);
+                imageView.setY(j * side + 100);
+                layout.addView(imageView);
+            }
+        }
+
+
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m,this,layout);
         pacman.start();
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());

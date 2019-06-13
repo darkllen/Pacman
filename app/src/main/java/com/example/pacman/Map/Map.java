@@ -7,6 +7,8 @@ import com.example.pacman.R;
 
 import java.util.Random;
 
+import Bonus.Point;
+
 //class for map and actions with it
 public class Map {
 
@@ -20,6 +22,10 @@ public class Map {
     private static int[][] map = new int[height][width];
     //map with images
     private static ImageView[][]imageMap=new ImageView[height][width];
+
+    private static Point[][]bonus=new Point[height][width];
+
+    private static int score=0;
 
 
     static int figureNumber = 1;
@@ -87,12 +93,41 @@ public class Map {
 
         mirror();
 
-      // addImages();
+      addPoints();
 
         return new Map(getRotateArr(map));
     }
 
+    /**
+     * додає бонуси на карту
+     */
+    private static void addPoints() {
+        //all map
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                if(map[i][j]==0&&(j>1&&j<width-2)) bonus[i][j]=new Point(j,i,1);
+                else bonus[i][j]=new Point(j,i,0);
+        //home for monsters
+        for (int i = 10; i < 17; i++)
+            for (int j = 11; j < 21; j++)
+                bonus[i][j]=new Point(j,i,0);
 
+            //add 4 invisible bonus
+            bonus[4][2]=new Point(2,4,2);
+            bonus[4][width-3]=new Point(width-3,4,2);
+            bonus[height-4][2]=new Point(2,height-4,2);
+            bonus[height-4][width-3]=new Point(width-3,height-4,2);
+
+            bonus=getRotateArrBonus(bonus);
+
+    }
+
+    //todo write 1 method for different types
+    /**
+     *
+     * @param array вхідний масив
+     * @return масив, повернутий на 90 градусів праворуч
+     */
     public static int[][] getRotateArr(int[][] array) {
         int[][] resultArray = new int[array[0].length][array.length];
         for (int i = 0; i < array.length; i++) {
@@ -102,7 +137,20 @@ public class Map {
         }
         return resultArray;
     }
-
+    /**
+     *
+     * @param array вхідний масив
+     * @return масив, повернутий на 90 градусів праворуч
+     */
+    public static Point[][] getRotateArrBonus(Point[][] array) {
+        Point[][] resultArray = new Point[array[0].length][array.length];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                resultArray[array[i].length - j - 1][i] = array[i][j];
+            }
+        }
+        return resultArray;
+    }
 
 
     /**
@@ -246,5 +294,21 @@ public class Map {
 
     public ImageView[][] getImageMap() {
         return imageMap;
+    }
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void setScore(int score1) {
+        score = score1;
+    }
+
+    public static Point[][] getBonus() {
+        return bonus;
+    }
+
+    public static void setOneBonus(int x,int y,int type){
+        bonus[x][y]=new Point(x,y,type);
     }
 }
