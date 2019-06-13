@@ -49,20 +49,10 @@ public class GameUsualActivity extends AppCompatActivity {
 
         pacman_police=MediaPlayer.create(this,R.raw.pacman_chomp);
         pacman_police.start();
-pacman_police.setVolume(1000,1000);
+        pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+        pacman_police.setVolume(100,100);//??
 
-pacman_police.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                          @Override
-                                          public void onCompletion(MediaPlayer mediaPlayer) {
-                                             // pacman_police.stop();
-                                              try {
-                                                  pacman_police.prepare();
-                                              } catch (IOException e) {
-                                                  e.printStackTrace();
-                                              }
-                                              pacman_police.start();
-                                          }
-                                      });
+
 
         //int side = 1000/30;
 //        Display display = getWindowManager().getDefaultDisplay();//todo передавати параметр ширини в пакмана??

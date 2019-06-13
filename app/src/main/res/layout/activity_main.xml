@@ -46,21 +46,21 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
 
-        android:textColor="#0011FF"
-        android:textSize="24sp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#A8A8A8"
         android:shadowDx="4"
         android:shadowDy="2"
         android:shadowRadius="5"
-
         android:text="Records"
+        android:textColor="#0011FF"
+
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.56" />
 
     <Button
         android:id="@+id/settings"
@@ -73,18 +73,18 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="24dp"
 
-        android:textColor="#0011FF"
-        android:textSize="24sp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#A8A8A8"
         android:shadowDx="4"
         android:shadowDy="2"
         android:shadowRadius="5"
-
         android:text="Settings"
+        android:textColor="#0011FF"
+
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/records"
         app:layout_constraintVertical_bias="0.0" />
