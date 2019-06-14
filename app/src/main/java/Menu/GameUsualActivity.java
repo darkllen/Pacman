@@ -8,6 +8,8 @@ import android.media.AudioRouting;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,9 +38,11 @@ public class GameUsualActivity extends AppCompatActivity {
 
     MediaPlayer pacman_police;
 
+    private Handler handler;
 
 
-    @SuppressLint("ClickableViewAccessibility")
+
+    @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +51,10 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-        pacman_police=MediaPlayer.create(this,R.raw.pacman_chomp);
+/*        pacman_police=MediaPlayer.create(this,R.raw.pacman_chomp);
         pacman_police.start();
         pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
-        pacman_police.setVolume(100,100);//??
+        pacman_police.setVolume(100,100);//??*/
 
 
 
@@ -64,16 +68,21 @@ public class GameUsualActivity extends AppCompatActivity {
         int side=width/31;
         System.out.println(width);
 
-
+        layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
 
+        ImageView[][] views = new ImageView[m.length][m[1].length];
+
+
         for (int i = 0; i<m.length;i++){
             for (int j = 0; j<m[i].length;j++){
                 ImageView imageView = new ImageView(this);
+
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side,side);
                 imageView.setLayoutParams(params);
+
 
 
                 // add images
@@ -142,6 +151,7 @@ public class GameUsualActivity extends AppCompatActivity {
         for (int i = 0; i<m.length;i++) {
             for (int j = 0; j < m[i].length; j++) {
                 ImageView imageView = new ImageView(this);
+                views[i][j] = imageView;
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
                 imageView.setLayoutParams(params);
 
@@ -154,21 +164,33 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         }
 
-
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                layout.removeView(views[msg.arg1][msg.arg2]);
+            }
+        };
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m,this,layout);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m,this,layout, handler);
         pacman.start();
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman));
+
+
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        pacman_police.release();
-//        finish();
-//    }
+/*    @Override
+    public void onPause() {
+        super.onPause();
+        pacman_police.pause();
+        // stop the clock
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        pacman_police.start();
+    }*/
 
     //listener for record x and y to decide side of swap
     private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{

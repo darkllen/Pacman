@@ -12,7 +12,7 @@ import Bonus.Point;
 //class for map and actions with it
 public class Map {
 
-    private static int x = 5;
+    private static int x = 4;
     private static int y = 9;
     private static int width = x * 3 + (x - 1) * 3 + 5;
     private static int height = y * 3 + 3;
