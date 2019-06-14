@@ -73,7 +73,7 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int width = size.x;
 //        int height = size.y;
         int width=1080;
-        int side=width/25;
+        int side=width/26;
         System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
@@ -180,7 +180,7 @@ public class GameUsualActivity extends AppCompatActivity {
         };
 
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,this);
         pacman.start();
 
         RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
