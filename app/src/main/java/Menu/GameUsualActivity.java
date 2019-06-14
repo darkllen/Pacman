@@ -73,7 +73,7 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int width = size.x;
 //        int height = size.y;
         int width=1080;
-        int side=width/25;
+        int side=width/26;
         System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
@@ -180,7 +180,7 @@ public class GameUsualActivity extends AppCompatActivity {
         };
 
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,this);
         pacman.start();
 
         RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
@@ -197,7 +197,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
     }
 
-/*    @Override
+    @Override
     public void onPause() {
         super.onPause();
         pacman_police.pause();
@@ -207,7 +207,7 @@ public class GameUsualActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         pacman_police.start();
-    }*/
+    }
 
     //listener for record x and y to decide side of swap
     private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{

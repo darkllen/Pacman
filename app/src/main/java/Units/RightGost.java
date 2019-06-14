@@ -18,10 +18,10 @@ public class RightGost extends Unit {
         super(imageView, map, handler);
         this.setxMap(13);
         this.setyMap(13);
-        this.setStartX(1080/25*xMap);
-        this.setStartY(1080/25*yMap);
-        imageView.setX(1080/25*xMap);
-        imageView.setY(1080/25*yMap+100);
+        this.setStartX(1080/26*xMap);
+        this.setStartY(1080/26*yMap);
+        imageView.setX(1080/26*xMap);
+        imageView.setY(1080/26*yMap+100);
     }
 
     public Animator.AnimatorListener getAnimatorListener() {
@@ -45,13 +45,13 @@ public class RightGost extends Unit {
 
     @Override
     public void changeMove(int change) {
-        int currX = (Math.round(( imageView.getX())/(1080/25)));
-        int currY = Math.round ((( imageView.getY()-100)/(1080/25)));
+        int currX = (Math.round(( imageView.getX())/(1080/26)));
+        int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
         map[xMap][yMap] = 0;
         xMap = currX;
         yMap = currY;
-        startX = 1080/25*xMap;
-        startY = 1080/25*yMap;
+        startX = 1080/26*xMap;
+        startY = 1080/26*yMap;
         imageView.setX(startX);
         imageView.setY(startY+ 100);
         float xNew;
@@ -69,7 +69,7 @@ public class RightGost extends Unit {
                         break;
                     }
                 }
-                rightDestination = 1080/25*(t);
+                rightDestination = 1080/26*(t);
                 imageView.setRotation(0);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -94,7 +94,7 @@ public class RightGost extends Unit {
                         break;
                     }
                 }
-                leftDestination = 1080/25*(t);
+                leftDestination = 1080/26*(t);
                 imageView.setRotation(180);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -119,7 +119,7 @@ public class RightGost extends Unit {
                         break;
                     }
                 }
-                bottomDestination = 1080/25*(t)+100;
+                bottomDestination = 1080/26*(t)+100;
                 imageView.setRotation(90);
                 xNew = imageView.getY();
                 set[0].cancel();
@@ -144,7 +144,7 @@ public class RightGost extends Unit {
                         break;
                     }
                 }
-                upDestination = 1080/25*(t)+100;
+                upDestination = 1080/26*(t)+100;
                 imageView.setRotation(270);
                 xNew = imageView.getY();
                 set[0].cancel();
