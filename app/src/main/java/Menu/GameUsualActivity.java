@@ -185,7 +185,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
         RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
         rightGost.start();
-        rightGost.setAnimatorListener(new GhostListener(rightGost));
+        rightGost.setAnimatorListener(new GhostListener(rightGost, pacman, m));
 
         rightGost.changeMove(4);
 
@@ -197,7 +197,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
     }
 
-/*    @Override
+    @Override
     public void onPause() {
         super.onPause();
         pacman_police.pause();
@@ -207,7 +207,7 @@ public class GameUsualActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         pacman_police.start();
-    }*/
+    }
 
     //listener for record x and y to decide side of swap
     private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{

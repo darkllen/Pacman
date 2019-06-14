@@ -62,8 +62,11 @@ public class RightGost extends Unit {
             case 1:
                 t = xMap;
                 for (int i = xMap; i< map.length; i++){
-                    if (map[i][yMap]!=1 && (map[i][yMap+1]!=0 && map[i][yMap-1]!=0)){
+                    if (map[i][yMap]!=1){
                         t = i;
+                        if ((map[i][yMap+1]!=1 || map[i][yMap-1]!=1) && t!=xMap){
+                            break;
+                        }
                     }else {
                         if (t ==xMap)return;
                         break;
@@ -88,6 +91,9 @@ public class RightGost extends Unit {
                 for (int i = xMap; i>0;i--){
                     if (map[i][yMap]!=1){
                         t = i;
+                        if ((map[i][yMap+1]!=1 || map[i][yMap-1]!=1) && t!=xMap){
+                            break;
+                        }
                     }else {
                         if (t ==xMap)return;
 
@@ -113,6 +119,9 @@ public class RightGost extends Unit {
                 for (int i = yMap; i< map[xMap].length; i++){
                     if (map[xMap][i]!=1){
                         t = i;
+                        if ((map[xMap+1][yMap]!=1 || map[xMap-1][yMap]!=1) && t!=xMap){
+                            break;
+                        }
                     }else {
                         if (t ==yMap)return;
 
@@ -138,6 +147,9 @@ public class RightGost extends Unit {
                 for (int i = yMap; i>0;i--){
                     if (map[xMap][i]!=1){
                         t = i;
+                        if ((map[xMap+1][yMap]!=1 || map[xMap-1][yMap]!=1) && t!=xMap){
+                            break;
+                        }
                     }else {
                         if (t ==yMap)return;
 
