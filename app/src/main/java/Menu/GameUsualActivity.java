@@ -2,18 +2,13 @@ package Menu;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.media.AudioManager;
-import android.media.AudioRouting;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,10 +16,12 @@ import android.widget.ImageView;
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
-import java.io.IOException;
 import java.util.Objects;
 
+import Menu.Listeners.GhostListener;
 import Units.Pacman;
+import Units.RightGost;
+
 //class for classic game
 public class GameUsualActivity extends AppCompatActivity {
     //additional variables for define swap
@@ -39,7 +36,8 @@ public class GameUsualActivity extends AppCompatActivity {
     MediaPlayer pacman_police;
     MediaPlayer pacman_begin;
 
-    private Handler handler;
+    private Handler handlerPacman;
+    private Handler handlerRed;
 
 
 
@@ -174,18 +172,27 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         }
 
-        handler = new Handler() {
+        handlerPacman = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 layout.removeView(views[msg.arg1][msg.arg2]);
             }
         };
+
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m,this,layout, handler);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman);
         pacman.start();
+
+        RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
+        rightGost.start();
+        rightGost.setAnimatorListener(new GhostListener(rightGost));
+
+        rightGost.changeMove(4);
+
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman));
+
 
 
     }
@@ -245,4 +252,6 @@ public class GameUsualActivity extends AppCompatActivity {
             pacman.changeMove(click[0]);
         }
     }
+
 }
+
