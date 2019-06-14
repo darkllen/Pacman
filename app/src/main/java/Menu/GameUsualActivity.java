@@ -37,6 +37,7 @@ public class GameUsualActivity extends AppCompatActivity {
     final int[] click = {-1};
 
     MediaPlayer pacman_police;
+    MediaPlayer pacman_begin;
 
     private Handler handler;
 
@@ -51,10 +52,19 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-/*        pacman_police=MediaPlayer.create(this,R.raw.pacman_chomp);
-        pacman_police.start();
-        pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
-        pacman_police.setVolume(100,100);//??*/
+        pacman_begin = MediaPlayer.create(this,R.raw.pacman_beginning);
+        pacman_begin.start();
+        pacman_police = MediaPlayer.create(this, R.raw.pacman_police);
+
+
+        pacman_begin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                pacman_police.start();
+                pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+                pacman_police.setVolume(100,100);//??
+            }
+        });
 
 
 
@@ -65,7 +75,7 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int width = size.x;
 //        int height = size.y;
         int width=1080;
-        int side=width/31;
+        int side=width/25;
         System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
@@ -100,16 +110,16 @@ public class GameUsualActivity extends AppCompatActivity {
 
                 //поворот в тунель
                 if (p==false){
-                    if(i==1&&m[0][j]==1&&m[1][j+1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
-                    if(i==1&&m[0][j]==1&&m[1][j-1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
-                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j-1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
-                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j+1]==0)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
+                    if(i==1&&m[0][j]==1&&m[1][j+1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
+                    if(i==1&&m[0][j]==1&&m[1][j-1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
+                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j-1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
+                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j+1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
 
 
                 }
 
                 //порожні клітинки
-                if (m[i][j]==0) {imageView.setImageResource(R.drawable.tile3);}
+                if (m[i][j]==0||m[i][j]==-1) {imageView.setImageResource(R.drawable.tile3);}
                 //порожні клітинки та тунель
                 if(i==0||i==m.length-1){p=false;if(m[i][j]==1){imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}}
                 //непорожні клітинки

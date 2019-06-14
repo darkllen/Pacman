@@ -19,6 +19,7 @@ public class Map {
     //карта на яку накладаються фігури. не поле для гри
     private static int[][] startMap = new int[y + 2][x + 2];
     //карта для гри
+    //1-wall;0-empty;-1-tunnel
     private static int[][] map = new int[height][width];
     //map with images
     private static ImageView[][]imageMap=new ImageView[height][width];
@@ -109,7 +110,7 @@ public class Map {
                 else bonus[i][j]=new Point(j,i,0);
         //home for monsters
         for (int i = 10; i < 17; i++)
-            for (int j = 11; j < 21; j++)
+            for (int j = 11-3; j < 21-3; j++)
                 bonus[i][j]=new Point(j,i,0);
 
             //add 4 invisible bonus
@@ -160,15 +161,15 @@ public class Map {
         Random random=new Random();
         int k=random.nextInt(18)+7;//todo change bound depending on height
         System.out.println(k);
-        map[k][width-2]=0;
-        map[k][width-1]=0;
+        map[k][width-2]=-1;
+        map[k][width-1]=-1;
         map[k-1][width-1]=1;
         map[k+1][width-1]=1;
         if(random.nextInt(10)>=6){
             int kk=random.nextInt(18)+7;
             while (Math.abs(kk-k)<4) kk=random.nextInt(18)+7;
-            map[kk][width-2]=0;
-            map[kk][width-1]=0;
+            map[kk][width-2]=-1;
+            map[kk][width-1]=-1;
             map[kk-1][width-1]=1;
             map[kk+1][width-1]=1;
         }
@@ -210,13 +211,13 @@ public class Map {
                 map[i][j] = 0;
         //home for monsters
         for (int i = 11; i < 16; i++)
-            for (int j = 12; j < 20; j++)
+            for (int j = 12-3; j < 20-3; j++)
                 map[i][j] = 1;
         for (int i = 12; i < 15; i++)
-            for (int j = 13; j < 19; j++)
+            for (int j = 13-3; j < 19-3; j++)
                 map[i][j] = 0;
-        map[11][15] = 0;
-        map[11][16] = 0;
+        map[11][15-3] = 0;
+        map[11][16-3] = 0;
 
     }
 
