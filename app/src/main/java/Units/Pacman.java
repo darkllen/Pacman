@@ -34,7 +34,7 @@ public class Pacman extends Thread {
     int[][] map;
 
     //position in map
-    int xMap = 12;
+    int xMap = 16;
     int yMap = 28;
 
     //values in numbers are tested and not accurate(
@@ -49,8 +49,8 @@ public class Pacman extends Thread {
         this.gUA=gUA;
         this.layout=layout;
         this.handler = handler;
-        startX = 1080/26*xMap;
-        startY = 1080/26*yMap;
+        startX = 1080/25*xMap;
+        startY = 1080/25*yMap;
         map[xMap][yMap] = 2;
         imageView.setX(startX);
         imageView.setY(startY+ 100);
@@ -69,8 +69,8 @@ public class Pacman extends Thread {
 
 
         while (true){
-            int currX = (Math.round((imageView.getX())/(1080/26)));
-            int currY = Math.round (((imageView.getY()-100)/(1080/26)));
+            int currX = (Math.round((imageView.getX())/(1080/25)));
+            int currY = Math.round (((imageView.getY()-100)/(1080/25)));
             map[xMap][yMap] = 0;
             xMap = currX;
             yMap = currY;
@@ -117,8 +117,8 @@ public class Pacman extends Thread {
     public void changeMove(int change){
         //set current location on swap
 
-        startX = 1080/26*xMap;
-        startY = 1080/26*yMap;
+        startX = 1080/25*xMap;
+        startY = 1080/25*yMap;
         imageView.setX(startX);
         imageView.setY(startY+ 100);
         float xNew;
@@ -139,7 +139,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                rightDestination = 1080/26*(t);
+                rightDestination = 1080/25*(t);
                 imageView.setRotation(0);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -165,7 +165,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                leftDestination = 1080/26*(t);
+                leftDestination = 1080/25*(t);
                 imageView.setRotation(180);
                 xNew = imageView.getX();
                 set[0].cancel();
@@ -191,7 +191,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                bottomDestination = 1080/26*(t)+100;
+                bottomDestination = 1080/25*(t)+100;
                 imageView.setRotation(90);
                 xNew = imageView.getY();
                 set[0].cancel();
@@ -217,7 +217,7 @@ public class Pacman extends Thread {
                         break;
                     }
                 }
-                upDestination = 1080/26*(t)+100;
+                upDestination = 1080/25*(t)+100;
                 imageView.setRotation(270);
                 xNew = imageView.getY();
                 set[0].cancel();

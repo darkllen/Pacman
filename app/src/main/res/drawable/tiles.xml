@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/imagelayout">
+
+    <ImageView
+        android:id="@+id/tile1"
+        android:src="@drawable/tile1" />
+
+    <ImageView
+        android:id="@+id/tile2"
+        android:src="@drawable/tile2" />
+
+    <ImageView
+        android:id="@+id/tile3"
+        android:src="@drawable/tile3" />
+
+</selector>
+
+
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_centerHorizontal="true"-->

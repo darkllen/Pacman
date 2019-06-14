@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    //list of images for pacman animation
+    <item
+        android:drawable="@drawable/orange_down1"
+        android:duration="50"/>
+    <item
+        android:drawable="@drawable/orange_down2"
+        android:duration="50"/>
+</animation-list>

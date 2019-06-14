@@ -75,7 +75,7 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int width = size.x;
 //        int height = size.y;
         int width=1080;
-        int side=width/26;
+        int side=width/25;
         System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
