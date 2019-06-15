@@ -34,6 +34,8 @@ public abstract class Unit extends Thread {
     //values in numbers are tested and not accurate(
     Handler handler;
 
+    public static boolean inversionMode;
+
     public Unit() {
     }
 
@@ -74,6 +76,8 @@ public abstract class Unit extends Thread {
         float xNew;
         long time;
         int t = 0;
+
+        if(inversionMode){if(change%2==1)change++;else change--;}
 
         switch (change){
             case 1:

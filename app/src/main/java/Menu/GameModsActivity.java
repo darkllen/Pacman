@@ -10,6 +10,8 @@ import com.example.pacman.R;
 
 import java.util.Objects;
 
+import Units.Unit;
+
 //class for choose game mod
 public class GameModsActivity extends AppCompatActivity {
     @Override
@@ -24,6 +26,15 @@ public class GameModsActivity extends AppCompatActivity {
         usualMod.setOnClickListener(v -> {
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);
+            Unit.inversionMode=false;
+        });
+
+        //start game on click
+        Button inversionMod = findViewById(R.id.inversionMod);
+        inversionMod.setOnClickListener(v -> {
+            Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
+            startActivity(intent);
+            Unit.inversionMode=true;
         });
     }
 }
