@@ -95,9 +95,12 @@ public class Map {
         figureNumber++;
         putFigureOnMap(0, 1, new Figure(new int[][]{{0, 0}, {1, 0}, {0, 0}}));
 
-        //todo об'єднати деякі фігури
 
-        combineOneTileFigures();//todo сделать универсальный метод для всех фигур (1, 2 и 3 клетки)
+
+        combineOneTileFigures();
+
+        //todo combine the smallest figures?
+        combineRandom();
 
         addTunnels();
 
@@ -106,6 +109,11 @@ public class Map {
       addPoints();
 
         return new Map(getRotateArr(map));
+    }
+
+    private static void combineRandom() {
+        Random r=new Random();
+        combine(r.nextInt(5)+2+(x+1)*3,r.nextInt(height-4)+2,0);
     }
 
     /**
