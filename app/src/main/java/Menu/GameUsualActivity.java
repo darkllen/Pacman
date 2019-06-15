@@ -185,9 +185,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
         RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
         rightGost.start();
-        rightGost.setAnimatorListener(new GhostListener(rightGost, pacman, m));
+        rightGost.setAnimatorListener(new GhostListener(rightGost, pacman, m, 1));
 
-        rightGost.changeMove(4);
+        rightGost.changeMove(1);
 
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());

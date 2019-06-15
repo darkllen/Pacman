@@ -16,8 +16,8 @@ public class RightGost extends Unit {
 
     public RightGost(ImageView imageView, int[][] map, Handler handler) {
         super(imageView, map, handler);
-        this.setxMap(13);
-        this.setyMap(13);
+        this.setxMap(2);
+        this.setyMap(1);
         this.setStartX(1080/26*xMap);
         this.setStartY(1080/26*yMap);
         imageView.setX(1080/26*xMap);
@@ -115,11 +115,11 @@ public class RightGost extends Unit {
                 set[0].start();
                 break;
             case 3:
-                t = xMap;
+                t = yMap;
                 for (int i = yMap; i< map[xMap].length; i++){
                     if (map[xMap][i]!=1){
                         t = i;
-                        if ((map[xMap+1][yMap]!=1 || map[xMap-1][yMap]!=1) && t!=xMap){
+                        if ((map[xMap+1][i]!=1 || map[xMap-1][i]!=1) && t!=yMap){
                             break;
                         }
                     }else {
@@ -143,11 +143,11 @@ public class RightGost extends Unit {
                 set[0].start();
                 break;
             case 4:
-                t = xMap;
+                t = yMap;
                 for (int i = yMap; i>0;i--){
                     if (map[xMap][i]!=1){
                         t = i;
-                        if ((map[xMap+1][yMap]!=1 || map[xMap-1][yMap]!=1) && t!=xMap){
+                        if ((map[xMap+1][i]!=1 || map[xMap-1][i]!=1) && t!=yMap){
                             break;
                         }
                     }else {
