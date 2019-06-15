@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
-public class RightGost extends Unit {
+public class RedGhost extends Unit {
 
-    public RightGost(ImageView imageView, int[][] map, Handler handler) {
+    public RedGhost(ImageView imageView, int[][] map, Handler handler) {
         super(imageView, map, handler);
         this.setxMap(2);
         this.setyMap(1);
@@ -73,7 +73,8 @@ public class RightGost extends Unit {
                     }
                 }
                 rightDestination = 1080/26*(t);
-                imageView.setRotation(0);
+               // imageView.setRotation(0);
+                this.getImageView().setBackgroundResource(R.drawable.red_right);
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -101,7 +102,8 @@ public class RightGost extends Unit {
                     }
                 }
                 leftDestination = 1080/26*(t);
-                imageView.setRotation(180);
+                //imageView.setRotation(180);
+                this.getImageView().setBackgroundResource(R.drawable.red_left);
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -129,7 +131,8 @@ public class RightGost extends Unit {
                     }
                 }
                 bottomDestination = 1080/26*(t)+100;
-                imageView.setRotation(90);
+                //imageView.setRotation(90);
+                this.getImageView().setBackgroundResource(R.drawable.red_down);
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -157,7 +160,8 @@ public class RightGost extends Unit {
                     }
                 }
                 upDestination = 1080/26*(t)+100;
-                imageView.setRotation(270);
+                //imageView.setRotation(270);
+                this.getImageView().setBackgroundResource(R.drawable.red_up);
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();

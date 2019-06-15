@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import Menu.Listeners.GhostListener;
 import Units.Pacman;
-import Units.RightGost;
+import Units.RedGhost;
 
 //class for classic game
 public class GameUsualActivity extends AppCompatActivity {
@@ -188,11 +188,11 @@ public class GameUsualActivity extends AppCompatActivity {
         Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,this);
         pacman.start();
 
-        RightGost rightGost = new RightGost(findViewById(R.id.redGhost), m, handlerRed);
-        rightGost.start();
-        rightGost.setAnimatorListener(new GhostListener(rightGost, pacman, m, 1));
+        RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
+        redGhost.start();
+        redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1));
 
-        rightGost.changeMove(1);
+        redGhost.changeMove(1);
 
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
