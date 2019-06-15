@@ -41,7 +41,7 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerRed;
     private Handler handlerBonus;
 
-   private static ImageView imageBerryView;
+   private ImageView imageBerryView;
 
 
 

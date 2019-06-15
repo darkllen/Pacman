@@ -18,7 +18,11 @@ public class Pacman extends Unit {
     GameUsualActivity gUA;
 
     int scoreBound=50*10+100;//score when berry appears
-    int scoreBound2=150*10+100;//score when berry appears 2 time
+    int scoreBound2=100*10+100;//score when berry appears 2 time todo remove this parameter
+
+    // int scoreDelta=50*10+100;//delta score between 2 berries
+    int scoreDelta=100; //100 is value for tests. 50*10+100 - real value
+
     Handler handlerBonus;
 
 
@@ -56,12 +60,18 @@ public class Pacman extends Unit {
 
                 Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());
                 Map.setOneBonus(xMap, yMap, 0);
+
                 //add berry
                 if(Map.getLevelScore()>=scoreBound){
-                    Map.setOneBonus(12,16,3);
-                    scoreBound=scoreBound2;
-                    Message msg=new Message(); msg.obj = xMap + " " + yMap; msg.arg1 = xMap; msg.arg2 = yMap;
+                    //scoreBound=scoreBound2; wrong variant with 2 scores
+                    //scoreBound+=scoreDelta;  sometimes working variant with delta
+                    scoreBound=Map.getLevelScore()+scoreDelta; //more right but also SOMETIMES working variant:(
+                    //add berry only if there is not another berry
+                    if(Map.getBonus()[12][16].getType()!=3){
+                        Map.setOneBonus(12,16,3);
+                        Message msg=new Message(); msg.obj = xMap + " " + yMap; msg.arg1 = xMap; msg.arg2 = yMap;
                     handlerBonus.sendMessage(msg);}
+                    }
                 Message msg = new Message();
                 msg.obj = xMap + " " + yMap;
                 msg.arg1 = xMap;
