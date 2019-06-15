@@ -127,6 +127,8 @@ public class GameUsualActivity extends AppCompatActivity {
                         up=m[i][j-1];
                         down=m[i][j+1];
 
+                        if(left==-2)left=1;if(right==-2)right=1;if(down==-2)down=1;if(up==-2)up=1;
+
                         //полостки
                     if(left==1&&right==1)
                     {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}
@@ -152,12 +154,16 @@ public class GameUsualActivity extends AppCompatActivity {
                     if((right==0&&up==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j+1]==0))
                     {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
 }
+                //вхід до монстрів
+                if(m[i][j]==-2){imageView.setImageResource(R.drawable.tile4);m[i][j]=1;}
 
                  imageView.setX(i*side);
                 imageView.setY(j*side+100);
                 layout.addView(imageView);
             }
         }
+
+
 
         //add bonus
         Bonus.Point[][]bonus=map.getBonus();

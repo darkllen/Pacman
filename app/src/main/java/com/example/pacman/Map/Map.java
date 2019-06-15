@@ -20,7 +20,7 @@ public class Map {
     //карта на яку накладаються фігури. не поле для гри
     private static int[][] startMap = new int[y + 2][x + 2];
     //карта для гри
-    //1-wall;0-empty;-1-tunnel
+    //1-wall;0-empty;-1-tunnel; -2 - entarance for monster`s home
     private static int[][] map = new int[height][width];
     //map with images
     private static ImageView[][]imageMap=new ImageView[height][width];
@@ -55,7 +55,7 @@ public class Map {
                 if (startMap[i][j] == 0) {
                     startAgain = true;
 
-                    if (oneTileFigure(i, j)) {
+                    if (oneTileFigure(i, j)||(i==6&&j==1)||(i==4&&j==3)) {
                         //add figure 1x1
                         startMap[i][j] = figureNumber;
                         figureNumber++;
@@ -138,15 +138,14 @@ public class Map {
 //            if(oneTileFiguresXArray.get(i)>=width-5)numbers.remove(0);
 
             if(oneTileFiguresXArray.get(i)<=2)numbers.remove(3);else
-            if((oneTileFiguresXArray.get(i)-2)%3!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)%3-1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3]==1)numbers.remove(3);
+            if((oneTileFiguresXArray.get(i)-2)/3+1!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)/3+1-1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1]==1)numbers.remove(3);
             if(oneTileFiguresYArray.get(i)<=2+(x-1)*3)numbers.remove(2);else
-                if((oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)%3][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3-1]==1)numbers.remove(2);
+                if((oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)/3+1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1-1]==1)numbers.remove(2);
             if(oneTileFiguresXArray.get(i)>=height-4)numbers.remove(1);else
-                if((oneTileFiguresXArray.get(i)-2)%3!=startMap.length)if(startMap[(oneTileFiguresXArray.get(i)-2)%3+1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3]==1)numbers.remove(1);
+                if((oneTileFiguresXArray.get(i)-2)/3+1!=startMap.length)if(startMap[(oneTileFiguresXArray.get(i)-2)/3+1+1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1]==1)numbers.remove(1);
             if(oneTileFiguresYArray.get(i)>=width-5)numbers.remove(0);
-            for(int i1=0;i1<numbers.size();i1++)
-            System.out.println(numbers.get(i1));
-
+//            for(int i1=0;i1<numbers.size();i1++)
+//            System.out.println(numbers.get(i1));
 
             r=random.nextInt(numbers.size());
             r=numbers.get(r);
@@ -293,8 +292,8 @@ public class Map {
         for (int i = 12; i < 15; i++)
             for (int j = 13-3; j < 19-3; j++)
                 map[i][j] = 0;
-        map[11][15-3] = 0;
-        map[11][16-3] = 0;
+        map[11][15-3] = -2;
+        map[11][16-3] = -2;
 
     }
 
