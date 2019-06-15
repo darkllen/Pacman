@@ -17,6 +17,7 @@ import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
 import java.util.Objects;
+import java.util.Random;
 
 import Menu.Listeners.GhostListener;
 import Units.Pacman;
@@ -38,6 +39,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
     private Handler handlerPacman;
     private Handler handlerRed;
+    private Handler handlerBonus;
+
+   private static ImageView imageBerryView;
 
 
 
@@ -83,6 +87,11 @@ public class GameUsualActivity extends AppCompatActivity {
 
         ImageView[][] views = new ImageView[m.length][m[1].length];
 
+        imageBerryView=new ImageView(this);
+        ConstraintLayout.LayoutParams paramss = new ConstraintLayout.LayoutParams(side,side);
+        imageBerryView.setLayoutParams(paramss);
+        imageBerryView.setX(12 * side);
+        imageBerryView.setY(16 * side + 100);
 
         for (int i = 0; i<m.length;i++){
             for (int j = 0; j<m[i].length;j++){
@@ -190,8 +199,20 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
+        handlerBonus = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                generateBonusBerryImage();
+               views[12][16]=imageBerryView;
+               layout.addView(imageBerryView);
+            }
+        };
+
+
+
+
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,this);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,this);
         pacman.start();
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
@@ -208,6 +229,16 @@ public class GameUsualActivity extends AppCompatActivity {
 
     }
 
+    public void generateBonusBerryImage(){
+            Random r=new Random();
+            switch (r.nextInt(4)){
+                case 0:imageBerryView.setImageResource(R.drawable.cherry);break;
+                case 1:imageBerryView.setImageResource(R.drawable.berry);break;
+                case 2:imageBerryView.setImageResource(R.drawable.peach);break;
+                case 3:imageBerryView.setImageResource(R.drawable.apple);break;
+            }
+
+    }
     @Override
     public void onPause() {
         super.onPause();

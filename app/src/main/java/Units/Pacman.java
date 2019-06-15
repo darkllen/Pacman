@@ -17,11 +17,16 @@ public class Pacman extends Unit {
     MediaPlayer pacman_ch;
     GameUsualActivity gUA;
 
+    int scoreBound=50*10+100;//score when berry appears
+    int scoreBound2=150*10+100;//score when berry appears 2 time
+    Handler handlerBonus;
+
 
     //values in numbers are tested and not accurate(
 
-    public Pacman(ImageView imageView, int[][] map, Handler handler, GameUsualActivity gUA) {
+    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, GameUsualActivity gUA) {
         super(imageView, map, handler);
+        this.handlerBonus=handlerBonus;
         this.gUA=gUA;
     }
 
@@ -49,13 +54,20 @@ public class Pacman extends Unit {
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
                 musicThread.play();
 
-                Map.setScore(Map.getScore() + Map.getBonus()[xMap][yMap].getScore());
+                Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());
                 Map.setOneBonus(xMap, yMap, 0);
+                //add berry
+                if(Map.getLevelScore()>=scoreBound){
+                    Map.setOneBonus(12,16,3);
+                    scoreBound=scoreBound2;
+                    Message msg=new Message(); msg.obj = xMap + " " + yMap; msg.arg1 = xMap; msg.arg2 = yMap;
+                    handlerBonus.sendMessage(msg);}
                 Message msg = new Message();
                 msg.obj = xMap + " " + yMap;
                 msg.arg1 = xMap;
                 msg.arg2 = yMap;
                 this.getHandler().sendMessage(msg);
+
 
             }
 

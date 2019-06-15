@@ -27,7 +27,8 @@ public class Map {
 
     private static Point[][]bonus=new Point[height][width];
 
-    private static int score=0;
+    private static int levelScore=0;
+    private static int totalScore=0;
 
     private static ArrayList<Integer> oneTileFiguresXArray=new ArrayList<>();
     private static ArrayList<Integer> oneTileFiguresYArray=new ArrayList<>();
@@ -113,7 +114,7 @@ public class Map {
 
     private static void combineRandom() {
         Random r=new Random();
-        combine(r.nextInt(5)+2+(x+1)*3,r.nextInt(height-4)+2,0);
+        combine(r.nextInt(5)+3+(x+1)*3,r.nextInt(height-4)+2,0);
     }
 
     /**
@@ -294,7 +295,6 @@ public class Map {
                 map[i][j] = 0;
         map[11][15-3] = -2;
         map[11][16-3] = -2;
-
     }
 
     /**
@@ -373,12 +373,20 @@ public class Map {
         return imageMap;
     }
 
-    public static int getScore() {
-        return score;
+    public static int getLevelScore() {
+        return levelScore;
     }
 
-    public static void setScore(int score1) {
-        score = score1;
+    public static void setLevelScore(int score1) {
+        levelScore = score1;
+    }
+
+    public static void setTotalScore(int totalScore) {
+        Map.totalScore = totalScore;
+    }
+
+    public static int getTotalScore() {
+        return totalScore;
     }
 
     public static Point[][] getBonus() {
