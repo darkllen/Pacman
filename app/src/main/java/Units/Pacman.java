@@ -15,6 +15,7 @@ import Music.MusicThread;
 public class Pacman extends Unit {
 
     MediaPlayer pacman_ch;
+    MediaPlayer pacman_fruit;
     GameUsualActivity gUA;
 
     int scoreBound=50*10+100;//score when berry appears
@@ -45,8 +46,10 @@ public class Pacman extends Unit {
         pacmanAnimation.start();
 
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
+        pacman_fruit=MediaPlayer.create(gUA,R.raw.pacman_eatfruit);
 
         MusicThread musicThread=new MusicThread(pacman_ch);
+        MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
 
 
         while (true){
@@ -56,6 +59,8 @@ public class Pacman extends Unit {
             xMap = currX;
             yMap = currY;
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
+                if(Map.getBonus()[xMap][yMap].getType()==3)
+                    musicThreadFruit.play();else
                 musicThread.play();
 
                 Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());
