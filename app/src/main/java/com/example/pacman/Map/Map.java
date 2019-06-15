@@ -114,7 +114,10 @@ public class Map {
 
     private static void combineRandom() {
         Random r=new Random();
-        combine(r.nextInt(5)+3+(x+1)*3,r.nextInt(height-4)+2,0);
+        int j=r.nextInt(5)+3+(x+1)*3;
+        int i=r.nextInt(height-4)+2;
+        while(map[i][j]!=0){j=r.nextInt(5)+3+(x+1)*3;i=r.nextInt(height-4)+2;}//todo remove this while????
+        combine(j,i,0);
     }
 
     /**

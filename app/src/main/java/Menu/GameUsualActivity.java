@@ -1,7 +1,9 @@
 package Menu;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,7 +66,7 @@ public class GameUsualActivity extends AppCompatActivity {
             public void onCompletion(MediaPlayer mediaPlayer) {
                 pacman_police.start();
                 pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
-                pacman_police.setVolume(100,100);//??
+                //pacman_police.setVolume(100,100);//??
             }
         });
 
