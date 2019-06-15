@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.example.pacman.R;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import Bonus.Point;
@@ -27,6 +28,9 @@ public class Map {
     private static Point[][]bonus=new Point[height][width];
 
     private static int score=0;
+
+    private static ArrayList<Integer> oneTileFiguresXArray=new ArrayList<>();
+    private static ArrayList<Integer> oneTileFiguresYArray=new ArrayList<>();
 
 
     static int figureNumber = 1;
@@ -56,8 +60,11 @@ public class Map {
                         startMap[i][j] = figureNumber;
                         figureNumber++;
                         putFigureOnMap(i - 1, j, new Figure(new int[][]{{0, 0}, {1, 0}, {0, 0}}));
+                        oneTileFiguresXArray.add(new Integer( 2 + (i - 1) * 3));
+                        oneTileFiguresYArray.add(new Integer((x - 1) * 3 + 3 + (j - 1) * 3 ));
                         i = 1;
                         j = 1;
+
                     } else
 
                     if (addFigure(figure, i, j)) {
@@ -90,6 +97,8 @@ public class Map {
 
         //todo об'єднати деякі фігури
 
+        combineOneTileFigures();//todo сделать универсальный метод для всех фигур (1, 2 и 3 клетки)
+
         addTunnels();
 
         mirror();
@@ -97,6 +106,66 @@ public class Map {
       addPoints();
 
         return new Map(getRotateArr(map));
+    }
+
+    /**
+     * combine all one tile figures with other random figures
+     */
+    private static void combineOneTileFigures() {
+        Random random=new Random();
+        int r;
+        for(int i=0;i<oneTileFiguresXArray.size();i++){
+            ArrayList<Integer>numbers=new ArrayList<>();
+            numbers.add(0);
+            numbers.add(1);
+            numbers.add(2);
+            numbers.add(3);
+           // r=random.nextInt(4);
+            System.out.println(oneTileFiguresXArray.get(i)+" "+oneTileFiguresYArray.get(i));
+
+            //System.out.println("!"+((oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3-1)+" "+(oneTileFiguresYArray.get(i)-2)%3);
+//            if(oneTileFiguresYArray.get(i)<=3||(startMap[(oneTileFiguresYArray.get(i)-2)%3-1][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3]==1))numbers.remove(3);//2 if for monster`s home
+//            if(oneTileFiguresXArray.get(i)<=2+(x-1)*3+4||(startMap[(oneTileFiguresYArray.get(i)-2)%3][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3-1]==1))numbers.remove(2);
+//            if(oneTileFiguresYArray.get(i)>=height-4||(startMap[(oneTileFiguresYArray.get(i)-2)%3+1][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3]==1))numbers.remove(1);
+//            if(oneTileFiguresXArray.get(i)>=width-5)numbers.remove(0);
+
+            if(oneTileFiguresXArray.get(i)<=2)numbers.remove(3);else
+            if((oneTileFiguresXArray.get(i)-2)%3!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)%3-1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3]==1)numbers.remove(3);
+            if(oneTileFiguresYArray.get(i)<=2+(x-1)*3)numbers.remove(2);else
+                if((oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)%3][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3-1]==1)numbers.remove(2);
+            if(oneTileFiguresXArray.get(i)>=height-4)numbers.remove(1);else
+                if((oneTileFiguresXArray.get(i)-2)%3!=startMap.length)if(startMap[(oneTileFiguresXArray.get(i)-2)%3+1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))%3]==1)numbers.remove(1);
+            if(oneTileFiguresYArray.get(i)>=width-5)numbers.remove(0);
+            for(int i1=0;i1<numbers.size();i1++)
+            System.out.println(numbers.get(i1));
+
+
+            r=random.nextInt(numbers.size());
+            r=numbers.get(r);
+
+
+            switch (r){
+                //right,down,left,up
+                case 0:
+                    combine(oneTileFiguresYArray.get(i)+2,oneTileFiguresXArray.get(i),0);
+                    break;
+                case 1:
+                    combine(oneTileFiguresYArray.get(i),oneTileFiguresXArray.get(i)+2,0);
+                    break;
+                case 2:
+                    combine(oneTileFiguresYArray.get(i)-1,oneTileFiguresXArray.get(i),0);
+                    break;
+                case 3:
+                    combine(oneTileFiguresYArray.get(i),oneTileFiguresXArray.get(i)-1,0);
+                    break;
+            }
+        }
+    }
+
+    private static void combine(int j, int i,int first) {
+        //map[i][j]=1;
+        if(map[i][j]!=1)
+        if(map[i-1][j]+map[i][j-1]+map[i+1][j]+map[i][j+1]-first>=2) {map[i][j]=1;combine(j,i-1,1);combine(j,i+1,1);combine(j-1,i,1);combine(j+1,i,1);}
     }
 
     /**

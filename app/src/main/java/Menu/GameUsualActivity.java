@@ -134,6 +134,11 @@ public class GameUsualActivity extends AppCompatActivity {
                     if(up==1&&down==1)
                     {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(0);}
 
+                    //пусті місця всередині
+                    //if(left==1&&right==1&&up==1&&down==1&&m[i-1][j-1]==0&&m[i+1][j-1]==0&&m[i-1][j+1]==0&&m[i+1][j+1]==0)
+                    if(left==1&&right==1&&up==1&&down==1)
+                    { imageView.setImageResource(R.drawable.tile3);imageView.setRotation(0);}
+
                     //кути
                     if((right==0&&down==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j-1]==0))
                     { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
