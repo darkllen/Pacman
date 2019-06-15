@@ -204,6 +204,7 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerBonus = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                layout.removeView( views[12][16]);
                 generateBonusBerryImage();
                views[12][16]=imageBerryView;
                layout.addView(imageBerryView);
