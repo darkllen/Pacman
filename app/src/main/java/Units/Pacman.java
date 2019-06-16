@@ -32,6 +32,10 @@ public class Pacman extends Unit {
 
     int lives = GameUsualActivity.getLivesStartNumber();
 
+    long starttime = -1;
+    long seconds=-1;
+    int secondsForBerry=9;//time (in seconds) given to take the berry
+
 
 
     //values in numbers are tested and not accurate(
@@ -69,6 +73,8 @@ public class Pacman extends Unit {
             map[xMap][yMap] = 0;
             xMap = currX;
             yMap = currY;
+
+
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
 
 
@@ -87,6 +93,7 @@ public class Pacman extends Unit {
                     musicThreadFruit.play();else
                 musicThread.play();
 
+
                 Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());
                 Map.setOneBonus(xMap, yMap, 0);
 
@@ -97,7 +104,8 @@ public class Pacman extends Unit {
                     if(Map.getBonus()[12][16].getType()!=3){
                         Map.setOneBonus(12,16,3);
                         Message msg=new Message(); msg.obj = xMap + " " + yMap; msg.arg1 = xMap; msg.arg2 = yMap;
-                    handlerBonus.sendMessage(msg);}
+                    handlerBonus.sendMessage(msg);
+                    starttime=(int)System.currentTimeMillis()/1000;}
                     }
                 Message msg = new Message();
                 msg.obj = xMap + " " + yMap;
@@ -113,6 +121,20 @@ public class Pacman extends Unit {
                 msg2.arg2 = 0;
                 handlerScore.sendMessage(msg2);
 
+            }
+
+            if(starttime!=-1) {
+                seconds = ((int)System.currentTimeMillis() / 1000) - starttime;
+                if (seconds >= secondsForBerry) {//remove berry
+                    Map.setOneBonus(12, 16, 0);
+                    Message msg = new Message();
+                    msg.obj = 12 + " " + 16;
+                    msg.arg1 = 12;
+                    msg.arg2 = 16;
+                    this.getHandler().sendMessage(msg);
+                    starttime=-1;
+                    seconds=-1;
+                }
             }
 
 

@@ -132,14 +132,6 @@ public class Map {
             numbers.add(1);
             numbers.add(2);
             numbers.add(3);
-           // r=random.nextInt(4);
-            System.out.println(oneTileFiguresXArray.get(i)+" "+oneTileFiguresYArray.get(i));
-
-            //System.out.println("!"+((oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3-1)+" "+(oneTileFiguresYArray.get(i)-2)%3);
-//            if(oneTileFiguresYArray.get(i)<=3||(startMap[(oneTileFiguresYArray.get(i)-2)%3-1][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3]==1))numbers.remove(3);//2 if for monster`s home
-//            if(oneTileFiguresXArray.get(i)<=2+(x-1)*3+4||(startMap[(oneTileFiguresYArray.get(i)-2)%3][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3-1]==1))numbers.remove(2);
-//            if(oneTileFiguresYArray.get(i)>=height-4||(startMap[(oneTileFiguresYArray.get(i)-2)%3+1][(oneTileFiguresXArray.get(i)-(2+3*(x-1)))%3]==1))numbers.remove(1);
-//            if(oneTileFiguresXArray.get(i)>=width-5)numbers.remove(0);
 
             if(oneTileFiguresXArray.get(i)<=2)numbers.remove(3);else
             if((oneTileFiguresXArray.get(i)-2)/3+1!=0)if(startMap[(oneTileFiguresXArray.get(i)-2)/3+1-1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1]==1)numbers.remove(3);
@@ -148,8 +140,7 @@ public class Map {
             if(oneTileFiguresXArray.get(i)>=height-4)numbers.remove(1);else
                 if((oneTileFiguresXArray.get(i)-2)/3+1!=startMap.length)if(startMap[(oneTileFiguresXArray.get(i)-2)/3+1+1][(oneTileFiguresYArray.get(i)-(2+3*(x-1)))/3+1]==1)numbers.remove(1);
             if(oneTileFiguresYArray.get(i)>=width-5)numbers.remove(0);
-//            for(int i1=0;i1<numbers.size();i1++)
-//            System.out.println(numbers.get(i1));
+
 
             r=random.nextInt(numbers.size());
             r=numbers.get(r);

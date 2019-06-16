@@ -54,6 +54,7 @@ public class GameUsualActivity extends AppCompatActivity {
     private static int livesStartNumber=3;
 
 
+
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +88,6 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int height = size.y;
         int width=1080;
         int side=width/26;
-        System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
