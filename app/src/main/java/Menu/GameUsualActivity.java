@@ -44,10 +44,14 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerRed;
     private Handler handlerBonus;
     private Handler handlerScore;
+    private Handler handlerLives;
 
    private ImageView imageBerryView;
 
     private TextView scoreTextView;
+   // private TextView livesTextView;
+
+    private static int livesStartNumber=3;
 
 
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
@@ -73,8 +77,6 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         });
 
-        scoreTextView=(TextView)findViewById(R.id.scoreTextView);
-
 
 
         //int side = 1000/30;
@@ -91,6 +93,11 @@ public class GameUsualActivity extends AppCompatActivity {
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
+
+        scoreTextView=findViewById(R.id.scoreTextView);
+//        livesTextView=findViewById(R.id.livesTextView);
+//        livesTextView.setX(side-5);
+//        livesTextView.setY((m[0].length+2) * side + 300);
 
         ImageView[][] views = new ImageView[m.length][m[1].length];
 
@@ -179,8 +186,6 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         }
 
-
-
         //add bonus
         Bonus.Point[][]bonus=map.getBonus();
         for (int i = 0; i<m.length;i++) {
@@ -197,6 +202,19 @@ public class GameUsualActivity extends AppCompatActivity {
                 imageView.setY(j * side + 100);
                 layout.addView(imageView);
             }
+        }
+
+        //add pacman lives
+        ImageView []lives = new ImageView[livesStartNumber];
+        for(int i=0;i<livesStartNumber;i++){
+            ImageView imageView=new ImageView(this);
+            lives[i]=imageView;
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
+            imageView.setLayoutParams(params);
+            imageView.setImageResource(R.drawable.pacman4);
+            imageView.setX((i+2) * side+i*5+5);
+            imageView.setY((m[i].length+2) * side + 100);
+            layout.addView(imageView);
         }
 
         handlerPacman = new Handler() {
@@ -219,8 +237,14 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerScore = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                //layout.removeView(views[msg.arg1][msg.arg2]);
                 setScoreTextView(msg.arg1);
+            }
+        };
+
+        handlerLives = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                layout.removeView(lives[msg.arg1]);
             }
         };
 
@@ -228,7 +252,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
 
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,handlerScore,this);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,handlerScore,handlerLives,this);
         pacman.start();
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
@@ -315,5 +339,8 @@ public class GameUsualActivity extends AppCompatActivity {
         scoreTextView.setText("Score = "+s);
     }
 
+    public static int getLivesStartNumber() {
+        return livesStartNumber;
+    }
 }
 

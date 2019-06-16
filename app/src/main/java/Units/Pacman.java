@@ -16,6 +16,8 @@ public class Pacman extends Unit {
 
     MediaPlayer pacman_ch;
     MediaPlayer pacman_fruit;
+    MediaPlayer pacman_death;
+
     GameUsualActivity gUA;
 
     int scoreBound=50*10+100;//score when berry appears
@@ -26,15 +28,19 @@ public class Pacman extends Unit {
 
     Handler handlerBonus;
     Handler handlerScore;
+    Handler handlerLives;
+
+    int lives = GameUsualActivity.getLivesStartNumber();
 
 
 
     //values in numbers are tested and not accurate(
 
-    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, Handler handlerScore, GameUsualActivity gUA) {
+    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, Handler handlerScore,Handler handlerLives, GameUsualActivity gUA) {
         super(imageView, map, handler);
         this.handlerBonus=handlerBonus;
         this.handlerScore=handlerScore;
+        this.handlerLives=handlerLives;
         this.gUA=gUA;
     }
 
@@ -50,9 +56,11 @@ public class Pacman extends Unit {
 
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
         pacman_fruit=MediaPlayer.create(gUA,R.raw.pacman_eatfruit);
+        pacman_death=MediaPlayer.create(gUA,R.raw.pacman_death);
 
         MusicThread musicThread=new MusicThread(pacman_ch);
         MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
+        MusicThread musicThreadDeath=new MusicThread(pacman_death);
 
 
         while (true){
@@ -62,6 +70,19 @@ public class Pacman extends Unit {
             xMap = currX;
             yMap = currY;
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
+
+
+                if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе
+                    if(lives!=0)lives--;
+                    musicThreadDeath.play();
+                    Message msg3 = new Message();
+                    msg3.obj = " ";
+                    msg3.arg1 = lives;
+                    msg3.arg2 = 0;
+                    handlerLives.sendMessage(msg3);
+                }
+
+
                 if(Map.getBonus()[xMap][yMap].getType()==3)
                     musicThreadFruit.play();else
                 musicThread.play();
@@ -71,9 +92,7 @@ public class Pacman extends Unit {
 
                 //add berry
                 if(Map.getLevelScore()>=scoreBound){
-                    //scoreBound=scoreBound2; wrong variant with 2 scores
-                    //scoreBound+=scoreDelta;  sometimes working variant with delta
-                    scoreBound=Map.getLevelScore()+scoreDelta; //more right but also SOMETIMES working variant:(
+                    scoreBound=Map.getLevelScore()+scoreDelta;
                     //add berry only if there is not another berry
                     if(Map.getBonus()[12][16].getType()!=3){
                         Map.setOneBonus(12,16,3);
@@ -89,11 +108,11 @@ public class Pacman extends Unit {
                // msg.arg1=Map.getTotalScore()+Map.getLevelScore();
 
                 Message msg2 = new Message();
-                msg2.obj = xMap + " " + yMap;
+                msg2.obj = " ";
                 msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
-                msg2.arg2 = yMap;
+                msg2.arg2 = 0;
                 handlerScore.sendMessage(msg2);
-               //gUA.setScoreTextView(Map.getTotalScore()+Map.getLevelScore());
+
             }
 
 

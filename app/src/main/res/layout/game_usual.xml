@@ -46,4 +46,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.01"/>
 
+    <TextView
+        android:id="@+id/livesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Lives:"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.81"/>
+
 </android.support.constraint.ConstraintLayout>
