@@ -36,5 +36,14 @@ public class GameModsActivity extends AppCompatActivity {
             startActivity(intent);
             Unit.inversionMode=true;
         });
+
+        if(SettingsActivity.getLanguage().equals("English")){
+            usualMod.setText("Classic");
+            inversionMod.setText("Inversion");
+        }
+        if(SettingsActivity.getLanguage().equals("Ukranian")){
+            usualMod.setText("Класика");
+            inversionMod.setText("Інверсія");
+        }
     }
 }

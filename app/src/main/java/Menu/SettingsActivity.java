@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.pacman.R;
 
@@ -17,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static boolean musicEnabled=true;
     private static boolean soundEnabled=true;
+    private static String language="English";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,44 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        ImageView languageImageView=findViewById(R.id.language_image);
+
+        Button languageBack=findViewById(R.id.language_back);
+        languageBack.setOnClickListener(v->{
+            if(language.equals("Ukranian")) {
+                languageImageView.setImageResource(R.drawable.english);
+                language="English";
+            }
+            else {
+                languageImageView.setImageResource(R.drawable.ukranian);
+                language="Ukranian";
+            }
+        });
+
+        Button languageForward=findViewById(R.id.language_forward);
+        languageForward.setOnClickListener(v->{
+            if(language.equals("Ukranian")) {
+                languageImageView.setImageResource(R.drawable.english);
+                language="English";
+            }
+            else {
+                languageImageView.setImageResource(R.drawable.ukranian);
+                language="Ukranian";
+            }
+        });
+
+        TextView mText=findViewById(R.id.musicTextView);
+        TextView sText=findViewById(R.id.soundTextView);
+
+        if(SettingsActivity.getLanguage().equals("English")){
+            mText.setText("Music:");
+            sText.setText("Sound:");
+        }
+        if(SettingsActivity.getLanguage().equals("Ukranian")){
+            mText.setText("Музика:");
+            sText.setText("Звуки:");
+        }
+
     }
 
     public static boolean getMusicEnabled(){
@@ -60,6 +101,10 @@ public class SettingsActivity extends AppCompatActivity {
     public static boolean getSoundEnabled(){
         return soundEnabled;
         //return false;
+    }
+
+    public static String getLanguage(){
+        return language;
     }
 
 

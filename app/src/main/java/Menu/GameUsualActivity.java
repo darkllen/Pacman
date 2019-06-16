@@ -95,7 +95,15 @@ public class GameUsualActivity extends AppCompatActivity {
         int[][] m = map.getMap();
 
         scoreTextView=findViewById(R.id.scoreTextView);
-//        livesTextView=findViewById(R.id.livesTextView);
+       TextView livesTextView=findViewById(R.id.livesTextView);
+       if(SettingsActivity.getLanguage().equals("English")){
+           scoreTextView.setText("Score = 0");
+           livesTextView.setText("Lives:");
+       }
+       if(SettingsActivity.getLanguage().equals("Ukranian")){
+           scoreTextView.setText("Рахунок = 0");
+           livesTextView.setText("Життя:");
+       }
 //        livesTextView.setX(side-5);
 //        livesTextView.setY((m[0].length+2) * side + 300);
 
@@ -336,7 +344,10 @@ public class GameUsualActivity extends AppCompatActivity {
     }
 
     public void setScoreTextView(int s){
+        if (SettingsActivity.getLanguage().equals("English"))
         scoreTextView.setText("Score = "+s);
+        if(SettingsActivity.getLanguage().equals("Ukranian"))
+            scoreTextView.setText("Рахунок = "+s);
     }
 
     public static int getLivesStartNumber() {

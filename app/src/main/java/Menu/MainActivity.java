@@ -25,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
         Button game = findViewById(R.id.game);
         Button records = findViewById(R.id.records);
         Button settings = findViewById(R.id.settings);
+
+        if(SettingsActivity.getLanguage().equals("English")){
+            game.setText("Game");
+            records.setText("Records");
+            settings.setText("Settings");
+
+        }
+        if(SettingsActivity.getLanguage().equals("Ukranian")){
+            game.setText("Гра");
+            records.setText("Рекорди");
+            settings.setText("Налаштування");
+        }
         //open menus on button click
         game.setOnClickListener(v->{
             Intent intent = new Intent(MainActivity.this, GameModsActivity.class);
