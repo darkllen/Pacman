@@ -21,17 +21,20 @@ public class Pacman extends Unit {
     int scoreBound=50*10+100;//score when berry appears
     int scoreBound2=100*10+100;//score when berry appears 2 time todo remove this parameter
 
-    // int scoreDelta=50*10+100;//delta score between 2 berries
-    int scoreDelta=100; //100 is value for tests. 50*10+100 - real value
+     int scoreDelta=50*10+100;//delta score between 2 berries
+    //int scoreDelta=100; //100 is value for tests. 50*10+100 - real value
 
     Handler handlerBonus;
+    Handler handlerScore;
+
 
 
     //values in numbers are tested and not accurate(
 
-    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, GameUsualActivity gUA) {
+    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, Handler handlerScore, GameUsualActivity gUA) {
         super(imageView, map, handler);
         this.handlerBonus=handlerBonus;
+        this.handlerScore=handlerScore;
         this.gUA=gUA;
     }
 
@@ -83,7 +86,14 @@ public class Pacman extends Unit {
                 msg.arg2 = yMap;
                 this.getHandler().sendMessage(msg);
 
+               // msg.arg1=Map.getTotalScore()+Map.getLevelScore();
 
+                Message msg2 = new Message();
+                msg2.obj = xMap + " " + yMap;
+                msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
+                msg2.arg2 = yMap;
+                handlerScore.sendMessage(msg2);
+               //gUA.setScoreTextView(Map.getTotalScore()+Map.getLevelScore());
             }
 
 

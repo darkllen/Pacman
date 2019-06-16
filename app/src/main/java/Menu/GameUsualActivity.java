@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
@@ -42,9 +43,11 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerPacman;
     private Handler handlerRed;
     private Handler handlerBonus;
+    private Handler handlerScore;
 
    private ImageView imageBerryView;
 
+    private TextView scoreTextView;
 
 
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
@@ -69,6 +72,8 @@ public class GameUsualActivity extends AppCompatActivity {
                 //pacman_police.setVolume(100,100);//??
             }
         });
+
+        scoreTextView=(TextView)findViewById(R.id.scoreTextView);
 
 
 
@@ -211,11 +216,19 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
+        handlerScore = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                //layout.removeView(views[msg.arg1][msg.arg2]);
+                setScoreTextView(msg.arg1);
+            }
+        };
+
 
 
 
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,this);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,handlerScore,this);
         pacman.start();
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
@@ -296,6 +309,10 @@ public class GameUsualActivity extends AppCompatActivity {
             }
             pacman.changeMove(click[0]);
         }
+    }
+
+    public void setScoreTextView(int s){
+        scoreTextView.setText("Score = "+s);
     }
 
 }
