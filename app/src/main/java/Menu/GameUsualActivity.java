@@ -65,15 +65,15 @@ public class GameUsualActivity extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
         pacman_begin = MediaPlayer.create(this,R.raw.pacman_beginning);
-        pacman_begin.start();
+        if(SettingsActivity.getMusicEnabled())pacman_begin.start();
         pacman_police = MediaPlayer.create(this, R.raw.pacman_police);
 
 
         pacman_begin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                pacman_police.start();
-                pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+                if(SettingsActivity.getMusicEnabled())pacman_police.start();
+                if(SettingsActivity.getMusicEnabled())pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
                 //pacman_police.setVolume(100,100);//??
             }
         });
@@ -282,13 +282,13 @@ public class GameUsualActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        pacman_police.pause();
+        if(SettingsActivity.getMusicEnabled())pacman_police.pause();
         // stop the clock
     }
     @Override
     public void onResume() {
         super.onResume();
-        pacman_police.start();
+        if(SettingsActivity.getMusicEnabled())pacman_police.start();
     }
 
     //listener for record x and y to decide side of swap

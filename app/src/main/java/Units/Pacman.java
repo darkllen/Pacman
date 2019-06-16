@@ -9,6 +9,7 @@ import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
 import Menu.GameUsualActivity;
+import Menu.SettingsActivity;
 import Music.MusicThread;
 
 
@@ -80,7 +81,7 @@ public class Pacman extends Unit {
 
                 if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе
                     if(lives!=0)lives--;
-                    musicThreadDeath.play();
+                    if( SettingsActivity.getSoundEnabled())musicThreadDeath.play();
                     Message msg3 = new Message();
                     msg3.obj = " ";
                     msg3.arg1 = lives;
@@ -90,8 +91,8 @@ public class Pacman extends Unit {
 
 
                 if(Map.getBonus()[xMap][yMap].getType()==3)
-                    musicThreadFruit.play();else
-                musicThread.play();
+                {if(SettingsActivity.getSoundEnabled())musicThreadFruit.play();}else
+                {if(SettingsActivity.getSoundEnabled())musicThread.play();}
 
 
                 Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());
