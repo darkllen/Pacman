@@ -16,8 +16,8 @@ public class RedGhost extends Unit {
 
     public RedGhost(ImageView imageView, int[][] map, Handler handler) {
         super(imageView, map, handler);
-        this.setxMap(2);
-        this.setyMap(1);
+        this.setxMap(13);
+        this.setyMap(12);
         this.setStartX(1080/26*xMap);
         this.setStartY(1080/26*yMap);
         imageView.setX(1080/26*xMap);
@@ -35,7 +35,7 @@ public class RedGhost extends Unit {
 
     @Override
     public void run() {
-        this.getImageView().setBackgroundResource(R.drawable.red_left);
+        this.getImageView().setBackgroundResource(R.drawable.red_up);
         AnimationDrawable ghostAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);
         this.getImageView().setX(this.getStartX());

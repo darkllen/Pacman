@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import Menu.Listeners.GhostListener;
+import Units.BlueGhost;
 import Units.Pacman;
 import Units.RedGhost;
 
@@ -220,9 +221,19 @@ public class GameUsualActivity extends AppCompatActivity {
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
         redGhost.start();
-        redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1));
+        redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 4, 0));
 
-        redGhost.changeMove(1);
+        redGhost.getMap()[13][11]=0;
+        redGhost.changeMove(4);
+        redGhost.getMap()[13][11]=1;
+
+        BlueGhost blueGhost = new BlueGhost(findViewById(R.id.blueGhost), m, handlerRed);
+        blueGhost.start();
+        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0));
+
+        blueGhost.getMap()[12][11]=0;
+        blueGhost.changeMove(4);
+        blueGhost.getMap()[12][11]=1;
 
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());

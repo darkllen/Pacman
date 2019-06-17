@@ -13,8 +13,11 @@ public class GhostListener implements Animator.AnimatorListener {
     int[][] map;
     int prev;
 
-    int xNum;
-    int yNum;
+    int xNum = 0;
+    int yNum = 0;
+
+    int xAbolute = 0;
+    int yAbsolute= 0;
 
     public int getPrev() {
         return prev;
@@ -24,11 +27,29 @@ public class GhostListener implements Animator.AnimatorListener {
         this.prev = prev;
     }
 
-    public GhostListener(Unit unit, Unit pacman, int[][] map, int prev) {
+    public int getxAbolute() {
+        return xAbolute;
+    }
+
+    public void setxAbolute(int xAbolute) {
+        this.xAbolute = xAbolute;
+    }
+
+    public int getyAbsolute() {
+        return yAbsolute;
+    }
+
+    public void setyAbsolute(int yAbsolute) {
+        this.yAbsolute = yAbsolute;
+    }
+
+    public GhostListener(Unit unit, Unit pacman, int[][] map, int prev, int x, int y) {
         this.unit = unit;
         this.pacman = pacman;
         this.map = map;
         this.prev = prev;
+        this.xAbolute = x;
+        yAbsolute = y;
     }
 
     @Override
@@ -38,8 +59,23 @@ public class GhostListener implements Animator.AnimatorListener {
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        int pacmanX = (int) pacman.getImageView().getX();
-        int pacmanY = (int) pacman.getImageView().getY();
+        switch (pacman.getPrev()){
+            case 1:
+                xNum = xAbolute;
+                yNum = yAbsolute;
+            case 2:
+                xNum = - xAbolute;
+                yNum = -yAbsolute;
+            case 3:
+                yNum = -xAbolute;
+                xNum = -yAbsolute;
+            case 4:
+                yNum =  xAbolute;
+                xNum = yAbsolute;
+        }
+
+        int pacmanX = (int) pacman.getImageView().getX() + 1080/26*xNum;
+        int pacmanY = (int) pacman.getImageView().getY() + 1080/26*yNum;
 
         int inUpCaseX = (int) (unit.getImageView().getX()+ 8);
         int inUpCaseY = (int) (unit.getImageView().getY());
