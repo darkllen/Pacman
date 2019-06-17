@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
@@ -43,8 +44,15 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerPacman;
     private Handler handlerRed;
     private Handler handlerBonus;
+    private Handler handlerScore;
+    private Handler handlerLives;
 
    private ImageView imageBerryView;
+
+    private TextView scoreTextView;
+   // private TextView livesTextView;
+
+    private static int livesStartNumber=3;
 
 
 
@@ -58,15 +66,15 @@ public class GameUsualActivity extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
         pacman_begin = MediaPlayer.create(this,R.raw.pacman_beginning);
-        pacman_begin.start();
+        if(SettingsActivity.getMusicEnabled())pacman_begin.start();
         pacman_police = MediaPlayer.create(this, R.raw.pacman_police);
 
 
         pacman_begin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                pacman_police.start();
-                pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+                if(SettingsActivity.getMusicEnabled())pacman_police.start();
+                if(SettingsActivity.getMusicEnabled())pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
                 //pacman_police.setVolume(100,100);//??
             }
         });
@@ -81,12 +89,24 @@ public class GameUsualActivity extends AppCompatActivity {
 //        int height = size.y;
         int width=1080;
         int side=width/26;
-        System.out.println(width);
 
         layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
+
+        scoreTextView=findViewById(R.id.scoreTextView);
+       TextView livesTextView=findViewById(R.id.livesTextView);
+       if(SettingsActivity.getLanguage().equals("English")){
+           scoreTextView.setText("Score = 0");
+           livesTextView.setText("Lives:");
+       }
+       if(SettingsActivity.getLanguage().equals("Ukranian")){
+           scoreTextView.setText("Рахунок = 0");
+           livesTextView.setText("Життя:");
+       }
+//        livesTextView.setX(side-5);
+//        livesTextView.setY((m[0].length+2) * side + 300);
 
         ImageView[][] views = new ImageView[m.length][m[1].length];
 
@@ -175,8 +195,6 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         }
 
-
-
         //add bonus
         Bonus.Point[][]bonus=map.getBonus();
         for (int i = 0; i<m.length;i++) {
@@ -193,6 +211,19 @@ public class GameUsualActivity extends AppCompatActivity {
                 imageView.setY(j * side + 100);
                 layout.addView(imageView);
             }
+        }
+
+        //add pacman lives
+        ImageView []lives = new ImageView[livesStartNumber];
+        for(int i=0;i<livesStartNumber;i++){
+            ImageView imageView=new ImageView(this);
+            lives[i]=imageView;
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
+            imageView.setLayoutParams(params);
+            imageView.setImageResource(R.drawable.pacman4);
+            imageView.setX((i+2) * side+i*5+5);
+            imageView.setY((m[i].length+2) * side + 100);
+            layout.addView(imageView);
         }
 
         handlerPacman = new Handler() {
@@ -212,11 +243,25 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
+        handlerScore = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                setScoreTextView(msg.arg1);
+            }
+        };
+
+        handlerLives = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                layout.removeView(lives[msg.arg1]);
+            }
+        };
+
 
 
 
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,this);
+        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,handlerScore,handlerLives,this);
         pacman.start();
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
@@ -256,13 +301,13 @@ public class GameUsualActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        pacman_police.pause();
+        if(SettingsActivity.getMusicEnabled())pacman_police.pause();
         // stop the clock
     }
     @Override
     public void onResume() {
         super.onResume();
-        pacman_police.start();
+        if(SettingsActivity.getMusicEnabled())pacman_police.start();
     }
 
     //listener for record x and y to decide side of swap
@@ -309,5 +354,15 @@ public class GameUsualActivity extends AppCompatActivity {
         }
     }
 
+    public void setScoreTextView(int s){
+        if (SettingsActivity.getLanguage().equals("English"))
+        scoreTextView.setText("Score = "+s);
+        if(SettingsActivity.getLanguage().equals("Ukranian"))
+            scoreTextView.setText("Рахунок = "+s);
+    }
+
+    public static int getLivesStartNumber() {
+        return livesStartNumber;
+    }
 }
 
