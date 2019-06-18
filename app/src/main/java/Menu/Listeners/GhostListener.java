@@ -5,6 +5,9 @@ import android.widget.ImageView;
 
 import java.util.Random;
 
+import Units.BlueGhost;
+import Units.OrangeGhost;
+import Units.RedGhost;
 import Units.Unit;
 
 public class GhostListener implements Animator.AnimatorListener {
@@ -18,6 +21,9 @@ public class GhostListener implements Animator.AnimatorListener {
 
     int xAbolute = 0;
     int yAbsolute= 0;
+
+    RedGhost ghost;
+
 
     public int getPrev() {
         return prev;
@@ -52,6 +58,16 @@ public class GhostListener implements Animator.AnimatorListener {
         yAbsolute = y;
     }
 
+    public GhostListener(Unit unit, Unit pacman, int[][] map, int prev, int xAbolute, int yAbsolute, RedGhost ghost) {
+        this.unit = unit;
+        this.pacman = pacman;
+        this.map = map;
+        this.prev = prev;
+        this.xAbolute = xAbolute;
+        this.yAbsolute = yAbsolute;
+        this.ghost = ghost;
+    }
+
     @Override
     public void onAnimationStart(Animator animation) {
 
@@ -77,6 +93,7 @@ public class GhostListener implements Animator.AnimatorListener {
         int pacmanX = (int) pacman.getImageView().getX() + 1080/26*xNum;
         int pacmanY = (int) pacman.getImageView().getY() + 1080/26*yNum;
 
+
         int inUpCaseX = (int) (unit.getImageView().getX()+ 8);
         int inUpCaseY = (int) (unit.getImageView().getY());
 
@@ -88,6 +105,8 @@ public class GhostListener implements Animator.AnimatorListener {
 
         int inDownCaseX = (int) (unit.getImageView().getX()+ 8);
         int inDownCaseY = (int) (unit.getImageView().getY()+ 16);
+
+
 
         int leftDistance = (pacmanX-inLeftCaseX)*(pacmanX-inLeftCaseX) + (pacmanY-inLeftCaseY)*(pacmanY-inLeftCaseY);
         int rightDistance = (pacmanX-inRightCaseX)*(pacmanX-inRightCaseX) + (pacmanY-inRightCaseY)*(pacmanY-inRightCaseY);
@@ -101,6 +120,35 @@ public class GhostListener implements Animator.AnimatorListener {
         int down = map[currX][currY+1];
         int left = map[currX-1][currY];
         int right = map[currX+1][currY];
+
+        if (unit instanceof BlueGhost){
+            int xDif = pacmanX - ghost.getStartX();
+            int yDif = pacmanY = ghost.getStartY();
+            xDif *=2;
+            yDif *=2;
+
+            pacmanX = pacmanX + xDif;
+            pacmanY = pacmanY + yDif;
+
+             leftDistance = (pacmanX-inLeftCaseX)*(pacmanX-inLeftCaseX) + (pacmanY-inLeftCaseY)*(pacmanY-inLeftCaseY);
+             rightDistance = (pacmanX-inRightCaseX)*(pacmanX-inRightCaseX) + (pacmanY-inRightCaseY)*(pacmanY-inRightCaseY);
+             upDistance = (pacmanX-inUpCaseX)*(pacmanX-inUpCaseX) + (pacmanY-inUpCaseY)*(pacmanY-inUpCaseY);
+             downDistance = (pacmanX-inDownCaseX)*(pacmanX-inDownCaseX) + (pacmanY-inDownCaseY)*(pacmanY-inDownCaseY);
+
+
+        }else if (unit instanceof OrangeGhost){
+            if (leftDistance<(1000/26*8)*(1000/26*8)){
+                pacmanX = -1000;
+                pacmanY = 2000;
+
+                 leftDistance = (pacmanX-inLeftCaseX)*(pacmanX-inLeftCaseX) + (pacmanY-inLeftCaseY)*(pacmanY-inLeftCaseY);
+                 rightDistance = (pacmanX-inRightCaseX)*(pacmanX-inRightCaseX) + (pacmanY-inRightCaseY)*(pacmanY-inRightCaseY);
+                 upDistance = (pacmanX-inUpCaseX)*(pacmanX-inUpCaseX) + (pacmanY-inUpCaseY)*(pacmanY-inUpCaseY);
+                 downDistance = (pacmanX-inDownCaseX)*(pacmanX-inDownCaseX) + (pacmanY-inDownCaseY)*(pacmanY-inDownCaseY);
+            }
+        }
+
+
         switch (prev){
             case 1:
                  if ((Math.min(upDistance, Math.min(rightDistance,downDistance))==upDistance &&(up!=1&&down!=1&&right!=1)) ||

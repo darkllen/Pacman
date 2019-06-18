@@ -23,8 +23,11 @@ import java.util.Objects;
 import java.util.Random;
 
 import Menu.Listeners.GhostListener;
+import TimeThreads.AppearingGhostsThread;
 import Units.BlueGhost;
+import Units.OrangeGhost;
 import Units.Pacman;
+import Units.PinkGhost;
 import Units.RedGhost;
 
 //class for classic game
@@ -42,10 +45,15 @@ public class GameUsualActivity extends AppCompatActivity {
     MediaPlayer pacman_begin;
 
     private Handler handlerPacman;
-    private Handler handlerRed;
     private Handler handlerBonus;
     private Handler handlerScore;
     private Handler handlerLives;
+
+    private Handler handlerRed;
+    private Handler handlerBlue;
+    private Handler handlerOrange;
+    private Handler handlerPink;
+
 
    private ImageView imageBerryView;
 
@@ -53,6 +61,7 @@ public class GameUsualActivity extends AppCompatActivity {
    // private TextView livesTextView;
 
     private static int livesStartNumber=3;
+
 
 
 
@@ -266,24 +275,64 @@ public class GameUsualActivity extends AppCompatActivity {
 
         RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
         redGhost.start();
-        redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 4, 0));
-
-        redGhost.getMap()[13][11]=0;
-        redGhost.changeMove(4);
-        redGhost.getMap()[13][11]=1;
+        redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
 
         BlueGhost blueGhost = new BlueGhost(findViewById(R.id.blueGhost), m, handlerRed);
         blueGhost.start();
-        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0));
+        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
 
-        blueGhost.getMap()[12][11]=0;
-        blueGhost.changeMove(4);
-        blueGhost.getMap()[12][11]=1;
+        OrangeGhost orangeGhost = new OrangeGhost(findViewById(R.id.orangeGhost), m, handlerRed);
+        orangeGhost.start();
+        orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
 
+        PinkGhost pinkGhost = new PinkGhost(findViewById(R.id.pinkGhost), m, handlerRed);
+        pinkGhost.start();
+        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+
+
+        handlerRed = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                redGhost.getMap()[13][11]=0;
+                redGhost.changeMove(4);
+                redGhost.getMap()[13][11]=1;
+            }
+        };
+
+        handlerBlue = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                blueGhost.getMap()[12][11]=0;
+                blueGhost.changeMove(4);
+                blueGhost.getMap()[12][11]=1;
+            }
+        };
+        handlerOrange = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                orangeGhost.getMap()[13][11]=0;
+                orangeGhost.changeMove(4);
+                orangeGhost.getMap()[13][11]=1;
+            }
+        };
+        handlerPink = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                pinkGhost.getMap()[12][11]=0;
+                pinkGhost.changeMove(4);
+                pinkGhost.getMap()[12][11]=1;
+            }
+        };
+
+        AppearingGhostsThread thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
-        layout.setOnClickListener(new ChangeMoveOnClickListener(pacman));
+        layout.setOnClickListener(new ChangeMoveOnClickListener(pacman, thread));
 
+
+
+
+       // thread.start();
 
 
     }
@@ -328,12 +377,18 @@ public class GameUsualActivity extends AppCompatActivity {
     //listener for the end of the swap, that change pacman movement
     private class ChangeMoveOnClickListener implements View.OnClickListener{
         Pacman pacman;
-
-        ChangeMoveOnClickListener(Pacman pacman) {
+        boolean run = false;
+        AppearingGhostsThread thread;
+        ChangeMoveOnClickListener(Pacman pacman, AppearingGhostsThread thread) {
             this.pacman = pacman;
+            this.thread = thread;
         }
         @Override
         public void onClick(View v) {
+            if (!run){
+                run = true;
+                thread.start();
+            }
             first[0] = true;
             int differenceX = clickX[0] - clickStartX[0];
             int differenceY = clickY[0] - clickStartY[0];
