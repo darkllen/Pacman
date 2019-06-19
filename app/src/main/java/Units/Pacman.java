@@ -35,6 +35,7 @@ public class Pacman extends Unit {
 
     long starttime = -1;
     long seconds=-1;
+    long pauseTime=-1;
     int secondsForBerry=9;//time (in seconds) given to take the berry
 
 
@@ -51,6 +52,8 @@ public class Pacman extends Unit {
 
     @Override
     public void run() {
+        //if(Thread.currentThread().isInterrupted()) {return;}
+       // if(Unit.getIsPaused()){return;}
         //set pacman animation and start location
         this.getImageView().setBackgroundResource(R.drawable.pacman_move_animation);
         AnimationDrawable pacmanAnimation = (AnimationDrawable) this.getImageView().getBackground();
@@ -69,6 +72,7 @@ public class Pacman extends Unit {
 
 
         while (true){
+           // if(Unit.getIsPaused()){return;}
             int currX = (Math.round(( this.getImageView().getX())/(1080/26)));
             int currY = Math.round ((( this.getImageView().getY()-100)/(1080/26)));
             map[xMap][yMap] = 0;
@@ -125,17 +129,27 @@ public class Pacman extends Unit {
             }
 
             if(starttime!=-1) {
-                seconds = ((int)System.currentTimeMillis() / 1000) - starttime;
-                if (seconds >= secondsForBerry) {//remove berry
-                    Map.setOneBonus(12, 16, 0);
-                    Message msg = new Message();
-                    msg.obj = 12 + " " + 16;
-                    msg.arg1 = 12;
-                    msg.arg2 = 16;
-                    this.getHandler().sendMessage(msg);
-                    starttime=-1;
-                    seconds=-1;
-                }
+                if (GameUsualActivity.getIsPaused()){
+                    if (pauseTime == -1) pauseTime = seconds;}
+                    else {
+                        if(pauseTime!=-1){
+                            starttime=((int)System.currentTimeMillis()/1000)-pauseTime;
+                            pauseTime=-1;
+                        }
+
+                        seconds = ((int) System.currentTimeMillis() / 1000) - starttime;
+
+                        if (seconds >= secondsForBerry) {//remove berry
+                            Map.setOneBonus(12, 16, 0);
+                            Message msg = new Message();
+                            msg.obj = 12 + " " + 16;
+                            msg.arg1 = 12;
+                            msg.arg2 = 16;
+                            this.getHandler().sendMessage(msg);
+                            starttime = -1;
+                            seconds = -1;
+                        }
+                    }
             }
 
 

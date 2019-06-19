@@ -2,6 +2,7 @@ package Menu;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -13,6 +14,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ import Units.OrangeGhost;
 import Units.Pacman;
 import Units.PinkGhost;
 import Units.RedGhost;
+import Units.Unit;
+
 
 //class for classic game
 public class GameUsualActivity extends AppCompatActivity {
@@ -55,14 +59,22 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerPink;
 
 
-   private ImageView imageBerryView;
+    private ImageView imageBerryView;
 
     private TextView scoreTextView;
-   // private TextView livesTextView;
+    // private TextView livesTextView;
+    private TextView pauseTextView;
 
-    private static int livesStartNumber=3;
+    private static int livesStartNumber = 3;
 
+    private Button pauseButton;
+    private static boolean isPaused=false;
 
+    Pacman pacman;
+    RedGhost redGhost;
+    OrangeGhost orangeGhost;
+    PinkGhost pinkGhost;
+    BlueGhost blueGhost;
 
 
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
@@ -74,20 +86,26 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-        pacman_begin = MediaPlayer.create(this,R.raw.pacman_beginning);
-        if(SettingsActivity.getMusicEnabled())pacman_begin.start();
+        Button menuButton = findViewById(R.id.menu_button);
+        menuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        pacman_begin = MediaPlayer.create(this, R.raw.pacman_beginning);
+        if (SettingsActivity.getMusicEnabled()) pacman_begin.start();
         pacman_police = MediaPlayer.create(this, R.raw.pacman_police);
 
 
         pacman_begin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if(SettingsActivity.getMusicEnabled())pacman_police.start();
-                if(SettingsActivity.getMusicEnabled())pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+                if (SettingsActivity.getMusicEnabled()) pacman_police.start();
+                if (SettingsActivity.getMusicEnabled())
+                    pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
                 //pacman_police.setVolume(100,100);//??
             }
         });
-
 
 
         //int side = 1000/30;
@@ -96,125 +114,202 @@ public class GameUsualActivity extends AppCompatActivity {
 //        display.getSize(size);
 //        int width = size.x;
 //        int height = size.y;
-        int width=1080;
-        int side=width/26;
+        int width = 1080;
+        int side = width / 26;
 
         layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
         Map map = Map.generateMap();
         int[][] m = map.getMap();
 
-        scoreTextView=findViewById(R.id.scoreTextView);
-       TextView livesTextView=findViewById(R.id.livesTextView);
-       if(SettingsActivity.getLanguage().equals("English")){
-           scoreTextView.setText("Score = 0");
-           livesTextView.setText("Lives:");
-       }
-       if(SettingsActivity.getLanguage().equals("Ukranian")){
-           scoreTextView.setText("Рахунок = 0");
-           livesTextView.setText("Життя:");
-       }
+        scoreTextView = findViewById(R.id.scoreTextView);
+        TextView livesTextView = findViewById(R.id.livesTextView);
+        pauseButton=findViewById(R.id.pause_button);
+        pauseTextView=findViewById(R.id.pauseTextView);
+
+        if (SettingsActivity.getLanguage().equals("English")) {
+            scoreTextView.setText("Score = 0");
+            livesTextView.setText("Lives:");
+            pauseButton.setText("PAUSE");
+            pauseTextView.setText("PAUSE");
+
+        }
+        if (SettingsActivity.getLanguage().equals("Ukranian")) {
+            scoreTextView.setText("Рахунок = 0");
+            livesTextView.setText("Життя:");
+            pauseButton.setText("ПАУЗА");
+            pauseTextView.setText("ПАУЗА");
+
+        }
+
+        pauseTextView.setVisibility(View.INVISIBLE);
+
+
 //        livesTextView.setX(side-5);
 //        livesTextView.setY((m[0].length+2) * side + 300);
 
         ImageView[][] views = new ImageView[m.length][m[1].length];
 
-        imageBerryView=new ImageView(this);
-        ConstraintLayout.LayoutParams paramss = new ConstraintLayout.LayoutParams(side,side);
+        imageBerryView = new ImageView(this);
+        ConstraintLayout.LayoutParams paramss = new ConstraintLayout.LayoutParams(side, side);
         imageBerryView.setLayoutParams(paramss);
         imageBerryView.setX(12 * side);
         imageBerryView.setY(16 * side + 100);
 
-        for (int i = 0; i<m.length;i++){
-            for (int j = 0; j<m[i].length;j++){
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[i].length; j++) {
                 ImageView imageView = new ImageView(this);
 
-                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side,side);
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
                 imageView.setLayoutParams(params);
 
 
-
                 // add images
-                int left,right,up,down;//numbers on the sides
-                boolean p=true;
+                int left, right, up, down;//numbers on the sides
+                boolean p = true;
 
                 //границі
-                if(i==1||i==m.length-2)  {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(0);p=false;}
-                if(j==0||j==m[0].length-1)   {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);p=false;}
+                if (i == 1 || i == m.length - 2) {
+                    imageView.setImageResource(R.drawable.tile2);
+                    imageView.setRotation(0);
+                    p = false;
+                }
+                if (j == 0 || j == m[0].length - 1) {
+                    imageView.setImageResource(R.drawable.tile2);
+                    imageView.setRotation(90);
+                    p = false;
+                }
                 //кути
-                if(i==1&&j==m[0].length-1){imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);p=false;}
-                if(i==m.length-2&&j==0) {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(270);p=false;}
-                if(i==1&&j==0)  {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);p=false;}
-                if(i==m.length-2&&j==m[0].length-1) {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);p=false;}
+                if (i == 1 && j == m[0].length - 1) {
+                    imageView.setImageResource(R.drawable.tile1);
+                    imageView.setRotation(90);
+                    p = false;
+                }
+                if (i == m.length - 2 && j == 0) {
+                    imageView.setImageResource(R.drawable.tile1);
+                    imageView.setRotation(270);
+                    p = false;
+                }
+                if (i == 1 && j == 0) {
+                    imageView.setImageResource(R.drawable.tile1);
+                    imageView.setRotation(180);
+                    p = false;
+                }
+                if (i == m.length - 2 && j == m[0].length - 1) {
+                    imageView.setImageResource(R.drawable.tile1);
+                    imageView.setRotation(0);
+                    p = false;
+                }
 
                 //поворот в тунель
-                if (p==false){
-                    if(i==1&&m[0][j]==1&&m[1][j+1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
-                    if(i==1&&m[0][j]==1&&m[1][j-1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
-                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j-1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
-                    if(i==m.length-2&&m[m.length-1][j]==1&&m[m.length-2][j+1]==-1)  { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
+                if (p == false) {
+                    if (i == 1 && m[0][j] == 1 && m[1][j + 1] == -1) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(0);
+                    }
+                    if (i == 1 && m[0][j] == 1 && m[1][j - 1] == -1) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(-90);
+                    }
+                    if (i == m.length - 2 && m[m.length - 1][j] == 1 && m[m.length - 2][j - 1] == -1) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(180);
+                    }
+                    if (i == m.length - 2 && m[m.length - 1][j] == 1 && m[m.length - 2][j + 1] == -1) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(90);
+                    }
 
 
                 }
 
                 //порожні клітинки
-                if (m[i][j]==0||m[i][j]==-1) {imageView.setImageResource(R.drawable.tile3);}
+                if (m[i][j] == 0 || m[i][j] == -1) {
+                    imageView.setImageResource(R.drawable.tile3);
+                }
                 //порожні клітинки та тунель
-                if(i==0||i==m.length-1){p=false;if(m[i][j]==1){imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}}
+                if (i == 0 || i == m.length - 1) {
+                    p = false;
+                    if (m[i][j] == 1) {
+                        imageView.setImageResource(R.drawable.tile2);
+                        imageView.setRotation(90);
+                    }
+                }
                 //непорожні клітинки
-                if(m[i][j]==1&&p){
-                        left=m[i-1][j];
-                        right=m[i+1][j];
-                        up=m[i][j-1];
-                        down=m[i][j+1];
+                if (m[i][j] == 1 && p) {
+                    left = m[i - 1][j];
+                    right = m[i + 1][j];
+                    up = m[i][j - 1];
+                    down = m[i][j + 1];
 
-                        if(left==-2)left=1;if(right==-2)right=1;if(down==-2)down=1;if(up==-2)up=1;
+                    if (left == -2) left = 1;
+                    if (right == -2) right = 1;
+                    if (down == -2) down = 1;
+                    if (up == -2) up = 1;
 
-                        //полостки
-                    if(left==1&&right==1)
-                    {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(90);}
+                    //полостки
+                    if (left == 1 && right == 1) {
+                        imageView.setImageResource(R.drawable.tile2);
+                        imageView.setRotation(90);
+                    }
 
-                    if(up==1&&down==1)
-                    {imageView.setImageResource(R.drawable.tile2);imageView.setRotation(0);}
+                    if (up == 1 && down == 1) {
+                        imageView.setImageResource(R.drawable.tile2);
+                        imageView.setRotation(0);
+                    }
 
                     //пусті місця всередині
                     //if(left==1&&right==1&&up==1&&down==1&&m[i-1][j-1]==0&&m[i+1][j-1]==0&&m[i-1][j+1]==0&&m[i+1][j+1]==0)
-                    if(left==1&&right==1&&up==1&&down==1)
-                    { imageView.setImageResource(R.drawable.tile3);imageView.setRotation(0);}
+                    if (left == 1 && right == 1 && up == 1 && down == 1) {
+                        imageView.setImageResource(R.drawable.tile3);
+                        imageView.setRotation(0);
+                    }
 
                     //кути
-                    if((right==0&&down==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j-1]==0))
-                    { imageView.setImageResource(R.drawable.tile1);imageView.setRotation(0);}
+                    if ((right == 0 && down == 0) || (left == 1 && right == 1 && up == 1 && down == 1 && m[i - 1][j - 1] == 0)) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(0);
+                    }
 
-                    if((left==0&&down==0)||(left==1&&right==1&&up==1&&down==1&&m[i+1][j-1]==0))
-                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(90);}
+                    if ((left == 0 && down == 0) || (left == 1 && right == 1 && up == 1 && down == 1 && m[i + 1][j - 1] == 0)) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(90);
+                    }
 
-                    if((left==0&&up==0)||(left==1&&right==1&&up==1&&down==1&&m[i+1][j+1]==0))
-                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(180);}
+                    if ((left == 0 && up == 0) || (left == 1 && right == 1 && up == 1 && down == 1 && m[i + 1][j + 1] == 0)) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(180);
+                    }
 
-                    if((right==0&&up==0)||(left==1&&right==1&&up==1&&down==1&&m[i-1][j+1]==0))
-                    {imageView.setImageResource(R.drawable.tile1);imageView.setRotation(-90);}
-}
+                    if ((right == 0 && up == 0) || (left == 1 && right == 1 && up == 1 && down == 1 && m[i - 1][j + 1] == 0)) {
+                        imageView.setImageResource(R.drawable.tile1);
+                        imageView.setRotation(-90);
+                    }
+                }
                 //вхід до монстрів
-                if(m[i][j]==-2){imageView.setImageResource(R.drawable.tile4);m[i][j]=1;}
+                if (m[i][j] == -2) {
+                    imageView.setImageResource(R.drawable.tile4);
+                    m[i][j] = 1;
+                }
 
-                 imageView.setX(i*side);
-                imageView.setY(j*side+100);
+                imageView.setX(i * side);
+                imageView.setY(j * side + 100);
                 layout.addView(imageView);
             }
         }
 
         //add bonus
-        Bonus.Point[][]bonus=map.getBonus();
-        for (int i = 0; i<m.length;i++) {
+        Bonus.Point[][] bonus = map.getBonus();
+        for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
                 ImageView imageView = new ImageView(this);
                 views[i][j] = imageView;
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
                 imageView.setLayoutParams(params);
 
-                if(bonus[i][j].getType()==1)imageView.setImageResource(R.drawable.point);else
-                if(bonus[i][j].getType()==2)imageView.setImageResource(R.drawable.big_point);
+                if (bonus[i][j].getType() == 1) imageView.setImageResource(R.drawable.point);
+                else if (bonus[i][j].getType() == 2)
+                    imageView.setImageResource(R.drawable.big_point);
 
                 imageView.setX(i * side);
                 imageView.setY(j * side + 100);
@@ -223,15 +318,15 @@ public class GameUsualActivity extends AppCompatActivity {
         }
 
         //add pacman lives
-        ImageView []lives = new ImageView[livesStartNumber];
-        for(int i=0;i<livesStartNumber;i++){
-            ImageView imageView=new ImageView(this);
-            lives[i]=imageView;
+        ImageView[] lives = new ImageView[livesStartNumber];
+        for (int i = 0; i < livesStartNumber; i++) {
+            ImageView imageView = new ImageView(this);
+            lives[i] = imageView;
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
             imageView.setLayoutParams(params);
             imageView.setImageResource(R.drawable.pacman4);
-            imageView.setX((i+2) * side+i*5+5);
-            imageView.setY((m[i].length+2) * side + 100);
+            imageView.setX((i + 2) * side + i * 5 + 5);
+            imageView.setY((m[i].length + 2) * side + 100);
             layout.addView(imageView);
         }
 
@@ -245,10 +340,10 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerBonus = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                layout.removeView( views[12][16]);
+                layout.removeView(views[12][16]);
                 generateBonusBerryImage();
-               views[12][16]=imageBerryView;
-               layout.addView(imageBerryView);
+                views[12][16] = imageBerryView;
+                layout.addView(imageBerryView);
             }
         };
 
@@ -267,60 +362,62 @@ public class GameUsualActivity extends AppCompatActivity {
         };
 
 
-
-
         //create new Thread for pacman unit
-        Pacman pacman = new Pacman(findViewById(R.id.image), m, handlerPacman,handlerBonus,handlerScore,handlerLives,this);
+        pacman = new Pacman(findViewById(R.id.image), m, handlerPacman, handlerBonus, handlerScore, handlerLives, this);
         pacman.start();
 
-        RedGhost redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
+        redGhost = new RedGhost(findViewById(R.id.redGhost), m, handlerRed);
         redGhost.start();
         redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
+        redGhost.setPrev(4);
 
-        BlueGhost blueGhost = new BlueGhost(findViewById(R.id.blueGhost), m, handlerRed);
+        blueGhost = new BlueGhost(findViewById(R.id.blueGhost), m, handlerRed);
         blueGhost.start();
         blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
+        blueGhost.setPrev(4);
 
-        OrangeGhost orangeGhost = new OrangeGhost(findViewById(R.id.orangeGhost), m, handlerRed);
+        orangeGhost = new OrangeGhost(findViewById(R.id.orangeGhost), m, handlerRed);
         orangeGhost.start();
         orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
+        orangeGhost.setPrev(4);
 
-        PinkGhost pinkGhost = new PinkGhost(findViewById(R.id.pinkGhost), m, handlerRed);
+        pinkGhost = new PinkGhost(findViewById(R.id.pinkGhost), m, handlerRed);
         pinkGhost.start();
         pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+        pinkGhost.setPrev(4);
 
 
         handlerRed = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                redGhost.getMap()[13][11]=0;
+                redGhost.getMap()[13][11] = 0;
                 redGhost.changeMove(4);
-                redGhost.getMap()[13][11]=1;
+                redGhost.getMap()[13][11] = 1;
             }
         };
 
         handlerBlue = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                blueGhost.getMap()[12][11]=0;
+                blueGhost.getMap()[12][11] = 0;
                 blueGhost.changeMove(4);
-                blueGhost.getMap()[12][11]=1;
+                blueGhost.getMap()[12][11] = 1;
             }
         };
         handlerOrange = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                orangeGhost.getMap()[13][11]=0;
+                orangeGhost.getMap()[13][11] = 0;
                 orangeGhost.changeMove(4);
-                orangeGhost.getMap()[13][11]=1;
+                orangeGhost.getMap()[13][11] = 1;
             }
         };
         handlerPink = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                pinkGhost.getMap()[12][11]=0;
+                pinkGhost.getMap()[12][11] = 0;
                 pinkGhost.changeMove(4);
-                pinkGhost.getMap()[12][11]=1;
+                pinkGhost.getMap()[12][11] = 1;
             }
         };
 
@@ -330,41 +427,49 @@ public class GameUsualActivity extends AppCompatActivity {
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman, thread));
 
 
-
-
-       // thread.start();
+        // thread.start();
 
 
     }
 
-    public void generateBonusBerryImage(){
-            Random r=new Random();
-            switch (r.nextInt(4)){
-                case 0:imageBerryView.setImageResource(R.drawable.cherry);break;
-                case 1:imageBerryView.setImageResource(R.drawable.berry);break;
-                case 2:imageBerryView.setImageResource(R.drawable.peach);break;
-                case 3:imageBerryView.setImageResource(R.drawable.apple);break;
-            }
+    public void generateBonusBerryImage() {
+        Random r = new Random();
+        switch (r.nextInt(4)) {
+            case 0:
+                imageBerryView.setImageResource(R.drawable.cherry);
+                break;
+            case 1:
+                imageBerryView.setImageResource(R.drawable.berry);
+                break;
+            case 2:
+                imageBerryView.setImageResource(R.drawable.peach);
+                break;
+            case 3:
+                imageBerryView.setImageResource(R.drawable.apple);
+                break;
+        }
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        if(SettingsActivity.getMusicEnabled())pacman_police.pause();
+        if (SettingsActivity.getMusicEnabled()) pacman_police.pause();
         // stop the clock
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        if(SettingsActivity.getMusicEnabled())pacman_police.start();
+        if (SettingsActivity.getMusicEnabled()) pacman_police.start();
     }
 
     //listener for record x and y to decide side of swap
-    private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener{
+    private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (first[0]){
+            if (first[0]) {
                 clickStartX[0] = (int) event.getX();
                 clickStartY[0] = (int) event.getY();
                 first[0] = false;
@@ -374,50 +479,104 @@ public class GameUsualActivity extends AppCompatActivity {
             return false;
         }
     }
+
     //listener for the end of the swap, that change pacman movement
-    private class ChangeMoveOnClickListener implements View.OnClickListener{
+    private class ChangeMoveOnClickListener implements View.OnClickListener {
         Pacman pacman;
         boolean run = false;
         AppearingGhostsThread thread;
+
         ChangeMoveOnClickListener(Pacman pacman, AppearingGhostsThread thread) {
             this.pacman = pacman;
             this.thread = thread;
         }
+
         @Override
         public void onClick(View v) {
-            if (!run){
+            if (!run) {
                 run = true;
                 thread.start();
             }
             first[0] = true;
             int differenceX = clickX[0] - clickStartX[0];
             int differenceY = clickY[0] - clickStartY[0];
-            if (Math.abs(differenceX)>=Math.abs(differenceY)){
-                if (differenceX>0){
+            if (Math.abs(differenceX) >= Math.abs(differenceY)) {
+                if (differenceX > 0) {
                     click[0] = 1;
-                }else {
+                } else {
                     click[0] = 2;
                 }
-            }else {
-                if (differenceY>0){
-                    click[0] =3;
-                }else {
-                    click[0] =4;
+            } else {
+                if (differenceY > 0) {
+                    click[0] = 3;
+                } else {
+                    click[0] = 4;
                 }
             }
             pacman.changeMove(click[0]);
         }
     }
 
-    public void setScoreTextView(int s){
+    public void setScoreTextView(int s) {
         if (SettingsActivity.getLanguage().equals("English"))
-        scoreTextView.setText("Score = "+s);
-        if(SettingsActivity.getLanguage().equals("Ukranian"))
-            scoreTextView.setText("Рахунок = "+s);
+            scoreTextView.setText("Score = " + s);
+        if (SettingsActivity.getLanguage().equals("Ukranian"))
+            scoreTextView.setText("Рахунок = " + s);
     }
 
     public static int getLivesStartNumber() {
         return livesStartNumber;
+    }
+
+
+    public void PausePushed(View view) {
+        if(!isPaused){
+            isPaused=true;
+
+            if (SettingsActivity.getLanguage().equals("English")) {
+                pauseButton.setText("START");
+            }
+            if (SettingsActivity.getLanguage().equals("Ukranian")) {
+                pauseButton.setText("СТАРТ");
+            }
+
+            pauseTextView.setVisibility(View.VISIBLE);
+            pauseTextView.bringToFront();
+           // pacman.interrupt();
+            GameUsualActivity.setIsPaused(true);
+            pacman.changeMove(pacman.getPrev());
+            redGhost.changeMove(redGhost.getPrev());
+            blueGhost.changeMove(blueGhost.getPrev());
+            orangeGhost.changeMove(orangeGhost.getPrev());
+            pinkGhost.changeMove(pinkGhost.getPrev());
+
+        }else{
+            isPaused=false;
+
+            if (SettingsActivity.getLanguage().equals("English")) {
+                pauseButton.setText("PAUSE");
+            }
+            if (SettingsActivity.getLanguage().equals("Ukranian")) {
+                pauseButton.setText("ПАУЗА");
+            }
+            pauseTextView.setVisibility(View.INVISIBLE);
+
+            GameUsualActivity.setIsPaused(false);
+            pacman.changeMove(pacman.getPrev());
+            redGhost.changeMove(redGhost.getPrev());
+            blueGhost.changeMove(blueGhost.getPrev());
+            orangeGhost.changeMove(orangeGhost.getPrev());
+            pinkGhost.changeMove(pinkGhost.getPrev());
+        }
+
+    }
+
+    public static boolean getIsPaused(){
+        return isPaused;
+    }
+
+    public static void setIsPaused(boolean isPaused) {
+        GameUsualActivity.isPaused = isPaused;
     }
 }
 

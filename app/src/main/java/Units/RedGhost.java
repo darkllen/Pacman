@@ -4,13 +4,17 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
+
+import Menu.GameUsualActivity;
 
 public class RedGhost extends Unit {
 
@@ -43,8 +47,15 @@ public class RedGhost extends Unit {
         ghostAnimation.start();
     }
 
+   // @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void changeMove(int change) {
+//        if(Unit.getIsPaused()){set[0].pause();
+//             return;}
+//        if(set[0].isPaused())
+//            set[0].resume();
+        if(GameUsualActivity.getIsPaused()){set[0].cancel();return;}
+
         int currX = (Math.round(( imageView.getX())/(1080/26)));
         int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
         map[xMap][yMap] = 0;

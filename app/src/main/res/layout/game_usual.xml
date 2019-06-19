@@ -94,6 +94,65 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81"/>
+        app:layout_constraintVertical_bias="0.81" />
+
+    <TextView
+        android:id="@+id/pauseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:text="PAUSE"
+        android:textColor="@color/white"
+        android:textSize="90sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.448" />
+
+    <Button
+        android:id="@+id/pause_button"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:background="@drawable/buttonshape"
+        android:onClick="PausePushed"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="4"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:text="PAUSE"
+        android:textColor="#0011FF"
+        android:textSize="15sp"
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.900"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <Button
+        android:id="@+id/menu_button"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="4"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:text="MENU"
+        android:textColor="#0011FF"
+        android:textSize="15sp"
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.649"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01" />
 
 </android.support.constraint.ConstraintLayout>

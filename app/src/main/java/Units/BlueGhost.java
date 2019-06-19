@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.example.pacman.R;
 
+import Menu.GameUsualActivity;
+
 public class BlueGhost extends Unit {
     public BlueGhost(ImageView imageView, int[][] map, Handler handler) {
         super(imageView, map, handler);
@@ -42,6 +44,8 @@ public class BlueGhost extends Unit {
 
     @Override
     public void changeMove(int change) {
+        if(GameUsualActivity.getIsPaused()){set[0].cancel();return;}
+
         int currX = (Math.round(( imageView.getX())/(1080/26)));
         int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
         map[xMap][yMap] = 0;

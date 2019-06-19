@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import Menu.GameUsualActivity;
+
 public abstract class Unit extends Thread {
     //constants, shouldnt be changed in running time
     ImageView imageView;
@@ -35,6 +37,7 @@ public abstract class Unit extends Thread {
 
     //values in numbers are tested and not accurate(
     Handler handler;
+
 
     public static boolean inversionMode;
 
@@ -65,6 +68,8 @@ public abstract class Unit extends Thread {
      *               area and speed depends on global variables and calculated each time.
      */
     public void changeMove(int change){
+       // if(Thread.currentThread().isInterrupted()) {return;}
+        if(GameUsualActivity.getIsPaused()){set[0].cancel();return;}
         //set current location on swap
         int currX = (Math.round(( imageView.getX())/(1080/26)));
         int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
@@ -302,4 +307,7 @@ public abstract class Unit extends Thread {
     public void setPrev(int prev) {
         this.prev = prev;
     }
+
+
+
 }
