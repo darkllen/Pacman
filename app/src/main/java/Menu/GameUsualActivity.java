@@ -91,6 +91,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
+            pacman.setLives(3);
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
         });
@@ -600,25 +601,16 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isPaused=false;
+                pacman.setLives(3);
                 Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
                 startActivity(intent);
 
             }
         });
-//        int seconds=((int)System.currentTimeMillis()/1000);
-//        while(((int)System.currentTimeMillis()/1000)-seconds<=5){}
 
-//        Handler handler = new Handler();
-//
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                //finish();
-//                Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//        }, 5000);
 
-        livesStartNumber=3;
+
 
         }
 

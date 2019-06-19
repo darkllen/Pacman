@@ -79,6 +79,11 @@ public class Pacman extends Unit {
             xMap = currX;
             yMap = currY;
 
+
+            //TODO eEXCEPTION E/AndroidRuntime: FATAL EXCEPTION: Thread-124
+            //    Process: com.example.pacman, PID: 18141
+            //    java.lang.ArrayIndexOutOfBoundsException: length=26; index=26
+            //        at Units.Pacman.run(Pacman.java:82)
 if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
 
@@ -161,5 +166,7 @@ if(Map.getBonus()[xMap][yMap]!=null)
         }
     }
 
-
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
 }
