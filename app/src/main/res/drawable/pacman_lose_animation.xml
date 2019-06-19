@@ -3,7 +3,7 @@
 
     <item
         android:drawable="@drawable/pacman1"
-        android:duration="100"/>
+        android:duration="100" />
 
     <item
         android:drawable="@drawable/pacman_lose2"
@@ -48,5 +48,6 @@
     <item
         android:drawable="@drawable/pacman_lose12"
         android:duration="100"/>
+
 
 </animation-list>

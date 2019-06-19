@@ -79,18 +79,23 @@ public class Pacman extends Unit {
             xMap = currX;
             yMap = currY;
 
-
+if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
 
 
                 if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе
-                    if(lives!=0)lives--;
+                   // if(lives!=0)
+                    //todo add losing pacman animation
+                    lives--;
                     if( SettingsActivity.getSoundEnabled())musicThreadDeath.play();
                     Message msg3 = new Message();
                     msg3.obj = " ";
                     msg3.arg1 = lives;
                     msg3.arg2 = 0;
                     handlerLives.sendMessage(msg3);
+//                    if(lives==0) {
+//                        gUA.gameLose();
+//                    }
                 }
 
 

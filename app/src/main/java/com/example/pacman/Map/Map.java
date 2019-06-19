@@ -44,6 +44,12 @@ public class Map {
      * @return згенеровану карту
      */
     public static Map generateMap() {
+        height = y * 3 + 3;
+        width = x * 3 + (x - 1) * 3 + 5;
+        startMap = new int[y + 2][x + 2];
+        map = new int[height][width];
+        bonus=new Point[height][width];
+        //System.out.println(y+" "+x+" "+width+" "+height);
         fillStartMap();
 
         figureNumber++;
@@ -274,6 +280,9 @@ public class Map {
         startMap[5][1] = 1;
 
         //границі карти для гри
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                map[i][j] = 0;
         for (int i = 0; i < height; i++)
             for (int j = 1; j < width-1; j++)
                 map[i][j] = 1;

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -59,15 +60,17 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerPink;
 
 
+
     private ImageView imageBerryView;
 
     private TextView scoreTextView;
     // private TextView livesTextView;
     private TextView pauseTextView;
 
-    private static int livesStartNumber = 3;
+    private static int livesStartNumber =3;
 
     private Button pauseButton;
+    private  Button menuButton;
     private static boolean isPaused=false;
 
     Pacman pacman;
@@ -86,7 +89,7 @@ public class GameUsualActivity extends AppCompatActivity {
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
-        Button menuButton = findViewById(R.id.menu_button);
+        menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
@@ -132,6 +135,7 @@ public class GameUsualActivity extends AppCompatActivity {
             livesTextView.setText("Lives:");
             pauseButton.setText("PAUSE");
             pauseTextView.setText("PAUSE");
+            menuButton.setText("MENU");
 
         }
         if (SettingsActivity.getLanguage().equals("Ukranian")) {
@@ -139,7 +143,7 @@ public class GameUsualActivity extends AppCompatActivity {
             livesTextView.setText("Життя:");
             pauseButton.setText("ПАУЗА");
             pauseTextView.setText("ПАУЗА");
-
+            menuButton.setText("МЕНЮ");
         }
 
         pauseTextView.setVisibility(View.INVISIBLE);
@@ -357,7 +361,8 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerLives = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                layout.removeView(lives[msg.arg1]);
+if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
+                if(msg.arg1==0)gameLose();
             }
         };
 
@@ -543,7 +548,7 @@ public class GameUsualActivity extends AppCompatActivity {
             pauseTextView.setVisibility(View.VISIBLE);
             pauseTextView.bringToFront();
            // pacman.interrupt();
-            GameUsualActivity.setIsPaused(true);
+            //GameUsualActivity.setIsPaused(true);
             pacman.changeMove(pacman.getPrev());
             redGhost.changeMove(redGhost.getPrev());
             blueGhost.changeMove(blueGhost.getPrev());
@@ -561,7 +566,7 @@ public class GameUsualActivity extends AppCompatActivity {
             }
             pauseTextView.setVisibility(View.INVISIBLE);
 
-            GameUsualActivity.setIsPaused(false);
+           // GameUsualActivity.setIsPaused(false);
             pacman.changeMove(pacman.getPrev());
             redGhost.changeMove(redGhost.getPrev());
             blueGhost.changeMove(blueGhost.getPrev());
@@ -570,6 +575,52 @@ public class GameUsualActivity extends AppCompatActivity {
         }
 
     }
+
+    public void gameLose(){
+       //todo put monsters on pause correct
+        isPaused=true;
+
+        pacman.changeMove(pacman.getPrev());
+        redGhost.changeMove(redGhost.getPrev());
+        blueGhost.changeMove(blueGhost.getPrev());
+        orangeGhost.changeMove(orangeGhost.getPrev());
+        pinkGhost.changeMove(pinkGhost.getPrev());
+
+
+        pauseTextView.setVisibility(View.VISIBLE);
+        pauseTextView.bringToFront();
+        pauseTextView.setTextSize(70);
+        if (SettingsActivity.getLanguage().equals("English")) {
+            pauseTextView.setText("GAME OVER");}
+        if (SettingsActivity.getLanguage().equals("Ukranian")) {
+            pauseTextView.setTextSize(60);
+            pauseTextView.setText("ВИ ПРОГРАЛИ");}
+
+        ConstraintLayout layout = findViewById(R.id.pacmanLayout);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+//        int seconds=((int)System.currentTimeMillis()/1000);
+//        while(((int)System.currentTimeMillis()/1000)-seconds<=5){}
+
+//        Handler handler = new Handler();
+//
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                //finish();
+//                Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        }, 5000);
+
+        livesStartNumber=3;
+
+        }
 
     public static boolean getIsPaused(){
         return isPaused;
