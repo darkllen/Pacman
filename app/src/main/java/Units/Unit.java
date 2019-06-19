@@ -69,7 +69,7 @@ public abstract class Unit extends Thread {
      */
     public void changeMove(int change){
        // if(Thread.currentThread().isInterrupted()) {return;}
-        if(GameUsualActivity.getIsPaused()){set[0].cancel();return;}
+
         //set current location on swap
         int currX = (Math.round(( imageView.getX())/(1080/26)));
         int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
@@ -84,6 +84,7 @@ public abstract class Unit extends Thread {
         long time;
         int t = 0;
 
+        if(GameUsualActivity.getIsPaused()){set[0].cancel();return;}
         if(inversionMode){if(change%2==1)change++;else change--;}
 
         switch (change){

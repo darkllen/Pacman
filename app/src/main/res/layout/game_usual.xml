@@ -117,7 +117,6 @@
         android:layout_width="80dp"
         android:layout_height="25dp"
         android:background="@drawable/buttonshape"
-        android:onClick="PausePushed"
         android:shadowColor="#A8A8A8"
         android:shadowDx="4"
         android:shadowDy="2"

@@ -28,13 +28,13 @@ public class AppearingGhostsThread extends Thread {
         }
         handlerPink.sendMessage(new Message());
         try {
-            sleep(5000);
+            sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         handlerOrange.sendMessage(new Message());
         try {
-            sleep(5000);
+            sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

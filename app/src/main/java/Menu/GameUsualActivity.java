@@ -7,10 +7,12 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -59,7 +61,7 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerOrange;
     private Handler handlerPink;
 
-
+    Map map;
 
     private ImageView imageBerryView;
 
@@ -79,7 +81,10 @@ public class GameUsualActivity extends AppCompatActivity {
     PinkGhost pinkGhost;
     BlueGhost blueGhost;
 
+    AppearingGhostsThread thread = null;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,9 +96,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
-            pacman.setLives(3);
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
+            android.os.Process.killProcess(android.os.Process.myPid());
         });
 
         pacman_begin = MediaPlayer.create(this, R.raw.pacman_beginning);
@@ -123,7 +128,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
         layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
-        Map map = Map.generateMap();
+        map = Map.generateMap();
         int[][] m = map.getMap();
 
         scoreTextView = findViewById(R.id.scoreTextView);
@@ -427,10 +432,14 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
             }
         };
 
-        AppearingGhostsThread thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
+        thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman, thread));
+
+        pauseButton.setOnClickListener(x->{
+            PausePushed(x);
+        });
 
 
         // thread.start();
@@ -535,6 +544,7 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void PausePushed(View view) {
         if(!isPaused){
             isPaused=true;
@@ -548,13 +558,13 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
 
             pauseTextView.setVisibility(View.VISIBLE);
             pauseTextView.bringToFront();
-           // pacman.interrupt();
-            //GameUsualActivity.setIsPaused(true);
-            pacman.changeMove(pacman.getPrev());
-            redGhost.changeMove(redGhost.getPrev());
-            blueGhost.changeMove(blueGhost.getPrev());
-            orangeGhost.changeMove(orangeGhost.getPrev());
-            pinkGhost.changeMove(pinkGhost.getPrev());
+
+            pacman.getSet()[0].pause();
+            redGhost.getSet()[0].pause();
+            blueGhost.getSet()[0].pause();
+            orangeGhost.getSet()[0].pause();
+            pinkGhost.getSet()[0].pause();
+
 
         }else{
             isPaused=false;
@@ -567,12 +577,11 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
             }
             pauseTextView.setVisibility(View.INVISIBLE);
 
-           // GameUsualActivity.setIsPaused(false);
-            pacman.changeMove(pacman.getPrev());
-            redGhost.changeMove(redGhost.getPrev());
-            blueGhost.changeMove(blueGhost.getPrev());
-            orangeGhost.changeMove(orangeGhost.getPrev());
-            pinkGhost.changeMove(pinkGhost.getPrev());
+            pacman.getSet()[0].resume();
+            redGhost.getSet()[0].resume();
+            blueGhost.getSet()[0].resume();
+            orangeGhost.getSet()[0].resume();
+            pinkGhost.getSet()[0].resume();
         }
 
     }
@@ -601,18 +610,13 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isPaused=false;
-                pacman.setLives(3);
                 Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
                 startActivity(intent);
+                android.os.Process.killProcess(android.os.Process.myPid());
 
             }
         });
-
-
-
-
-        }
+    }
 
     public static boolean getIsPaused(){
         return isPaused;

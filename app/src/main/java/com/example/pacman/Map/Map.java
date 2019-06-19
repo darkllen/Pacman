@@ -44,6 +44,30 @@ public class Map {
      * @return згенеровану карту
      */
     public static Map generateMap() {
+
+          x = 4;
+          y = 9;
+          width = x * 3 + (x - 1) * 3 + 5;
+          height = y * 3 + 3;
+        //карта на яку накладаються фігури. не поле для гри
+        startMap = new int[y + 2][x + 2];
+        //карта для гри
+        //1-wall;0-empty;-1-tunnel; -2 - entarance for monster`s home
+         map = new int[height][width];
+        //map with images
+         imageMap=new ImageView[height][width];
+
+         bonus=new Point[height][width];
+
+         levelScore=0;
+         totalScore=0;
+
+         oneTileFiguresXArray=new ArrayList<>();
+         oneTileFiguresYArray=new ArrayList<>();
+
+
+        figureNumber = 1;
+
         height = y * 3 + 3;
         width = x * 3 + (x - 1) * 3 + 5;
         startMap = new int[y + 2][x + 2];
