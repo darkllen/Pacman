@@ -80,12 +80,12 @@ public class Pacman extends Unit {
             yMap = currY;
 
 
-            //TODO eEXCEPTION E/AndroidRuntime: FATAL EXCEPTION: Thread-124
-            //    Process: com.example.pacman, PID: 18141
-            //    java.lang.ArrayIndexOutOfBoundsException: length=26; index=26
-            //        at Units.Pacman.run(Pacman.java:82)
-if(Map.getBonus()[xMap][yMap]!=null)
+//if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
+
+                if(Map.getBonus()[xMap][yMap].getType()!=3){
+                    Map.setBonusNumber(Map.getBonusNumber()-1);
+                }
 
 
                 if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе

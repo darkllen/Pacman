@@ -36,6 +36,8 @@ public class Map {
 
     static int figureNumber = 1;
 
+    private static int bonusNumber;
+
     Map(int[][] map) {
         this.map = map;
     }
@@ -204,15 +206,17 @@ public class Map {
      * додає бонуси на карту
      */
     private static void addPoints() {
+        bonusNumber=0;
         //all map
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                if(map[i][j]==0&&(j>1&&j<width-2)) bonus[i][j]=new Point(j,i,1);
+                if(map[i][j]==0&&(j>1&&j<width-2)) {bonus[i][j]=new Point(j,i,1);bonusNumber++;}
                 else bonus[i][j]=new Point(j,i,0);
         //home for monsters
         for (int i = 10; i < 17; i++)
-            for (int j = 11-3; j < 21-3; j++)
-                bonus[i][j]=new Point(j,i,0);
+            for (int j = 11-3; j < 21-3; j++){
+                if(bonus[i][j].getType()!=0)   bonusNumber--;
+                bonus[i][j]=new Point(j,i,0);}
 
             //add 4 invisible bonus
             bonus[4][2]=new Point(2,4,2);
@@ -422,5 +426,13 @@ public class Map {
 
     public static void setOneBonus(int x,int y,int type){
         bonus[x][y]=new Point(x,y,type);
+    }
+
+    public static int getBonusNumber() {
+        return bonusNumber;
+    }
+
+    public static void setBonusNumber(int bonusNumber) {
+        Map.bonusNumber = bonusNumber;
     }
 }
