@@ -90,6 +90,10 @@ public abstract class Unit extends Thread {
         switch (change){
             case 1:
                 prev = 1;
+                xNew = imageView.getX();
+
+                if(xMap==map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
+
                 t = xMap;
                 for (int i = xMap; i<map.length; i++){
 
@@ -102,7 +106,9 @@ public abstract class Unit extends Thread {
                 }
                 rightDestination = 1080/26*(t);
                 imageView.setRotation(0);
-                xNew = imageView.getX();
+
+                //if(xNew==map.length*(1080/26)) xNew=0;
+
                 set[0].cancel();
                 set[0] = new AnimatorSet();
                 if (animatorListener!=null)set[0].addListener(animatorListener);
@@ -116,19 +122,24 @@ public abstract class Unit extends Thread {
                 break;
             case 2:
                 prev = 2;
+
+                xNew = imageView.getX();
+
+                if(xMap==2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
+
                 t = xMap;
-                for (int i = xMap; i>0;i--){
+                for (int i = xMap; i>=0;i--){//todo i>0
                     if (map[i][yMap]!=1){
                         t = i;
                     }else {
                         if (t ==xMap)return;
-
                         break;
                     }
                 }
-                leftDestination = 1080/26*(t);
+
                 imageView.setRotation(180);
-                xNew = imageView.getX();
+                leftDestination = 1080/26*(t);
+
                 set[0].cancel();
                 set[0] = new AnimatorSet();
                 if (animatorListener!=null)set[0].addListener(animatorListener);
