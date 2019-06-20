@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
+import android.os.Message;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -40,6 +41,26 @@ public class BlueGhost extends Unit {
         this.getImageView().setX(this.getStartX());
      //   this.getImageView().bringToFront();
         ghostAnimation.start();
+
+        int lives = GameUsualActivity.getLivesStartNumber();
+
+        while (true){
+            int currX = (Math.round(( imageView.getX())/(1080/26)));
+            int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
+            if (map[currX][currY]==2 || map[currX+1][currY]==2 || map[currX-1][currY]==2 || map[currX][currY+1]==2 || map[currX][currY-1]==2){
+                lives--;
+                Message msg3 = new Message();
+                msg3.obj = " ";
+                msg3.arg1 = lives;
+                msg3.arg2 = 0;
+                handler.sendMessage(msg3);
+            }
+            try {
+                sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

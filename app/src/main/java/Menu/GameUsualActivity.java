@@ -83,6 +83,8 @@ public class GameUsualActivity extends AppCompatActivity {
     PinkGhost pinkGhost;
     BlueGhost blueGhost;
 
+    int bonusNum;
+
     AppearingGhostsThread thread = null;
 
 
@@ -131,6 +133,7 @@ public class GameUsualActivity extends AppCompatActivity {
         layout.setBackgroundColor(Color.BLACK);
         //generate map and create black images for walls
         map = Map.generateMap();
+        bonusNum = Map.getBonusNumber();
         int[][] m = map.getMap();
 
         scoreTextView = findViewById(R.id.scoreTextView);
@@ -378,95 +381,56 @@ public class GameUsualActivity extends AppCompatActivity {
 if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
                 if(msg.arg1==0)gameLose();
                 else {
+                    livesStartNumber--;
 
-                   /* pacman.getSet()[0].cancel();
-                    pacman.lives--;
-                    pacman.getMap()[pacman.getxMap()][pacman.getyMap()]=0;
-                    pacman.setxMap(13);
-                    pacman.setyMap(28);
-                    pacman.setStartX(1080/26*13);
-                    pacman.setStartY(1080/26*28);
-                    pacman.getMap()[13][28] = 2;
-                    pacman.getImageView().setX(pacman.getStartX());
-                    pacman.getImageView().setY(pacman.getStartY()+100);
-                    pacman.getImageView().bringToFront();
+                    pacman.getSet()[0].cancel();
+                    pacman.getImageView().setX(1080/26*13);
+                    pacman.getImageView().setY(1080/26*28+100);
 
-
-                    redGhost.interrupt();
                     redGhost.getSet()[0].removeAllListeners();
                     redGhost.getSet()[0].cancel();
-                    redGhost = new RedGhost(redGhostImage, m, handlerLives);
-                    redGhost.start();
-                    redGhost.getImageView().bringToFront();
-                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, -2, 0));
-                    redGhost.setPrev(4);
+                    redGhost.getImageView().setX(1080/26*13);
+                    redGhost.getImageView().setY(1080/26*12+100);
+                    redGhost.getMap()[13][11] = 0;
+                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
+                    redGhost.changeMove(4);
+                    redGhost.getMap()[13][11] = 1;
 
-                    blueGhost.interrupt();
-                    blueGhost.getSet()[0].removeAllListeners();
-                    blueGhost.getSet()[0].cancel();
-                    blueGhost = new BlueGhost(blueGhostImage, m, handlerLives);
-                    blueGhost.start();
-                    blueGhost.getImageView().bringToFront();
-                    blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
-                    blueGhost.setPrev(4);
+                   if (bonusNum-Map.getBonusNumber()>=bonusNum/10) {
+                       pinkGhost.getSet()[0].removeAllListeners();
+                       pinkGhost.getSet()[0].cancel();
+                       pinkGhost.getImageView().setX(1080/26*12);
+                       pinkGhost.getImageView().setY(1080/26*12+100);
+                       pinkGhost.getMap()[12][11] = 0;
+                       pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 0, 0));
+                       pinkGhost.changeMove(4);
+                       pinkGhost.getMap()[12][11] = 1;
+                   }
 
-                    orangeGhost.interrupt();
-                    orangeGhost.getSet()[0].removeAllListeners();
-                    orangeGhost.getSet()[0].cancel();
-                    orangeGhost = new OrangeGhost(orangeGhostImage, m, handlerLives);
-                    orangeGhost.start();
-                    orangeGhost.getImageView().bringToFront();
-                    orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, -2, 0));
-                    orangeGhost.setPrev(4);
+                   if (bonusNum-Map.getBonusNumber()>=bonusNum/4) {
+                       blueGhost.getSet()[0].removeAllListeners();
+                       blueGhost.getSet()[0].cancel();
+                       blueGhost.getImageView().setX(1080/26*12);
+                       blueGhost.getImageView().setY(1080/26*12+100);
+                       blueGhost.getMap()[12][11] = 0;
+                       blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, 0, 0, redGhost));
+                       blueGhost.changeMove(4);
+                       blueGhost.getMap()[12][11] = 1;
+                   }
 
-                    pinkGhost.interrupt();
-                    pinkGhost.getSet()[0].removeAllListeners();
-                    pinkGhost.getSet()[0].cancel();
-                    pinkGhost = new PinkGhost(pinkdGhostImage, m, handlerLives);
-                    pinkGhost.start();
-                    pinkGhost.getImageView().bringToFront();
-                    pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, -2, 0));
-                    pinkGhost.setPrev(4);
+                   if (bonusNum-Map.getBonusNumber()>=bonusNum/1.7) {
+                       orangeGhost.getSet()[0].removeAllListeners();
+                       orangeGhost.getSet()[0].cancel();
+                       orangeGhost.getImageView().setX(1080/26*13);
+                       orangeGhost.getImageView().setY(1080/26*12+100);
+                       orangeGhost.getMap()[13][11] = 0;
+                       orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
+                       orangeGhost.changeMove(4);
+                       orangeGhost.getMap()[13][11] = 1;
+                   }
 
 
-                    handlerRed = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            redGhost.getMap()[13][11] = 0;
-                            redGhost.changeMove(4);
-                            redGhost.getMap()[13][11] = 1;
-                        }
-                    };
-
-                    handlerBlue = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            blueGhost.getMap()[12][11] = 0;
-                            blueGhost.changeMove(4);
-                            blueGhost.getMap()[12][11] = 1;
-                        }
-                    };
-                    handlerOrange = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            orangeGhost.getMap()[13][11] = 0;
-                            orangeGhost.changeMove(4);
-                            orangeGhost.getMap()[13][11] = 1;
-                        }
-                    };
-                    handlerPink = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            pinkGhost.getMap()[12][11] = 0;
-                            pinkGhost.changeMove(4);
-                            pinkGhost.getMap()[12][11] = 1;
-                        }
-                    };
-
-                    thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
-                    thread.start();
-
-*/
+                    PausePushed(pauseButton);
                 }
             }
         };
@@ -537,7 +501,6 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
             }
         };
 
-        thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
 
         layout.setOnTouchListener(new RecordFirstAndLastCoordinatesOnTouchListener());
         layout.setOnClickListener(new ChangeMoveOnClickListener(pacman, thread));
@@ -583,7 +546,7 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
         super.onResume();
         if (SettingsActivity.getMusicEnabled()) pacman_police.start();
     }
-
+    boolean run = false;
     //listener for record x and y to decide side of swap
     private class RecordFirstAndLastCoordinatesOnTouchListener implements View.OnTouchListener {
 
@@ -603,18 +566,18 @@ if (msg.arg1>0)layout.removeView(lives[msg.arg1]);
     //listener for the end of the swap, that change pacman movement
     private class ChangeMoveOnClickListener implements View.OnClickListener {
         Pacman pacman;
-        boolean run = false;
-        AppearingGhostsThread thread;
+
 
         ChangeMoveOnClickListener(Pacman pacman, AppearingGhostsThread thread) {
             this.pacman = pacman;
-            this.thread = thread;
+
         }
 
         @Override
         public void onClick(View v) {
             if (!run) {
                 run = true;
+                thread = new AppearingGhostsThread(handlerRed,handlerBlue,handlerOrange,handlerPink);
                 thread.start();
                 MovementTypeThread typeThread = new MovementTypeThread();
                 typeThread.start();
