@@ -38,7 +38,7 @@ public class OrangeGhost extends  Unit {
         AnimationDrawable ghostAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);
         this.getImageView().setX(this.getStartX());
-        this.getImageView().bringToFront();
+     //   this.getImageView().bringToFront();
         ghostAnimation.start();
     }
 

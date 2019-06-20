@@ -4,6 +4,10 @@ package TimeThreads;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.pacman.Map.Map;
+
+import Units.PinkGhost;
+
 public class AppearingGhostsThread extends Thread {
     Handler handlerRed;
     Handler handlerBlue;
@@ -19,27 +23,13 @@ public class AppearingGhostsThread extends Thread {
 
     @Override
     public void run() {
-
+        int bonusNum = Map.getBonusNumber();
         handlerRed.sendMessage(new Message());
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        while (bonusNum-Map.getBonusNumber()<bonusNum/10) {}
         handlerPink.sendMessage(new Message());
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        handlerOrange.sendMessage(new Message());
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        while (bonusNum-Map.getBonusNumber()<bonusNum/4) {}
         handlerBlue.sendMessage(new Message());
-
-
+        while (bonusNum-Map.getBonusNumber()<bonusNum/1.7) {}
+        handlerOrange.sendMessage(new Message());
     }
 }

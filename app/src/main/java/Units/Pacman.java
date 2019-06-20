@@ -31,7 +31,7 @@ public class Pacman extends Unit {
     Handler handlerScore;
     Handler handlerLives;
 
-    int lives = GameUsualActivity.getLivesStartNumber();
+    public int lives = GameUsualActivity.getLivesStartNumber();
 
     long starttime = -1;
     long seconds=-1;
@@ -59,7 +59,7 @@ public class Pacman extends Unit {
         AnimationDrawable pacmanAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);
         this.getImageView().setX(this.getStartX());
-        this.getImageView().bringToFront();
+
         pacmanAnimation.start();
 
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
@@ -78,7 +78,7 @@ public class Pacman extends Unit {
             map[xMap][yMap] = 0;
             xMap = currX;
             yMap = currY;
-
+            map[xMap][yMap] = 2;
 
 //if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {

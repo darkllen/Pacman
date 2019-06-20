@@ -7,6 +7,7 @@ import java.util.Random;
 
 import Units.BlueGhost;
 import Units.OrangeGhost;
+import Units.PinkGhost;
 import Units.RedGhost;
 import Units.Unit;
 
@@ -23,6 +24,9 @@ public class GhostListener implements Animator.AnimatorListener {
     int yAbsolute= 0;
 
     RedGhost ghost;
+
+    static int movementType = 1;
+
 
 
     public int getPrev() {
@@ -93,6 +97,23 @@ public class GhostListener implements Animator.AnimatorListener {
         int pacmanX = (int) pacman.getImageView().getX() + 1080/26*xNum;
         int pacmanY = (int) pacman.getImageView().getY() + 1080/26*yNum;
 
+        if (movementType==2){
+            if (unit instanceof RedGhost){
+                pacmanX = 1080;
+                pacmanY = 100;
+            } else if (unit instanceof BlueGhost){
+                pacmanX = 1080;
+                pacmanY = 1080;
+            } else if (unit instanceof OrangeGhost){
+                pacmanX = 0;
+                pacmanY = 1080;
+            } else if (unit instanceof PinkGhost){
+                pacmanX = 0;
+                pacmanY = 0;
+            }
+        }
+
+
 
         int inUpCaseX = (int) (unit.getImageView().getX()+ 8);
         int inUpCaseY = (int) (unit.getImageView().getY());
@@ -121,7 +142,7 @@ public class GhostListener implements Animator.AnimatorListener {
         int left = map[currX-1][currY];
         int right = map[currX+1][currY];
 
-        if (unit instanceof BlueGhost){
+        if (unit instanceof BlueGhost && movementType==1){
             int xDif = pacmanX - ghost.getStartX();
             int yDif = pacmanY = ghost.getStartY();
             xDif *=2;
@@ -136,10 +157,10 @@ public class GhostListener implements Animator.AnimatorListener {
              downDistance = (pacmanX-inDownCaseX)*(pacmanX-inDownCaseX) + (pacmanY-inDownCaseY)*(pacmanY-inDownCaseY);
 
 
-        }else if (unit instanceof OrangeGhost){
+        }else if (unit instanceof OrangeGhost && movementType==1){
             if (leftDistance<(1000/26*8)*(1000/26*8)){
-                pacmanX = -1000;
-                pacmanY = 2000;
+                pacmanX = 0;
+                pacmanY = 1080;
 
                  leftDistance = (pacmanX-inLeftCaseX)*(pacmanX-inLeftCaseX) + (pacmanY-inLeftCaseY)*(pacmanY-inLeftCaseY);
                  rightDistance = (pacmanX-inRightCaseX)*(pacmanX-inRightCaseX) + (pacmanY-inRightCaseY)*(pacmanY-inRightCaseY);
@@ -147,7 +168,6 @@ public class GhostListener implements Animator.AnimatorListener {
                  downDistance = (pacmanX-inDownCaseX)*(pacmanX-inDownCaseX) + (pacmanY-inDownCaseY)*(pacmanY-inDownCaseY);
             }
         }
-
 
         switch (prev){
             case 1:
@@ -251,6 +271,10 @@ public class GhostListener implements Animator.AnimatorListener {
                     return;
                 }
         }
+    }
+
+    public static void setMovementType(int movementType) {
+        GhostListener.movementType = movementType;
     }
 
     @Override
