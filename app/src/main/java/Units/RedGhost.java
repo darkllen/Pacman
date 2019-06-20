@@ -45,12 +45,17 @@ public class RedGhost extends Unit {
         this.getImageView().setX(this.getStartX());
      //   this.getImageView().bringToFront();
         ghostAnimation.start();
-        int lives = GameUsualActivity.getLivesStartNumber();
 
         while (true){
+            int lives = GameUsualActivity.getLivesStartNumber();
+
             int currX = (Math.round(( imageView.getX())/(1080/26)));
             int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
-            if (map[currX][currY]==2 || map[currX+1][currY]==2 || map[currX-1][currY]==2 || map[currX][currY+1]==2 || map[currX][currY-1]==2){
+            int currXRight=currX;
+            if(currX+1<map.length)currXRight++;
+            int currXLeft=currX;
+            if(currX-1>=0)currXLeft--;
+            if (map[currX][currY]==2 || map[currXRight][currY]==2 || map[currXLeft][currY]==2 || map[currX][currY+1]==2 || map[currX][currY-1]==2){
                 lives--;
                 Message msg3 = new Message();
                 msg3.obj = " ";
@@ -127,7 +132,7 @@ public class RedGhost extends Unit {
                 if(xMap==2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
 
                 t = xMap;
-                for (int i = xMap; i>0;i--){
+                for (int i = xMap; i>=0;i--){
                     if (map[i][yMap]!=1){
                         t = i;
                         if ((map[i][yMap+1]!=1 || map[i][yMap-1]!=1) && t!=xMap){

@@ -140,7 +140,7 @@ public class GhostListener implements Animator.AnimatorListener {
         int up = map[currX][currY-1];
         int down = map[currX][currY+1];
         int left = map[currX-1][currY];
-        int right = map[currX+1][currY];
+        int right = map[currX+1][currY];//todo check currX+1!!!!!!!!!!
 
         if (unit instanceof BlueGhost && movementType==1){
             int xDif = pacmanX - ghost.getStartX();

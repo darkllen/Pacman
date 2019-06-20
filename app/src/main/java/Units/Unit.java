@@ -92,7 +92,7 @@ public abstract class Unit extends Thread {
                 prev = 1;
                 xNew = imageView.getX();
 
-                if(xMap==map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
+                if(xMap>=map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
 
                 t = xMap;
                 for (int i = xMap; i<map.length; i++){
@@ -125,7 +125,7 @@ public abstract class Unit extends Thread {
 
                 xNew = imageView.getX();
 
-                if(xMap==2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
+                if(xMap<=2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
 
                 t = xMap;
                 for (int i = xMap; i>=0;i--){//todo i>0
@@ -139,6 +139,8 @@ public abstract class Unit extends Thread {
 
                 imageView.setRotation(180);
                 leftDestination = 1080/26*(t);
+                System.out.println(leftDestination);
+
 
                 set[0].cancel();
                 set[0] = new AnimatorSet();
