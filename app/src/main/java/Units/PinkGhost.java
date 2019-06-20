@@ -81,6 +81,10 @@ public class PinkGhost extends Unit {
 
         switch (change){
             case 1:
+                xNew = imageView.getX();
+
+                if(xMap==map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
+
                 t = xMap;
                 for (int i = xMap; i< map.length; i++){
                     if (map[i][yMap]!=1){
@@ -96,7 +100,6 @@ public class PinkGhost extends Unit {
                 rightDestination = 1080/26*(t);
                 // imageView.setRotation(0);
                 this.getImageView().setBackgroundResource(R.drawable.pink_right);
-                xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
                 if (animatorListener!=null)set[0].addListener(animatorListener);
@@ -109,6 +112,9 @@ public class PinkGhost extends Unit {
                 set[0].start();
                 break;
             case 2:
+                xNew = imageView.getX();
+                if(xMap==2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
+
                 t = xMap;
                 for (int i = xMap; i>0;i--){
                     if (map[i][yMap]!=1){
@@ -125,7 +131,6 @@ public class PinkGhost extends Unit {
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
                 this.getImageView().setBackgroundResource(R.drawable.pink_left);
-                xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
                 if (animatorListener!=null)set[0].addListener(animatorListener);
