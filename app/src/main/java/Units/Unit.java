@@ -76,6 +76,7 @@ public abstract class Unit extends Thread {
         map[xMap][yMap] = 0;
         xMap = currX;
         yMap = currY;
+        map[xMap][yMap] = 2;
         startX = 1080/26*xMap;
         startY = 1080/26*yMap;
         imageView.setX(startX);

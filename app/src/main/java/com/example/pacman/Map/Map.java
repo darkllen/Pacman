@@ -266,7 +266,7 @@ public class Map {
         Random random=new Random();
         int k=random.nextInt(18)+7;//todo change bound depending on height
         while (true){
-            if(map[k][width-3]!=0)
+            if(map[k][width-4]==0)
                 k=random.nextInt(18)+7;
             else break;
         }
@@ -278,10 +278,10 @@ public class Map {
             int kk=random.nextInt(18)+7;
             while (Math.abs(kk-k)<4) {
                 while (true){
-                if(map[kk][width-3]!=0)
-                    kk=random.nextInt(18)+7;
-                else break;
-            }kk=random.nextInt(18)+7;}
+                    if(map[kk][width-4]==0)
+                        kk=random.nextInt(18)+7;
+                    else break;
+                }kk=random.nextInt(18)+7;}
             map[kk][width-2]=-1;
             map[kk][width-1]=-1;
             map[kk-1][width-1]=1;

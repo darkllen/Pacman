@@ -37,7 +37,7 @@ public class EatPacman extends Thread {
             int currX = (Math.round(( redGhost.getImageView().getX())/(1080/26)));
             int currY = Math.round ((( redGhost.getImageView().getY()-100)/(1080/26)));
             if (redGhost.getMap()[currX][currY]==2){
-                redGhost.getMap()[currX][currY-1]=0;
+                redGhost.getMap()[currX][currY]=0;
                 lives--;
                 Message msg3 = new Message();
                 msg3.obj = " ";
@@ -53,7 +53,7 @@ public class EatPacman extends Thread {
              currX = (Math.round(( pinkGhost.getImageView().getX())/(1080/26)));
              currY = Math.round ((( pinkGhost.getImageView().getY()-100)/(1080/26)));
             if (pinkGhost.getMap()[currX][currY]==2){
-                pinkGhost.getMap()[currX][currY-1]=0;
+                pinkGhost.getMap()[currX][currY]=0;
                 lives--;
                 Message msg3 = new Message();
                 msg3.obj = " ";
@@ -69,7 +69,7 @@ public class EatPacman extends Thread {
             currX = (Math.round(( orangeGhost.getImageView().getX())/(1080/26)));
             currY = Math.round ((( orangeGhost.getImageView().getY()-100)/(1080/26)));
             if (orangeGhost.getMap()[currX][currY]==2){
-                orangeGhost.getMap()[currX][currY-1]=0;
+                orangeGhost.getMap()[currX][currY]=0;
                 lives--;
                 Message msg3 = new Message();
                 msg3.obj = " ";
@@ -85,7 +85,7 @@ public class EatPacman extends Thread {
             currX = (Math.round(( blueGhost.getImageView().getX())/(1080/26)));
             currY = Math.round ((( blueGhost.getImageView().getY()-100)/(1080/26)));
             if (blueGhost.getMap()[currX][currY]==2){
-                blueGhost.getMap()[currX][currY-1]=0;
+                blueGhost.getMap()[currX][currY]=0;
                 lives--;
                 Message msg3 = new Message();
                 msg3.obj = " ";
