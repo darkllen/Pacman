@@ -700,4 +700,5 @@ public class GameUsualActivity extends AppCompatActivity {
     }
 
 
+
 }

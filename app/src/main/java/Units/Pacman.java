@@ -3,6 +3,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.example.pacman.Map.Map;
@@ -79,8 +81,6 @@ public class Pacman extends Unit {
             xMap = currX;
             yMap = currY;
             map[xMap][yMap] = 2;
-
-            //if(xMap==0||xMap==map.length-1)changeMove(getPrev());
 
 //if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {

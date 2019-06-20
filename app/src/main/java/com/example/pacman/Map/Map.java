@@ -265,14 +265,23 @@ public class Map {
     private static void addTunnels() {
         Random random=new Random();
         int k=random.nextInt(18)+7;//todo change bound depending on height
-        System.out.println(k);
+        while (true){
+            if(map[k][width-3]!=0)
+                k=random.nextInt(18)+7;
+            else break;
+        }
         map[k][width-2]=-1;
         map[k][width-1]=-1;
         map[k-1][width-1]=1;
         map[k+1][width-1]=1;
         if(random.nextInt(10)>=6){
             int kk=random.nextInt(18)+7;
-            while (Math.abs(kk-k)<4) kk=random.nextInt(18)+7;
+            while (Math.abs(kk-k)<4) {
+                while (true){
+                if(map[kk][width-3]!=0)
+                    kk=random.nextInt(18)+7;
+                else break;
+            }kk=random.nextInt(18)+7;}
             map[kk][width-2]=-1;
             map[kk][width-1]=-1;
             map[kk-1][width-1]=1;
