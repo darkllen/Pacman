@@ -55,7 +55,7 @@ public class OrangeGhost extends  Unit {
                 handler.sendMessage(msg3);
             }
             try {
-                sleep(150);
+                sleep(2700);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

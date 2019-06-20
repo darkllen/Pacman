@@ -56,7 +56,7 @@ public class BlueGhost extends Unit {
                 handler.sendMessage(msg3);
             }
             try {
-                sleep(250);
+                sleep(270);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
