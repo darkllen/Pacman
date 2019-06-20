@@ -14,6 +14,8 @@ public class AppearingGhostsThread extends Thread {
     Handler handlerOrange;
     Handler handlerPink;
 
+    public boolean stop = false;
+
     public AppearingGhostsThread(Handler handlerRed, Handler handlerBlue, Handler handlerOrange, Handler handlerPink) {
         this.handlerRed = handlerRed;
         this.handlerBlue = handlerBlue;
@@ -24,12 +26,29 @@ public class AppearingGhostsThread extends Thread {
     @Override
     public void run() {
         int bonusNum = Map.getBonusNumber();
+        while (bonusNum-Map.getBonusNumber()<2) {
+            if (stop){
+                return;
+            }
+        }
         handlerRed.sendMessage(new Message());
-        while (bonusNum-Map.getBonusNumber()<bonusNum/10) {}
+        while (bonusNum-Map.getBonusNumber()<bonusNum/10) {
+            if (stop){
+                return;
+            }
+        }
         handlerPink.sendMessage(new Message());
-        while (bonusNum-Map.getBonusNumber()<bonusNum/4) {}
+        while (bonusNum-Map.getBonusNumber()<bonusNum/4) {
+            if (stop){
+                return;
+            }
+        }
         handlerBlue.sendMessage(new Message());
-        while (bonusNum-Map.getBonusNumber()<bonusNum/1.7) {}
+        while (bonusNum-Map.getBonusNumber()<bonusNum/1.7) {
+            if (stop){
+                return;
+            }
+        }
         handlerOrange.sendMessage(new Message());
     }
 }

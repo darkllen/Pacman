@@ -1,13 +1,10 @@
 package TimeThreads;
 
 import Menu.Listeners.GhostListener;
-import Units.Unit;
+
 
 public class MovementTypeThread extends Thread {
-    Unit redGhost;
-    Unit blueGhost;
-    Unit orangeGhost;
-    Unit pinkGhost;
+    public boolean stop = false;
     @Override
     public void run() {
         while (true){

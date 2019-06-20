@@ -3,8 +3,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.pacman.Map.Map;
@@ -31,7 +29,7 @@ public class Pacman extends Unit {
 
     Handler handlerBonus;
     Handler handlerScore;
-    Handler handlerLives;
+    Handler handlerNextLevel;
 
     public int lives = GameUsualActivity.getLivesStartNumber();
 
@@ -44,11 +42,11 @@ public class Pacman extends Unit {
 
     //values in numbers are tested and not accurate(
 
-    public Pacman(ImageView imageView, int[][] map, Handler handler,Handler handlerBonus, Handler handlerScore,Handler handlerLives, GameUsualActivity gUA) {
+    public Pacman(ImageView imageView, int[][] map, Handler handler, Handler handlerBonus, Handler handlerScore, Handler handlerNextLevel, GameUsualActivity gUA) {
         super(imageView, map, handler);
         this.handlerBonus=handlerBonus;
         this.handlerScore=handlerScore;
-        this.handlerLives=handlerLives;
+        this.handlerNextLevel = handlerNextLevel;
         this.gUA=gUA;
     }
 
@@ -91,7 +89,7 @@ public class Pacman extends Unit {
 
 
                 if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе
-
+                    handlerNextLevel.sendMessage(new Message());
                 }
 
 

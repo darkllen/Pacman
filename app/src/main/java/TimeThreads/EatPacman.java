@@ -21,6 +21,7 @@ public class EatPacman extends Thread {
 
     Handler handler;
 
+    public boolean stop = false;
     public EatPacman(RedGhost redGhost, BlueGhost blueGhost, OrangeGhost orangeGhost, PinkGhost pinkGhost, Pacman pacman, Handler handler) {
         this.redGhost = redGhost;
         this.blueGhost = blueGhost;
@@ -33,6 +34,9 @@ public class EatPacman extends Thread {
     @Override
     public void run() {
         while (true){
+            if (stop){
+                return;
+            }
             int lives = GameUsualActivity.getLivesStartNumber();
             int currX = (Math.round(( redGhost.getImageView().getX())/(1080/26)));
             int currY = Math.round ((( redGhost.getImageView().getY()-100)/(1080/26)));

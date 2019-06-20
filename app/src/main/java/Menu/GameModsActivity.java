@@ -1,6 +1,7 @@
 package Menu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,10 @@ public class GameModsActivity extends AppCompatActivity {
         //start game on click
         Button usualMod = findViewById(R.id.usualMod);
         usualMod.setOnClickListener(v -> {
+            SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor =preferences.edit();
+            editor.putInt("score", 3);
+            editor.apply();
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);
             Unit.inversionMode=false;
@@ -32,6 +37,10 @@ public class GameModsActivity extends AppCompatActivity {
         //start game on click
         Button inversionMod = findViewById(R.id.inversionMod);
         inversionMod.setOnClickListener(v -> {
+            SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor =preferences.edit();
+            editor.putInt("score", 3);
+            editor.apply();
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);
             Unit.inversionMode=true;

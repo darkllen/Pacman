@@ -64,6 +64,8 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerOrange;
     private Handler handlerPink;
 
+    private Handler nextLevelHandler;
+
     Map map;
 
     private ImageView imageBerryView;
@@ -98,6 +100,9 @@ public class GameUsualActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        Map.setTotalScore(sharedPreferences.getInt("score", 2));
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
@@ -370,12 +375,6 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
-        GameUsualActivity activity = this;
-        ImageView pacmanImage = findViewById(R.id.image);
-        ImageView redGhostImage = findViewById(R.id.redGhost);
-        ImageView blueGhostImage = findViewById(R.id.blueGhost);
-        ImageView orangeGhostImage = findViewById(R.id.orangeGhost);
-        ImageView pinkdGhostImage = findViewById(R.id.pinkGhost);
         handlerLives = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -429,16 +428,32 @@ public class GameUsualActivity extends AppCompatActivity {
                         orangeGhost.changeMove(4);
                         orangeGhost.getMap()[13][11] = 1;
                     }
-
-
                     PausePushed(pauseButton);
                 }
             }
         };
 
+        nextLevelHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor =preferences.edit();
+                editor.putInt("score", Map.getLevelScore());
+                editor.apply();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(GameUsualActivity.this, GameUsualActivity.class);
+                startActivity(intent);
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        };
+
 
         //create new Thread for pacman unit
-        pacman = new Pacman(findViewById(R.id.image), m, handlerPacman, handlerBonus, handlerScore, handlerLives, this);
+        pacman = new Pacman(findViewById(R.id.image), m, handlerPacman, handlerBonus, handlerScore, nextLevelHandler, this);
         pacman.start();
         pacman.getImageView().bringToFront();
 
