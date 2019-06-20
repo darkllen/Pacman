@@ -30,6 +30,7 @@ import java.util.Random;
 
 import Menu.Listeners.GhostListener;
 import TimeThreads.AppearingGhostsThread;
+import TimeThreads.EatPacman;
 import TimeThreads.MovementTypeThread;
 import Units.BlueGhost;
 import Units.OrangeGhost;
@@ -582,6 +583,8 @@ public class GameUsualActivity extends AppCompatActivity {
                 thread.start();
                 MovementTypeThread typeThread = new MovementTypeThread();
                 typeThread.start();
+                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives);
+                eatPacman.start();
             }
             first[0] = true;
             int differenceX = clickX[0] - clickStartX[0];

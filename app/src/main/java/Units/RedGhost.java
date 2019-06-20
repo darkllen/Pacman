@@ -46,25 +46,6 @@ public class RedGhost extends Unit {
      //   this.getImageView().bringToFront();
         ghostAnimation.start();
 
-
-        while (true){
-            int lives = GameUsualActivity.getLivesStartNumber();
-            int currX = (Math.round(( imageView.getX())/(1080/26)));
-            int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
-            if (map[currX][currY]==2 || map[currX+1][currY]==2 || map[currX-1][currY]==2 || map[currX][currY+1]==2 || map[currX][currY-1]==2){
-                lives--;
-                Message msg3 = new Message();
-                msg3.obj = " ";
-                msg3.arg1 = lives;
-                msg3.arg2 = 0;
-                handler.sendMessage(msg3);
-            }
-            try {
-                sleep(270);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
    // @RequiresApi(api = Build.VERSION_CODES.KITKAT)
