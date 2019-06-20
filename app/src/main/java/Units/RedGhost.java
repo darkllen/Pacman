@@ -98,7 +98,7 @@ public class RedGhost extends Unit {
 
                 xNew = imageView.getX();
 
-                if(xMap==map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
+                if(xMap>=map.length-3){ xNew=(0)*(1080/26);xMap=0;System.out.println("!R");}
 
                 t = xMap;
                 for (int i = xMap; i< map.length; i++){
@@ -129,7 +129,7 @@ public class RedGhost extends Unit {
             case 2:
                 xNew = imageView.getX();
 
-                if(xMap==2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
+                if(xMap<=2){ xNew=(map.length-1)*(1080/26);xMap=map.length-1;System.out.println("!");}
 
                 t = xMap;
                 for (int i = xMap; i>=0;i--){

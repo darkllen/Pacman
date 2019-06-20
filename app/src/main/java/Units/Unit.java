@@ -92,7 +92,8 @@ public abstract class Unit extends Thread {
                 prev = 1;
                 xNew = imageView.getX();
 
-                if(xMap>=map.length-3){ xNew=(0)*(1080/26);xMap=1;System.out.println("!R");}
+               // if(xMap>=map.length-3){ xNew=(0)*(1080/26);xMap=0;System.out.println("!R");}
+
 
                 t = xMap;
                 for (int i = xMap; i<map.length; i++){
@@ -100,12 +101,17 @@ public abstract class Unit extends Thread {
                     if (map[i][yMap]!=1){
                         t = i;
                     }else {
-                        if (t ==xMap)return;
+                        if (t ==xMap&&xMap!=map.length-1)return;
                         break;
                     }
                 }
+
+                if(t==map.length-1&&xMap==map.length-1){ xNew=(0)*(1080/26);xMap=0;imageView.setX(xNew);changeMove(1);break;}
+
                 rightDestination = 1080/26*(t);
                 imageView.setRotation(0);
+                System.out.println(t+" "+xMap);
+
 
                 //if(xNew==map.length*(1080/26)) xNew=0;
 
@@ -125,21 +131,24 @@ public abstract class Unit extends Thread {
 
                 xNew = imageView.getX();
 
-                if(xMap<=2){ xNew=(map.length-1)*(1080/26);xMap=map.length-2;System.out.println("!");}
+                //                if(xMap<=2){ xNew=(map.length-1)*(1080/26);xMap=map.length-1;System.out.println("!");}
 
                 t = xMap;
-                for (int i = xMap; i>=0;i--){//todo i>0
+                for (int i = xMap; i>=0;i--){
                     if (map[i][yMap]!=1){
                         t = i;
                     }else {
-                        if (t ==xMap)return;
+                        if (t ==xMap&&xMap!=0)return;
                         break;
                     }
                 }
 
+                if(t==0&&xMap==0){ xNew=(map.length-1)*(1080/26);xMap=map.length-1;imageView.setX(xNew);changeMove(2);break;}
+
+
                 imageView.setRotation(180);
                 leftDestination = 1080/26*(t);
-                System.out.println(leftDestination);
+                System.out.println(t+" "+xMap);
 
 
                 set[0].cancel();

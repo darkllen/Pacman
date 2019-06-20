@@ -80,6 +80,8 @@ public class Pacman extends Unit {
             yMap = currY;
             map[xMap][yMap] = 2;
 
+            //if(xMap==0||xMap==map.length-1)changeMove(getPrev());
+
 //if(Map.getBonus()[xMap][yMap]!=null)
             if (Map.getBonus()[xMap][yMap].getType() != 0) {
 
