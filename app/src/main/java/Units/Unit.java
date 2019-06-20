@@ -100,6 +100,21 @@ public abstract class Unit extends Thread {
                         break;
                     }
                 }
+                System.out.println(t);
+                if (t==25){
+                    rightDestination = 1080/26*(t+1);
+                    imageView.setX(1080/26*1);
+                    xMap=1;
+                    for (int i = xMap; i<map.length; i++){
+                        if (map[i][yMap]!=1){
+                            t = i;
+                        }else {
+                            if (t ==xMap)return;
+                            break;
+                        }
+                    }
+
+                }
                 rightDestination = 1080/26*(t);
                 imageView.setRotation(0);
                 xNew = imageView.getX();
@@ -112,7 +127,7 @@ public abstract class Unit extends Thread {
                 set[0].play(animator[0]);
                 time = (long) ((rightDestination - xNew)/speedInPixelsForSecond*1000);
                 set[0].setDuration(time);
-                set[0].start();
+               set[0].start();
                 break;
             case 2:
                 prev = 2;
@@ -125,6 +140,21 @@ public abstract class Unit extends Thread {
 
                         break;
                     }
+                }
+                if (t==1){
+                    leftDestination = 1080-1080/26*2;
+                    imageView.setX(1080/26*25);
+                    xMap=25;
+                    for (int i = xMap; i>0;i--){
+                        if (map[i][yMap]!=1){
+                            t = i;
+                        }else {
+                            if (t ==xMap)return;
+
+                            break;
+                        }
+                    }
+
                 }
                 leftDestination = 1080/26*(t);
                 imageView.setRotation(180);

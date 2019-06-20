@@ -42,9 +42,9 @@ public class BlueGhost extends Unit {
      //   this.getImageView().bringToFront();
         ghostAnimation.start();
 
-        int lives = GameUsualActivity.getLivesStartNumber();
 
         while (true){
+            int lives = GameUsualActivity.getLivesStartNumber();
             int currX = (Math.round(( imageView.getX())/(1080/26)));
             int currY = Math.round ((( imageView.getY()-100)/(1080/26)));
             if (map[currX][currY]==2 || map[currX+1][currY]==2 || map[currX-1][currY]==2 || map[currX][currY+1]==2 || map[currX][currY-1]==2){
@@ -94,6 +94,20 @@ public class BlueGhost extends Unit {
                         break;
                     }
                 }
+                if (t==25){
+                    rightDestination = 1080/26*(t+1);
+                    imageView.setX(1080/26*1);
+                    xMap=1;
+                    for (int i = xMap; i<map.length; i++){
+                        if (map[i][yMap]!=1){
+                            t = i;
+                        }else {
+                            if (t ==xMap)return;
+                            break;
+                        }
+                    }
+
+                }
                 rightDestination = 1080/26*(t);
                 // imageView.setRotation(0);
                 this.getImageView().setBackgroundResource(R.drawable.blue_right);
@@ -122,6 +136,21 @@ public class BlueGhost extends Unit {
 
                         break;
                     }
+                }
+                if (t==1){
+                    leftDestination = 1080-1080/26*2;
+                    imageView.setX(1080/26*25);
+                    xMap=25;
+                    for (int i = xMap; i>0;i--){
+                        if (map[i][yMap]!=1){
+                            t = i;
+                        }else {
+                            if (t ==xMap)return;
+
+                            break;
+                        }
+                    }
+
                 }
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
