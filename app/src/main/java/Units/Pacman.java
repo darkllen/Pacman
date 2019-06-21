@@ -17,7 +17,7 @@ public class Pacman extends Unit {
 
     MediaPlayer pacman_ch;
     MediaPlayer pacman_fruit;
-    MediaPlayer pacman_death;
+
 
     GameUsualActivity gUA;
 
@@ -64,11 +64,10 @@ public class Pacman extends Unit {
 
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
         pacman_fruit=MediaPlayer.create(gUA,R.raw.pacman_eatfruit);
-        pacman_death=MediaPlayer.create(gUA,R.raw.pacman_death);
 
         MusicThread musicThread=new MusicThread(pacman_ch);
         MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
-        MusicThread musicThreadDeath=new MusicThread(pacman_death);
+
 
 
         while (true){

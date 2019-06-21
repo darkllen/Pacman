@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import Menu.Listeners.GhostListener;
+import Music.MusicThread;
 import TimeThreads.AppearingGhostsThread;
 import TimeThreads.EatPacman;
 import TimeThreads.MovementTypeThread;
@@ -61,6 +62,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
     MediaPlayer pacman_police;
     MediaPlayer pacman_begin;
+    MediaPlayer pacman_death;
 
     private Handler handlerPacman;
     private Handler handlerBonus;
@@ -209,6 +211,8 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         });
 
+        pacman_death=MediaPlayer.create(this,R.raw.pacman_death);
+        MusicThread musicThreadDeath=new MusicThread(pacman_death);
 
 
         int width = 1080;
@@ -459,6 +463,8 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerLives = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+
+                if(SettingsActivity.getSoundEnabled())musicThreadDeath.play();
 
                 pacman.getImageView().setBackgroundResource(R.drawable.pacman_lose_animation);
                 AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
