@@ -107,7 +107,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
     public static int level;
 
-    private Set<String> records=new HashSet<>();
+    private HashSet<String> records=new HashSet<>();
+    private HashSet<String> recordsForClone=new HashSet<>();
+
 
     public static final String SHARED_PREFS="sharedPrefs";
     public static final String LANGUAGE="language";
@@ -122,7 +124,9 @@ public class GameUsualActivity extends AppCompatActivity {
         else SettingsActivity.setSoundEnabled(false);
         String mode="records";
         if(Unit.inversionMode) mode="recordsInversion";
-        records=sharedPreferences.getStringSet(mode,new HashSet<String>());
+        recordsForClone=(HashSet)sharedPreferences.getStringSet(mode,new HashSet<String>());
+        records=(HashSet)recordsForClone.clone();
+
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
@@ -146,30 +150,38 @@ public class GameUsualActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
 
+
 //            String mode="records";
 //            if(Unit.inversionMode) mode="recordsInversion";
-////todo if??
-//                editor.remove(mode);
-//                editor.commit();//}
-//            // records=preferences.getStringSet(mode,new HashSet<String>());
 //
 //
-//
-//
-//            if(records.size()<5){
-//                records.add(new Integer(Map.getTotalScore()+Map.getLevelScore()).toString());
-//            }
-//            else {
-//                List<String> sortedList = new ArrayList<String>(records);
+//            if (records.size() < 5) {
+//                records.add(new Integer(Map.getTotalScore() + Map.getLevelScore()).toString());
+//            } else {
+//                List<String> sortedList2 = new ArrayList<String>(records);
+//                List<Integer> sortedList = new ArrayList<Integer>();
+//                for (int i = 0; i < sortedList2.size(); i++)
+//                    sortedList.add(new Integer(sortedList2.get(i)));
 //                Collections.sort(sortedList);
-//                if(new Integer(sortedList.get(0))<Map.getTotalScore()+Map.getLevelScore()){
-//                    sortedList.set(0,Integer.valueOf(Map.getTotalScore()+Map.getLevelScore()).toString());
-//                    records=new HashSet<>(sortedList);
+//                if (sortedList.get(0) < Map.getTotalScore() + Map.getLevelScore()) {
+//                    sortedList.set(0, Map.getTotalScore() + Map.getLevelScore());
+//
+//                    sortedList2 = new ArrayList<String>();
+//                    for (int i = 0; i < sortedList.size(); i++)
+//                        sortedList2.add((sortedList.get(i).toString()));
+//
+//                    records = new HashSet<>(sortedList2);
 //
 //                }
 //            }
 //
+//
+//
+//
 //            editor.putStringSet(mode,records);
+
+            editor.putInt("score", 0);
+            editor.putInt("level", 0);
 
             editor.putInt("score", 0);
             editor.putInt("level", 0);
@@ -804,13 +816,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
         String mode="records";
         if(Unit.inversionMode) mode="recordsInversion";
-        if(lose) {
-            lose = false;
-            editor.remove(mode);
-            editor.commit();//todo поставить скобку сюда????
 
 
-            // records=preferences.getStringSet(mode,new HashSet<String>());
+
 
 
             if (records.size() < 5) {
@@ -832,7 +840,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
                 }
             }
-        }//todo убрать скобку отсюда
+
+
+
 
         editor.putStringSet(mode,records);
 
@@ -842,6 +852,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
 
         //editor.putStringSet();
+
         editor.apply();
 
         isPaused = true;

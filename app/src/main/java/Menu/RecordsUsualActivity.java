@@ -30,7 +30,7 @@ public class RecordsUsualActivity extends AppCompatActivity {
 
     }
 
-    Set records;
+    HashSet records;
     ArrayList<Integer> recordsArray=new ArrayList<>();
     ArrayList<String> recordsArrayStr=new ArrayList<>();
 
