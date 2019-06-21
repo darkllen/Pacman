@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArraySet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +26,14 @@ import android.widget.TextView;
 import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import Menu.Listeners.GhostListener;
 import TimeThreads.AppearingGhostsThread;
@@ -86,6 +93,7 @@ public class GameUsualActivity extends AppCompatActivity {
     private static boolean isPaused = false;
 
     private boolean lose=false;
+   // private int loseMenu=0;
 
     Pacman pacman;
     RedGhost redGhost;
@@ -99,6 +107,8 @@ public class GameUsualActivity extends AppCompatActivity {
 
     public static int level;
 
+    private Set<String> records=new HashSet<>();
+
     public static final String SHARED_PREFS="sharedPrefs";
     public static final String LANGUAGE="language";
     public static final String MUSIC="true";
@@ -110,6 +120,9 @@ public class GameUsualActivity extends AppCompatActivity {
         int i = sharedPreferences.getInt(SOUND, 1);
         if (i == 1) SettingsActivity.setSoundEnabled(true);
         else SettingsActivity.setSoundEnabled(false);
+        String mode="records";
+        if(Unit.inversionMode) mode="recordsInversion";
+        records=sharedPreferences.getStringSet(mode,new HashSet<String>());
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
@@ -127,10 +140,37 @@ public class GameUsualActivity extends AppCompatActivity {
         level = sharedPreferences.getInt("level", 0);
         livesStartNumber = sharedPreferences.getInt("lives", 3);
 
+
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
+
+//            String mode="records";
+//            if(Unit.inversionMode) mode="recordsInversion";
+////todo if??
+//                editor.remove(mode);
+//                editor.commit();//}
+//            // records=preferences.getStringSet(mode,new HashSet<String>());
+//
+//
+//
+//
+//            if(records.size()<5){
+//                records.add(new Integer(Map.getTotalScore()+Map.getLevelScore()).toString());
+//            }
+//            else {
+//                List<String> sortedList = new ArrayList<String>(records);
+//                Collections.sort(sortedList);
+//                if(new Integer(sortedList.get(0))<Map.getTotalScore()+Map.getLevelScore()){
+//                    sortedList.set(0,Integer.valueOf(Map.getTotalScore()+Map.getLevelScore()).toString());
+//                    records=new HashSet<>(sortedList);
+//
+//                }
+//            }
+//
+//            editor.putStringSet(mode,records);
+
             editor.putInt("score", 0);
             editor.putInt("level", 0);
             editor.putInt("lives", livesStartNumber);
@@ -416,8 +456,8 @@ public class GameUsualActivity extends AppCompatActivity {
                 pacmanAnimation.start();
                 pacman.getImageView().setRotation(0);
 
-                if (msg.arg1 > 0) layout.removeView(lives[msg.arg1]);
-                if (msg.arg1 == 0) gameLose();
+                if (msg.arg1 >= 0) layout.removeView(lives[msg.arg1]);
+                if (msg.arg1 == 0) {lose=true;gameLose();}
                 else {
                     livesStartNumber--;
 
@@ -766,8 +806,40 @@ public class GameUsualActivity extends AppCompatActivity {
         //todo add score to records
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor =preferences.edit();
+
+        String mode="records";
+        if(Unit.inversionMode) mode="recordsInversion";
+        if(lose){
+            lose=false;
+        editor.remove(mode);
+        editor.commit();
+
+        }
+       // records=preferences.getStringSet(mode,new HashSet<String>());
+
+
+
+        if(records.size()<5){
+            records.add(new Integer(Map.getTotalScore()+Map.getLevelScore()).toString());
+        }
+        else {
+            List<String> sortedList = new ArrayList<String>(records);
+            Collections.sort(sortedList);
+            if(new Integer(sortedList.get(0))<Map.getTotalScore()+Map.getLevelScore()){
+                sortedList.set(0,Integer.valueOf(Map.getTotalScore()+Map.getLevelScore()).toString());
+                records=new HashSet<>(sortedList);
+
+            }
+        }
+
+        editor.putStringSet(mode,records);
+
         editor.putInt("score", 0);
         editor.putInt("level", 0);
+
+
+
+        //editor.putStringSet();
         editor.apply();
 
         isPaused = true;

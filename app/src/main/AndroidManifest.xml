@@ -17,6 +17,7 @@
         </activity>
         <activity android:name="Menu.SettingsActivity"></activity>
         <activity android:name="Menu.RecordsActivity"></activity>
+        <activity android:name="Menu.RecordsUsualActivity"></activity>
         <activity android:name="Menu.GameModsActivity"></activity>
         <activity android:name="Menu.GameUsualActivity"></activity>
     </application>

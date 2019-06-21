@@ -50,14 +50,23 @@ public class GameModsActivity extends AppCompatActivity {
             startActivity(intent);
             Unit.inversionMode=true;
         });
+        Button back=findViewById(R.id.modsBack);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(GameModsActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
 
         if(SettingsActivity.getLanguage().equals("English")){
             usualMod.setText("Classic");
             inversionMod.setText("Inversion");
+            back.setText("Back");
         }
         if(SettingsActivity.getLanguage().equals("Ukranian")){
             usualMod.setText("Класика");
             inversionMod.setText("Інверсія");
+            back.setText("Назад");
         }
+
+
     }
 }
