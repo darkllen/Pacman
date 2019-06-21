@@ -31,7 +31,9 @@ public class RecordsUsualActivity extends AppCompatActivity {
     }
 
     Set records;
-    ArrayList<String> recordsArray;
+    ArrayList<Integer> recordsArray=new ArrayList<>();
+    ArrayList<String> recordsArrayStr=new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +45,10 @@ public class RecordsUsualActivity extends AppCompatActivity {
         setContentView(R.layout.records_usual);
 
 
-        recordsArray = new ArrayList<>(records);
+        recordsArrayStr = new ArrayList<>(records);
+
+        for(int i=0;i<recordsArrayStr.size();i++)
+            recordsArray.add(new Integer(recordsArrayStr.get(i)));
         Collections.sort(recordsArray);
 
         ArrayList<TextView> textViews = new ArrayList<>();

@@ -809,28 +809,35 @@ public class GameUsualActivity extends AppCompatActivity {
 
         String mode="records";
         if(Unit.inversionMode) mode="recordsInversion";
-        if(lose){
-            lose=false;
-        editor.remove(mode);
-        editor.commit();
-
-        }
-       // records=preferences.getStringSet(mode,new HashSet<String>());
+        if(lose) {
+            lose = false;
+            editor.remove(mode);
+            editor.commit();//todo поставить скобку сюда????
 
 
+            // records=preferences.getStringSet(mode,new HashSet<String>());
 
-        if(records.size()<5){
-            records.add(new Integer(Map.getTotalScore()+Map.getLevelScore()).toString());
-        }
-        else {
-            List<String> sortedList = new ArrayList<String>(records);
-            Collections.sort(sortedList);
-            if(new Integer(sortedList.get(0))<Map.getTotalScore()+Map.getLevelScore()){
-                sortedList.set(0,Integer.valueOf(Map.getTotalScore()+Map.getLevelScore()).toString());
-                records=new HashSet<>(sortedList);
 
+            if (records.size() < 5) {
+                records.add(new Integer(Map.getTotalScore() + Map.getLevelScore()).toString());
+            } else {
+                List<String> sortedList2 = new ArrayList<String>(records);
+                List<Integer> sortedList = new ArrayList<Integer>();
+                for (int i = 0; i < sortedList2.size(); i++)
+                    sortedList.add(new Integer(sortedList2.get(i)));
+                Collections.sort(sortedList);
+                if (sortedList.get(0) < Map.getTotalScore() + Map.getLevelScore()) {
+                    sortedList.set(0, Map.getTotalScore() + Map.getLevelScore());
+
+                    sortedList2 = new ArrayList<String>();
+                    for (int i = 0; i < sortedList.size(); i++)
+                        sortedList2.add((sortedList.get(i).toString()));
+
+                    records = new HashSet<>(sortedList2);
+
+                }
             }
-        }
+        }//todo убрать скобку отсюда
 
         editor.putStringSet(mode,records);
 
