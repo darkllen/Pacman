@@ -39,6 +39,7 @@ public class RedGhost extends Unit {
 
     @Override
     public void run() {
+        speedInPixelsForSecond = 150+GameUsualActivity.level*20;
         this.getImageView().setBackgroundResource(R.drawable.red_up);
         AnimationDrawable ghostAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);

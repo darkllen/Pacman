@@ -88,7 +88,7 @@ public class Pacman extends Unit {
                 }
 
 
-                if (Map.getBonus()[xMap][yMap].getType()==2){//todo убирать жизнь при проигрыше, а не при бонусе
+                if (Map.getBonusNumber()==0){//todo убирать жизнь при проигрыше, а не при бонусе
                     Map.setTotalScore(Map.getLevelScore()+Map.getTotalScore());
                     Map.setLevelScore(0);
                     handlerNextLevel.sendMessage(new Message());

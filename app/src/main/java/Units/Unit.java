@@ -23,7 +23,7 @@ public abstract class Unit extends Thread {
     int rightDestination = 1000;
     int upDestination = 0;
     int bottomDestination = 2000;
-    int speedInPixelsForSecond = 300;
+    int speedInPixelsForSecond = 250;
 
     int[][] map;
 
@@ -339,6 +339,17 @@ public abstract class Unit extends Thread {
     public void setPrev(int prev) {
         this.prev = prev;
     }
+
+    public int getOppositeMove(){
+        switch (prev){
+            case 1:return 2;
+            case 2:return 1;
+            case 3:return 4;
+            case 4:return 3;
+            default:return 0;
+        }
+    }
+
 
 
 

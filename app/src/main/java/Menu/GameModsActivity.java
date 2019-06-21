@@ -29,6 +29,8 @@ public class GameModsActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
             editor.putInt("score", 0);
+            editor.putInt("level", 0);
+            editor.putInt("lives", 3);
             editor.apply();
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);
@@ -40,7 +42,9 @@ public class GameModsActivity extends AppCompatActivity {
         inversionMod.setOnClickListener(v -> {
             SharedPreferences preferences = getSharedPreferences("sharedPrefsScore", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
-            editor.putInt("score", 3);
+            editor.putInt("score", 0);
+            editor.putInt("level", 0);
+            editor.putInt("lives", 3);
             editor.apply();
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);

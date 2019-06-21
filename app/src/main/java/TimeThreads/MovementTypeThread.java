@@ -1,9 +1,23 @@
 package TimeThreads;
 
+import android.os.Handler;
+import android.os.Message;
+
 import Menu.Listeners.GhostListener;
 
-
 public class MovementTypeThread extends Thread {
+    Handler red;
+    Handler blue;
+    Handler orange;
+    Handler pink;
+
+    public MovementTypeThread(Handler red, Handler blue, Handler orange, Handler pink) {
+        this.red = red;
+        this.blue = blue;
+        this.orange = orange;
+        this.pink = pink;
+    }
+
     public boolean stop = false;
     @Override
     public void run() {

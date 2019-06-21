@@ -64,6 +64,11 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerOrange;
     private Handler handlerPink;
 
+    private Handler handlerRedChangeMove;
+    private Handler handlerBlueChangeMove;
+    private Handler handlerOrangeChangeMove;
+    private Handler handlerPinkChangeMove;
+
     private Handler nextLevelHandler;
 
     Map map;
@@ -90,6 +95,8 @@ public class GameUsualActivity extends AppCompatActivity {
 
     AppearingGhostsThread thread = null;
 
+    public static int level;
+
     public static final String SHARED_PREFS="sharedPrefs";
     public static final String LANGUAGE="language";
     public static final String MUSIC="true";
@@ -115,12 +122,16 @@ public class GameUsualActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         Map.setTotalScore(sharedPreferences.getInt("score", 0));
+        level = sharedPreferences.getInt("level", 0);
+        livesStartNumber = sharedPreferences.getInt("lives", 3);
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
             editor.putInt("score", 0);
+            editor.putInt("level", ++level);
+            editor.putInt("lives", livesStartNumber);
             editor.apply();
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
@@ -362,8 +373,8 @@ public class GameUsualActivity extends AppCompatActivity {
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(side, side);
             imageView.setLayoutParams(params);
             imageView.setImageResource(R.drawable.pacman4);
-            imageView.setX((i + 2) * side + i * 5 + 5);
-            imageView.setY((m[i].length + 2) * side + 100);
+            imageView.setX((i + 2) * side + i * 5 + 5 +270);
+            imageView.setY((m[i].length + 2) * side + 90);
             layout.addView(imageView);
         }
 
@@ -418,7 +429,7 @@ public class GameUsualActivity extends AppCompatActivity {
                         pinkGhost.getImageView().setX(1080 / 26 * 12);
                         pinkGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         pinkGhost.getMap()[12][11] = 0;
-                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 0, 0));
+                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
                         pinkGhost.changeMove(4);
                         pinkGhost.getMap()[12][11] = 1;
                     }
@@ -429,7 +440,7 @@ public class GameUsualActivity extends AppCompatActivity {
                         blueGhost.getImageView().setX(1080 / 26 * 12);
                         blueGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         blueGhost.getMap()[12][11] = 0;
-                        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, 0, 0, redGhost));
+                        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
                         blueGhost.changeMove(4);
                         blueGhost.getMap()[12][11] = 1;
                     }
@@ -454,7 +465,9 @@ public class GameUsualActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor =preferences.edit();
-                editor.putInt("score", Map.getLevelScore());
+                editor.putInt("score", Map.getLevelScore()+Map.getTotalScore());
+                editor.putInt("level", ++level);
+                editor.putInt("lives", livesStartNumber);
                 editor.apply();
                 try {
                     Thread.sleep(300);
@@ -515,6 +528,7 @@ public class GameUsualActivity extends AppCompatActivity {
                 blueGhost.getMap()[12][11] = 1;
             }
         };
+
         handlerOrange = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -529,6 +543,43 @@ public class GameUsualActivity extends AppCompatActivity {
                 pinkGhost.getMap()[12][11] = 0;
                 pinkGhost.changeMove(4);
                 pinkGhost.getMap()[12][11] = 1;
+            }
+        };
+
+        handlerRedChangeMove = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                redGhost.getSet()[0].removeAllListeners();
+                redGhost.getSet()[0].cancel();
+                redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
+                redGhost.changeMove(redGhost.getOppositeMove());
+            }
+        };
+        handlerBlueChangeMove = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                blueGhost.getSet()[0].removeAllListeners();
+                blueGhost.getSet()[0].cancel();
+                blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
+                blueGhost.changeMove(blueGhost.getOppositeMove());
+            }
+        };
+        handlerOrangeChangeMove = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                orangeGhost.getSet()[0].removeAllListeners();
+                orangeGhost.getSet()[0].cancel();
+                orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
+                orangeGhost.changeMove(orangeGhost.getOppositeMove());
+            }
+        };
+        handlerPinkChangeMove = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                pinkGhost.getSet()[0].removeAllListeners();
+                pinkGhost.getSet()[0].cancel();
+                pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+                pinkGhost.changeMove(pinkGhost.getOppositeMove());
             }
         };
 
@@ -612,7 +663,8 @@ public class GameUsualActivity extends AppCompatActivity {
                 run = true;
                 thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
                 thread.start();
-                MovementTypeThread typeThread = new MovementTypeThread();
+                MovementTypeThread typeThread = new MovementTypeThread(handlerRedChangeMove,handlerBlueChangeMove,
+                        handlerOrangeChangeMove,handlerPinkChangeMove);
                 typeThread.start();
                 EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives);
                 eatPacman.start();
@@ -639,9 +691,9 @@ public class GameUsualActivity extends AppCompatActivity {
 
     public void setScoreTextView(int s) {
         if (SettingsActivity.getLanguage().equals("English"))
-            scoreTextView.setText("Score = " + s);
+            scoreTextView.setText("Score: " + s);
         if (SettingsActivity.getLanguage().equals("Ukranian"))
-            scoreTextView.setText("Рахунок = " + s);
+            scoreTextView.setText("Рахунок: " + s);
     }
 
     public static int getLivesStartNumber() {

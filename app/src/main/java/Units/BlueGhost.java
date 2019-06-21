@@ -35,6 +35,7 @@ public class BlueGhost extends Unit {
 
     @Override
     public void run() {
+        speedInPixelsForSecond = 150+GameUsualActivity.level*20;
         this.getImageView().setBackgroundResource(R.drawable.blue_up);
         AnimationDrawable ghostAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);
