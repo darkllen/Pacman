@@ -4,14 +4,10 @@ import android.widget.ImageView;
 
 public class Point {
 
-    private int x;
-    private int y;//todo maybe x and y are switched або це координати з перевернутої мапи. Мені взагалі здається, нам це не знадобиться, але хай пока буде
     private int type;//1-regular point, 2-big point for eating monsters, 3-bonus (fruits), 0 - empty?
     private int score;
 
-    public Point(int x,int y,int type){
-        this.x=x;
-        this.y=y;
+    public Point(int type){
         this.type=type;
         switch (type){
             case 1:

@@ -210,19 +210,19 @@ public class Map {
         //all map
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
-                if(map[i][j]==0&&(j>1&&j<width-2)) {bonus[i][j]=new Point(j,i,1);bonusNumber++;}
-                else bonus[i][j]=new Point(j,i,0);
+                if(map[i][j]==0&&(j>1&&j<width-2)) {bonus[i][j]=new Point(1);bonusNumber++;}
+                else bonus[i][j]=new Point(0);
         //home for monsters
         for (int i = 10; i < 17; i++)
             for (int j = 11-3; j < 21-3; j++){
                 if(bonus[i][j].getType()!=0)   bonusNumber--;
-                bonus[i][j]=new Point(j,i,0);}
+                bonus[i][j]=new Point(0);}
 
             //add 4 invisible bonus
-            bonus[4][2]=new Point(2,4,2);
-            bonus[4][width-3]=new Point(width-3,4,2);
-            bonus[height-4][2]=new Point(2,height-4,2);
-            bonus[height-4][width-3]=new Point(width-3,height-4,2);
+            bonus[4][2]=new Point(2);
+            bonus[4][width-3]=new Point(2);
+            bonus[height-4][2]=new Point(2);
+            bonus[height-4][width-3]=new Point(2);
 
             bonus=getRotateArrBonus(bonus);
 
@@ -431,7 +431,7 @@ public class Map {
     }
 
     public static void setOneBonus(int x,int y,int type){
-        bonus[x][y]=new Point(x,y,type);
+        bonus[x][y]=new Point(type);
     }
 
     public static int getBonusNumber() {
