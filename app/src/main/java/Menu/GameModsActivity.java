@@ -18,6 +18,7 @@ public class GameModsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //hide top panel
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.game_mods);
@@ -37,7 +38,7 @@ public class GameModsActivity extends AppCompatActivity {
         //start game on click
         Button inversionMod = findViewById(R.id.inversionMod);
         inversionMod.setOnClickListener(v -> {
-            SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("sharedPrefsScore", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
             editor.putInt("score", 3);
             editor.apply();
