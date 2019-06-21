@@ -130,7 +130,7 @@ public class GameUsualActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
             editor.putInt("score", 0);
-            editor.putInt("level", ++level);
+            editor.putInt("level", 0);
             editor.putInt("lives", livesStartNumber);
             editor.apply();
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
@@ -171,6 +171,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
         scoreTextView = findViewById(R.id.scoreTextView);
         TextView livesTextView = findViewById(R.id.livesTextView);
+        TextView levelTextView=findViewById(R.id.levelTextView);
         pauseButton = findViewById(R.id.pause_button);
         pauseTextView = findViewById(R.id.pauseTextView);
 
@@ -180,6 +181,7 @@ public class GameUsualActivity extends AppCompatActivity {
             pauseButton.setText("PAUSE");
             pauseTextView.setText("PAUSE");
             menuButton.setText("MENU");
+            levelTextView.setText("Level "+level);
 
         }
         if (SettingsActivity.getLanguage().equals("Ukranian")) {
@@ -188,6 +190,7 @@ public class GameUsualActivity extends AppCompatActivity {
             pauseButton.setText("ПАУЗА");
             pauseTextView.setText("ПАУЗА");
             menuButton.setText("МЕНЮ");
+            levelTextView.setText("Рівень "+level);
         }
 
         pauseTextView.setVisibility(View.INVISIBLE);
@@ -748,6 +751,7 @@ public class GameUsualActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor =preferences.edit();
         editor.putInt("score", 0);
+        editor.putInt("level", 0);
         editor.apply();
 
         isPaused = true;
