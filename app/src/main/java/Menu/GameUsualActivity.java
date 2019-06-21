@@ -28,6 +28,7 @@ import com.example.pacman.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -151,42 +152,43 @@ public class GameUsualActivity extends AppCompatActivity {
             SharedPreferences.Editor editor =preferences.edit();
 
 
-//            String mode="records";
-//            if(Unit.inversionMode) mode="recordsInversion";
-//
-//
-//            if (records.size() < 5) {
-//                records.add(new Integer(Map.getTotalScore() + Map.getLevelScore()).toString());
-//            } else {
-//                List<String> sortedList2 = new ArrayList<String>(records);
-//                List<Integer> sortedList = new ArrayList<Integer>();
-//                for (int i = 0; i < sortedList2.size(); i++)
-//                    sortedList.add(new Integer(sortedList2.get(i)));
-//                Collections.sort(sortedList);
-//                if (sortedList.get(0) < Map.getTotalScore() + Map.getLevelScore()) {
-//                    sortedList.set(0, Map.getTotalScore() + Map.getLevelScore());
-//
-//                    sortedList2 = new ArrayList<String>();
-//                    for (int i = 0; i < sortedList.size(); i++)
-//                        sortedList2.add((sortedList.get(i).toString()));
-//
-//                    records = new HashSet<>(sortedList2);
-//
-//                }
-//            }
-//
-//
-//
-//
-//            editor.putStringSet(mode,records);
+            String mode="records";
+            if(Unit.inversionMode) mode="recordsInversion";
 
-            editor.putInt("score", 0);
-            editor.putInt("level", 0);
 
+            if (records.size() < 5) {
+                records.add(new Integer(Map.getTotalScore() + Map.getLevelScore()).toString());
+            } else {
+                List<String> sortedList2 = new ArrayList<String>(records);
+                List<Integer> sortedList = new ArrayList<Integer>();
+                for (int i = 0; i < sortedList2.size(); i++)
+                    sortedList.add(new Integer(sortedList2.get(i)));
+                Collections.sort(sortedList);
+                if (sortedList.get(0) < Map.getTotalScore() + Map.getLevelScore()) {
+                    sortedList.set(0, Map.getTotalScore() + Map.getLevelScore());
+
+                    sortedList2 = new ArrayList<String>();
+                    for (int i = 0; i < sortedList.size(); i++)
+                        sortedList2.add((sortedList.get(i).toString()));
+
+                    records = new HashSet<>();
+                    records.addAll(sortedList2);
+
+                }
+            }
+
+
+            editor.putStringSet(mode,records);
             editor.putInt("score", 0);
             editor.putInt("level", 0);
             editor.putInt("lives", livesStartNumber);
             editor.apply();
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
             android.os.Process.killProcess(android.os.Process.myPid());
