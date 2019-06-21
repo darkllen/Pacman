@@ -85,6 +85,8 @@ public class GameUsualActivity extends AppCompatActivity {
     private Button menuButton;
     private static boolean isPaused = false;
 
+    private boolean lose=false;
+
     Pacman pacman;
     RedGhost redGhost;
     OrangeGhost orangeGhost;
@@ -408,14 +410,18 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerLives = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                //todo add pacman lose animation
+                pacman.getImageView().setBackgroundResource(R.drawable.pacman_lose_animation);
+                AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
+                pacmanAnimation.start();
+                pacman.getImageView().setRotation(0);
+
                 if (msg.arg1 > 0) layout.removeView(lives[msg.arg1]);
                 if (msg.arg1 == 0) gameLose();
                 else {
                     livesStartNumber--;
 
-                    pacman.getSet()[0].cancel();
-                    pacman.getImageView().setX(1080 / 26 * 13);
-                    pacman.getImageView().setY(1080 / 26 * 28 + 100);
+
 
                     redGhost.getSet()[0].removeAllListeners();
                     redGhost.getSet()[0].cancel();
@@ -458,6 +464,7 @@ public class GameUsualActivity extends AppCompatActivity {
                         orangeGhost.changeMove(4);
                         orangeGhost.getMap()[13][11] = 1;
                     }
+                    lose=true;
                     PausePushed(pauseButton);
                 }
             }
@@ -726,7 +733,16 @@ public class GameUsualActivity extends AppCompatActivity {
             pinkGhost.getSet()[0].pause();
 
 
-        } else {
+        } else {if(lose){
+            lose=false;
+            pacman.getSet()[0].cancel();
+            pacman.getImageView().setX(1080 / 26 * 13);
+            pacman.getImageView().setY(1080 / 26 * 28 + 100);
+            pacman.getImageView().setBackgroundResource(R.drawable.pacman_move_animation);
+            AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
+            pacmanAnimation.start();
+            pacman.getImageView().setRotation(0);
+        }
             isPaused = false;
 
             if (SettingsActivity.getLanguage().equals("English")) {
