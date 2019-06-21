@@ -28,7 +28,7 @@ public class Map {
     private static Point[][]bonus=new Point[height][width];
 
     private static int levelScore=0;
-    private static int totalScore=0;
+    private static int totalScore;
 
     private static ArrayList<Integer> oneTileFiguresXArray=new ArrayList<>();
     private static ArrayList<Integer> oneTileFiguresYArray=new ArrayList<>();
@@ -62,7 +62,7 @@ public class Map {
          bonus=new Point[height][width];
 
          levelScore=0;
-         totalScore=0;
+         //totalScore=0;
 
          oneTileFiguresXArray=new ArrayList<>();
          oneTileFiguresYArray=new ArrayList<>();

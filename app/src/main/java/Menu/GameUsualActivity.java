@@ -102,10 +102,15 @@ public class GameUsualActivity extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-        Map.setTotalScore(sharedPreferences.getInt("score", 2));
+        Map.setTotalScore(sharedPreferences.getInt("score", 0));
+        System.out.println(Map.getTotalScore());
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
+            SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor =preferences.edit();
+            editor.putInt("score", 0);
+            editor.apply();
             Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
             startActivity(intent);
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -438,7 +443,7 @@ public class GameUsualActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor =preferences.edit();
-                editor.putInt("score", Map.getLevelScore());
+                editor.putInt("score", Map.getTotalScore());
                 editor.apply();
                 try {
                     Thread.sleep(300);
@@ -676,7 +681,13 @@ public class GameUsualActivity extends AppCompatActivity {
     }
 
     public void gameLose() {
-        //todo put monsters on pause correct
+
+        //todo add score to records
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor =preferences.edit();
+        editor.putInt("score", 0);
+        editor.apply();
+
         isPaused = true;
 
         pacman.changeMove(pacman.getPrev());

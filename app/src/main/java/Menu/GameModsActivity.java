@@ -27,7 +27,7 @@ public class GameModsActivity extends AppCompatActivity {
         usualMod.setOnClickListener(v -> {
             SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor =preferences.edit();
-            editor.putInt("score", 3);
+            editor.putInt("score", 0);
             editor.apply();
             Intent intent = new Intent(GameModsActivity.this, GameUsualActivity.class);
             startActivity(intent);
