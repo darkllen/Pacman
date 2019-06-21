@@ -133,7 +133,7 @@ public class Map {
         combineOneTileFigures();
 
         //todo combine the smallest figures?
-        combineRandom();
+       // combineRandom();
 
         addTunnels();
 
