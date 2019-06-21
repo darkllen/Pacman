@@ -91,18 +91,30 @@ public class GameUsualActivity extends AppCompatActivity {
     AppearingGhostsThread thread = null;
 
 
+    public static final String SHARED_PREFS="sharedPrefs";
+    public static final String LANGUAGE="language";
+    public static final String MUSIC="true";
+    public static final String SOUND="1";
+    public void loadData(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+        SettingsActivity.setLanguage(sharedPreferences.getString(LANGUAGE,"English"));
+        SettingsActivity.setMusicEnabled(sharedPreferences.getBoolean(MUSIC,true));
+        int i=sharedPreferences.getInt(SOUND,1);
+        if(i==1)SettingsActivity.setSoundEnabled(true);else SettingsActivity.setSoundEnabled(false);
+    }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "HandlerLeak"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hide top panel
+        loadData();
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.game_usual);
         ConstraintLayout layout = findViewById(R.id.pacmanLayout);
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-        Map.setTotalScore(sharedPreferences.getInt("score", 2));
+        Map.setTotalScore(sharedPreferences.getInt("score", 2000));
 
         menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> {
