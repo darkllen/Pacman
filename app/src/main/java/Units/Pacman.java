@@ -22,7 +22,7 @@ public class Pacman extends Unit {
     GameUsualActivity gUA;
 
     int scoreBound=50*10+100;//score when berry appears
-    int scoreBound2=100*10+100;//score when berry appears 2 time todo remove this parameter
+
 
      int scoreDelta=50*10+100;//delta score between 2 berries
     //int scoreDelta=100; //100 is value for tests. 50*10+100 - real value
@@ -88,7 +88,7 @@ public class Pacman extends Unit {
                 }
 
 
-                if (Map.getBonusNumber()==0){//todo убирать жизнь при проигрыше, а не при бонусе
+                if (Map.getBonusNumber()==0){
                     Map.setTotalScore(Map.getLevelScore()+Map.getTotalScore());
                     Map.setLevelScore(0);
                     handlerNextLevel.sendMessage(new Message());

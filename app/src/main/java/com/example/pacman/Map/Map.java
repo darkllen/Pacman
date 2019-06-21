@@ -264,7 +264,7 @@ public class Map {
      */
     private static void addTunnels() {
         Random random=new Random();
-        int k=random.nextInt(18)+7;//todo change bound depending on height
+        int k=random.nextInt(18)+7;
         while (map[k][width-4]==0){
                 k=random.nextInt(18)+7;
         }

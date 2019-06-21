@@ -196,12 +196,7 @@ public class GameUsualActivity extends AppCompatActivity {
         });
 
 
-        //int side = 1000/30;
-//        Display display = getWindowManager().getDefaultDisplay();//todo передавати параметр ширини в пакмана??
-//        Point size = new Point();
-//        display.getSize(size);
-//        int width = size.x;
-//        int height = size.y;
+
         int width = 1080;
         int side = width / 26;
 
@@ -450,7 +445,7 @@ public class GameUsualActivity extends AppCompatActivity {
         handlerLives = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                //todo add pacman lose animation
+
                 pacman.getImageView().setBackgroundResource(R.drawable.pacman_lose_animation);
                 AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
                 pacmanAnimation.start();
@@ -803,7 +798,7 @@ public class GameUsualActivity extends AppCompatActivity {
     }
 
     public void gameLose() {
-        //todo add score to records
+
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor =preferences.edit();
 
