@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
         pacman.setY(1800);
 
         ImageView redGhost = layout.findViewById(R.id.redGhostMain);
-        redGhost.setBackgroundResource(R.drawable.red_right);
+        redGhost.setBackgroundResource(R.drawable.invisible);
         AnimationDrawable redGhostAnimation = (AnimationDrawable) redGhost.getBackground();
         redGhostAnimation.start();
         redGhost.setY(1800);
         redGhost.setX(150);
 
         ImageView blueGhost = layout.findViewById(R.id.blueGhostMain);
-        blueGhost.setBackgroundResource(R.drawable.blue_right);
+        blueGhost.setBackgroundResource(R.drawable.invisible);
         AnimationDrawable blueGhostAnimation = (AnimationDrawable) blueGhost.getBackground();
         blueGhostAnimation.start();
         blueGhost.setY(1800);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ImageView orangeGhost = layout.findViewById(R.id.orangeGhostMain);
-        orangeGhost.setBackgroundResource(R.drawable.orange_right);
+        orangeGhost.setBackgroundResource(R.drawable.invisible);
         AnimationDrawable orangeGhostAnimation = (AnimationDrawable) orangeGhost.getBackground();
         orangeGhostAnimation.start();
         orangeGhost.setY(1800);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ImageView pinkGhost = layout.findViewById(R.id.pinkGhostMain);
-        pinkGhost.setBackgroundResource(R.drawable.pink_right);
+        pinkGhost.setBackgroundResource(R.drawable.invisible);
         AnimationDrawable pinkGhostAnimation = (AnimationDrawable) pinkGhost.getBackground();
         pinkGhostAnimation.start();
         pinkGhost.setY(1800);
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     i++;
                     blueGhost.setX(1080+360+140);
-                    blueGhost.setBackgroundResource(R.drawable.blue_right);
+                    blueGhost.setBackgroundResource(R.drawable.invisible);
                     AnimationDrawable blueGhostAnimation = (AnimationDrawable) blueGhost.getBackground();
                     blueGhostAnimation.start();
                     Animator animatorPacman = ObjectAnimator.ofFloat(blueGhost, "X",  -400+140+50, 1080+360+140);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     i++;
                     redGhost.setX(1080+360+70);
-                    redGhost.setBackgroundResource(R.drawable.red_right);
+                    redGhost.setBackgroundResource(R.drawable.invisible);
                     AnimationDrawable redGhostAnimation = (AnimationDrawable) redGhost.getBackground();
                     redGhostAnimation.start();
                     Animator animatorPacman = ObjectAnimator.ofFloat(redGhost, "X",  -400+70+50, 1080+360+70);
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     i++;
                     orangeGhost.setX(1080+360+210);
-                    orangeGhost.setBackgroundResource(R.drawable.orange_right);
+                    orangeGhost.setBackgroundResource(R.drawable.invisible);
                     AnimationDrawable orangeGhostAnimation = (AnimationDrawable) orangeGhost.getBackground();
                     orangeGhostAnimation.start();
                     Animator animatorPacman = ObjectAnimator.ofFloat(orangeGhost, "X",  -400+210+50, 1080+360+210);
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     i++;
                     pinkGhost.setX(1080+360+280);
-                    pinkGhost.setBackgroundResource(R.drawable.pink_right);
+                    pinkGhost.setBackgroundResource(R.drawable.invisible);
                     AnimationDrawable orangeGhostAnimation = (AnimationDrawable) pinkGhost.getBackground();
                     orangeGhostAnimation.start();
                     Animator animatorPacman = ObjectAnimator.ofFloat(pinkGhost, "X",  -400+280+50, 1080+360+280);
