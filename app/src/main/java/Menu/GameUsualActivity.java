@@ -110,6 +110,8 @@ public class GameUsualActivity extends AppCompatActivity {
     private HashSet<String> records=new HashSet<>();
     private HashSet<String> recordsForClone=new HashSet<>();
 
+    GameUsualActivity gUA;
+
 
     public static final String SHARED_PREFS="sharedPrefs";
     public static final String LANGUAGE="language";
@@ -133,6 +135,7 @@ public class GameUsualActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gUA=this;
         //hide top panel
         loadData();
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -887,7 +890,7 @@ public class GameUsualActivity extends AppCompatActivity {
                 MovementTypeThread typeThread = new MovementTypeThread(handlerRedLose, handlerBlueLose,
                         handlerOrangeLose, handlerPinkLose);
                 typeThread.start();
-                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerRedLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose, handlerScore);
+                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerRedLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose, handlerScore,gUA);
                 eatPacman.start();
             }
             first[0] = true;

@@ -1,13 +1,17 @@
 package TimeThreads;
 
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 
 
 import com.example.pacman.Map.Map;
+import com.example.pacman.R;
 
 import Menu.GameUsualActivity;
 import Menu.Listeners.GhostListener;
+import Menu.SettingsActivity;
+import Music.MusicThread;
 import Units.BlueGhost;
 import Units.OrangeGhost;
 import Units.Pacman;
@@ -31,8 +35,10 @@ public class EatPacman extends Thread {
 
     public boolean stop = false;
 
+    GameUsualActivity gUA;
+
     public EatPacman(RedGhost redGhost, BlueGhost blueGhost, OrangeGhost orangeGhost, PinkGhost pinkGhost, Pacman pacman, Handler handler, Handler handlerRed, Handler handlerBlue,
-                     Handler handlerOrange, Handler handlerPink, Handler handlerScore) {
+                     Handler handlerOrange, Handler handlerPink, Handler handlerScore,GameUsualActivity gUA) {
         this.redGhost = redGhost;
         this.blueGhost = blueGhost;
         this.orangeGhost = orangeGhost;
@@ -44,10 +50,15 @@ public class EatPacman extends Thread {
         this.handlerOrange = handlerOrange;
         this.handlerPink = handlerPink;
         this.handlerScore = handlerScore;
+        this.gUA=gUA;
+
     }
 
     @Override
     public void run() {
+
+        MediaPlayer pacman_eatGhost=MediaPlayer.create(gUA, R.raw.pacman_eatghost);
+        MusicThread musicThread=new MusicThread(pacman_eatGhost);
         while (true){
             if (stop){
                 return;
@@ -57,6 +68,7 @@ public class EatPacman extends Thread {
             int currY = Math.round ((( redGhost.getImageView().getY()-100)/(1080/26)));
             if (redGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
+                    if(SettingsActivity.getSoundEnabled())musicThread.play();
                     Map.setLevelScore(Map.getLevelScore() + 100);
                     Message msg2 = new Message();
                     msg2.obj = " ";
@@ -87,7 +99,7 @@ public class EatPacman extends Thread {
              currY = Math.round ((( pinkGhost.getImageView().getY()-100)/(1080/26)));
             if (pinkGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
-
+                    if(SettingsActivity.getSoundEnabled())musicThread.play();
                     Map.setLevelScore(Map.getLevelScore() + 100);
                     Message msg2 = new Message();
                     msg2.obj = " ";
@@ -118,7 +130,7 @@ public class EatPacman extends Thread {
             currY = Math.round ((( orangeGhost.getImageView().getY()-100)/(1080/26)));
             if (orangeGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
-
+                    if(SettingsActivity.getSoundEnabled()) musicThread.play();
                     Map.setLevelScore(Map.getLevelScore() + 100);
                     Message msg2 = new Message();
                     msg2.obj = " ";
@@ -149,7 +161,7 @@ public class EatPacman extends Thread {
             currY = Math.round ((( blueGhost.getImageView().getY()-100)/(1080/26)));
             if (blueGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
-
+                    if(SettingsActivity.getSoundEnabled())musicThread.play();
                     Map.setLevelScore(Map.getLevelScore() + 100);
                     Message msg2 = new Message();
                     msg2.obj = " ";

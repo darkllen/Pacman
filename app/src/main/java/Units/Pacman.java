@@ -134,6 +134,8 @@ public class Pacman extends Unit {
                     if(!SettingsActivity.getMusicEnabled()){
                         pacman_intermission.setVolume(0,0);
                     pacman_intermission2.setVolume(0,0);}
+                    if(pacman_intermission.isPlaying())pacman_intermission.stop();
+                    if(pacman_intermission2.isPlaying())pacman_intermission2.stop();
                         musicThreadIntermission.play();
                 }
 
