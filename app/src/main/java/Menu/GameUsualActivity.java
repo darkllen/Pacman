@@ -548,14 +548,14 @@ public class GameUsualActivity extends AppCompatActivity {
                             }
 
                             if (bonusNum - Map.getBonusNumber() >= bonusNum / 4) {
-
+                                blueGhost.getMap()[12][11] = 0;
                                 blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
                                 blueGhost.changeMove(4);
                                 blueGhost.getMap()[12][11] = 1;
                             }
 
                             if (bonusNum - Map.getBonusNumber() >= bonusNum / 1.7) {
-
+                                orangeGhost.getMap()[13][11] = 0;
                                 orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
                                 orangeGhost.changeMove(4);
                                 orangeGhost.getMap()[13][11] = 1;
