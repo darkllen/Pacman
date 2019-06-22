@@ -27,6 +27,7 @@ public abstract class Unit extends Thread {
 
     int[][] map;
 
+    public static boolean uneatable = false;
     //position in map
     int xMap = 13;
     int yMap = 28;

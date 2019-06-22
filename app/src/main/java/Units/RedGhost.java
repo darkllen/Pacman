@@ -102,6 +102,9 @@ public class RedGhost extends Unit {
                 }
                 rightDestination = 1080/26*(t);
                // imageView.setRotation(0);
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else
                 if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
@@ -152,6 +155,9 @@ public class RedGhost extends Unit {
                 }
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else
                 if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
@@ -187,6 +193,9 @@ public class RedGhost extends Unit {
                 }
                 bottomDestination = 1080/26*(t)+100;
                 //imageView.setRotation(90);
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else
                 if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
@@ -223,6 +232,9 @@ public class RedGhost extends Unit {
                 }
                 upDestination = 1080/26*(t)+100;
                 //imageView.setRotation(270);
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else
                 if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {

@@ -95,7 +95,9 @@ public class PinkGhost extends Unit {
                 }
                 rightDestination = 1080/26*(t);
                 // imageView.setRotation(0);
-                if (GhostListener.isCanEat()){
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
                     this.getImageView().setBackgroundResource(R.drawable.pink_right);
@@ -145,7 +147,9 @@ public class PinkGhost extends Unit {
                 }
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
-                if (GhostListener.isCanEat()){
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
                     this.getImageView().setBackgroundResource(R.drawable.pink_left);
@@ -180,7 +184,9 @@ public class PinkGhost extends Unit {
                 }
                 bottomDestination = 1080/26*(t)+100;
                 //imageView.setRotation(90);
-                if (GhostListener.isCanEat()){
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
                     this.getImageView().setBackgroundResource(R.drawable.pink_down);
@@ -216,7 +222,9 @@ public class PinkGhost extends Unit {
                 }
                 upDestination = 1080/26*(t)+100;
                 //imageView.setRotation(270);
-                if (GhostListener.isCanEat()){
+                if (uneatable){
+                    this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                }else if (GhostListener.isCanEat()){
                     this.getImageView().setBackgroundResource(R.drawable.invisible);
                 }else {
                     this.getImageView().setBackgroundResource(R.drawable.pink_up);
