@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
@@ -23,8 +24,10 @@ public class RecordsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.records);
 
+        ConstraintLayout layout = findViewById(R.id.recordsLay);
+
         //start game on click
-        Button usualMod = findViewById(R.id.recordsUsualMod);
+        Button usualMod = layout.findViewById(R.id.recordsUsualMod);
         usualMod.setOnClickListener(v -> {
 //            SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
 //            SharedPreferences.Editor editor =preferences.edit();
@@ -67,5 +70,10 @@ public class RecordsActivity extends AppCompatActivity {
             inversionMod.setText("Рекорди інверсія");
             back.setText("Назад");
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RecordsActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -842,7 +842,7 @@ public class GameUsualActivity extends AppCompatActivity {
                 MovementTypeThread typeThread = new MovementTypeThread(handlerReLose, handlerBlueLose,
                         handlerOrangeLose, handlerPinkLose);
                 typeThread.start();
-                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerReLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose);
+                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerReLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose, handlerScore);
                 eatPacman.start();
             }
             first[0] = true;
@@ -1014,6 +1014,51 @@ public class GameUsualActivity extends AppCompatActivity {
         GameUsualActivity.isPaused = isPaused;
     }
 
+    @Override
+    public void onBackPressed() {
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor =preferences.edit();
 
 
+        String mode="records";
+        if(Unit.inversionMode) mode="recordsInversion";
+
+
+        if (records.size() < 5) {
+            records.add(new Integer(Map.getTotalScore() + Map.getLevelScore()).toString());
+        } else {
+            List<String> sortedList2 = new ArrayList<String>(records);
+            List<Integer> sortedList = new ArrayList<Integer>();
+            for (int i = 0; i < sortedList2.size(); i++)
+                sortedList.add(new Integer(sortedList2.get(i)));
+            Collections.sort(sortedList);
+            if (sortedList.get(0) < Map.getTotalScore() + Map.getLevelScore()) {
+                sortedList.set(0, Map.getTotalScore() + Map.getLevelScore());
+
+                sortedList2 = new ArrayList<String>();
+                for (int i = 0; i < sortedList.size(); i++)
+                    sortedList2.add((sortedList.get(i).toString()));
+
+                records = new HashSet<>();
+                records.addAll(sortedList2);
+
+            }
+        }
+
+
+        editor.putStringSet(mode,records);
+        editor.putInt("score", 0);
+        editor.putInt("level", 0);
+        editor.putInt("lives", livesStartNumber);
+        editor.apply();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(GameUsualActivity.this, MainActivity.class);
+        startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }

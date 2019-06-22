@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 
+import com.example.pacman.Map.Map;
 
 import Menu.GameUsualActivity;
 import Menu.Listeners.GhostListener;
@@ -26,9 +27,12 @@ public class EatPacman extends Thread {
     Handler handlerOrange;
     Handler handlerPink;
 
+    Handler handlerScore;
+
     public boolean stop = false;
 
-    public EatPacman(RedGhost redGhost, BlueGhost blueGhost, OrangeGhost orangeGhost, PinkGhost pinkGhost, Pacman pacman, Handler handler, Handler handlerRed, Handler handlerBlue, Handler handlerOrange, Handler handlerPink) {
+    public EatPacman(RedGhost redGhost, BlueGhost blueGhost, OrangeGhost orangeGhost, PinkGhost pinkGhost, Pacman pacman, Handler handler, Handler handlerRed, Handler handlerBlue,
+                     Handler handlerOrange, Handler handlerPink, Handler handlerScore) {
         this.redGhost = redGhost;
         this.blueGhost = blueGhost;
         this.orangeGhost = orangeGhost;
@@ -39,6 +43,7 @@ public class EatPacman extends Thread {
         this.handlerBlue = handlerBlue;
         this.handlerOrange = handlerOrange;
         this.handlerPink = handlerPink;
+        this.handlerScore = handlerScore;
     }
 
     @Override
@@ -52,6 +57,12 @@ public class EatPacman extends Thread {
             int currY = Math.round ((( redGhost.getImageView().getY()-100)/(1080/26)));
             if (redGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
+                    Map.setLevelScore(Map.getLevelScore() + 100);
+                    Message msg2 = new Message();
+                    msg2.obj = " ";
+                    msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
+                    msg2.arg2 = 0;
+                    handlerScore.sendMessage(msg2);
                     handlerRed.sendMessage(new Message());
                     try{
                         sleep(1500);
@@ -76,6 +87,13 @@ public class EatPacman extends Thread {
              currY = Math.round ((( pinkGhost.getImageView().getY()-100)/(1080/26)));
             if (pinkGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
+
+                    Map.setLevelScore(Map.getLevelScore() + 100);
+                    Message msg2 = new Message();
+                    msg2.obj = " ";
+                    msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
+                    msg2.arg2 = 0;
+                    handlerScore.sendMessage(msg2);
                     handlerPink.sendMessage(new Message());
                     try{
                         sleep(1500);
@@ -100,6 +118,13 @@ public class EatPacman extends Thread {
             currY = Math.round ((( orangeGhost.getImageView().getY()-100)/(1080/26)));
             if (orangeGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
+
+                    Map.setLevelScore(Map.getLevelScore() + 100);
+                    Message msg2 = new Message();
+                    msg2.obj = " ";
+                    msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
+                    msg2.arg2 = 0;
+                    handlerScore.sendMessage(msg2);
                     handlerOrange.sendMessage(new Message());
                     try{
                         sleep(1500);
@@ -124,6 +149,13 @@ public class EatPacman extends Thread {
             currY = Math.round ((( blueGhost.getImageView().getY()-100)/(1080/26)));
             if (blueGhost.getMap()[currX][currY]==2){
                 if (GhostListener.isCanEat()){
+
+                    Map.setLevelScore(Map.getLevelScore() + 100);
+                    Message msg2 = new Message();
+                    msg2.obj = " ";
+                    msg2.arg1 = Map.getTotalScore()+Map.getLevelScore();
+                    msg2.arg2 = 0;
+                    handlerScore.sendMessage(msg2);
                     handlerBlue.sendMessage(new Message());
                     try{
                         sleep(1500);
@@ -144,6 +176,8 @@ public class EatPacman extends Thread {
                     e.printStackTrace();
                 }
             }
+
+
             try{
                 sleep(5);
             } catch (InterruptedException e) {

@@ -85,4 +85,10 @@ public class RecordsUsualActivity extends AppCompatActivity {
             back.setText("Назад");
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RecordsUsualActivity.this, RecordsActivity.class);
+        startActivity(intent);
+    }
 }

@@ -183,4 +183,10 @@ public class SettingsActivity extends AppCompatActivity {
     public static void setSoundEnabled(boolean soundEnabled) {
         SettingsActivity.soundEnabled = soundEnabled;
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }
