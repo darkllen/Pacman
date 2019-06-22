@@ -939,6 +939,7 @@ public class GameUsualActivity extends AppCompatActivity {
                 AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
                 pacmanAnimation.start();
                 pacman.getImageView().setRotation(0);
+                pacman.changeMove(1);
             }
 
             isPaused = true;
