@@ -131,7 +131,10 @@ public class Pacman extends Unit {
                 if (Map.getBonus()[xMap][yMap].getType()==2){
                     GhostListener.setCanEat(true);
                     changeTypeToScare.sendMessage(new Message());
-                    if(SettingsActivity.getMusicEnabled())musicThreadIntermission.play();
+                    if(!SettingsActivity.getMusicEnabled()){
+                        pacman_intermission.setVolume(0,0);
+                    pacman_intermission2.setVolume(0,0);}
+                        musicThreadIntermission.play();
                 }
 
 

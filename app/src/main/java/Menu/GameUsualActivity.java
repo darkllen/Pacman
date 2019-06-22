@@ -461,28 +461,32 @@ public class GameUsualActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
 
-                if(SettingsActivity.getSoundEnabled())musicThreadDeath.play();
+                if(!SettingsActivity.getSoundEnabled())pacman_death.setVolume(0,0);
+                    musicThreadDeath.play();
+
+                pacman.getSet()[0].cancel();
 
                 pacman.getImageView().setBackgroundResource(R.drawable.pacman_lose_animation);
                 AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
                 pacmanAnimation.start();
                 pacman.getImageView().setRotation(0);
 
-                if (msg.arg1 >= 0) layout.removeView(lives[msg.arg1]);
-                if (msg.arg1 == 0) {lose=true;gameLose();}
+                int k=msg.arg1;
+
+                if (k >= 0) layout.removeView(lives[msg.arg1]);
+
+                if (k == 0) {lose=true;gameLose();}
                 else {
                     livesStartNumber--;
-
-
 
                     redGhost.getSet()[0].removeAllListeners();
                     redGhost.getSet()[0].cancel();
                     redGhost.getImageView().setX(1080 / 26 * 13);
                     redGhost.getImageView().setY(1080 / 26 * 12 + 100);
                     redGhost.getMap()[13][11] = 0;
-                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
-                    redGhost.changeMove(4);
-                    redGhost.getMap()[13][11] = 1;
+//                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
+//                    redGhost.changeMove(4);
+//                    redGhost.getMap()[13][11] = 1;
 
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 10) {
                         pinkGhost.getSet()[0].removeAllListeners();
@@ -490,9 +494,9 @@ public class GameUsualActivity extends AppCompatActivity {
                         pinkGhost.getImageView().setX(1080 / 26 * 12);
                         pinkGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         pinkGhost.getMap()[12][11] = 0;
-                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
-                        pinkGhost.changeMove(4);
-                        pinkGhost.getMap()[12][11] = 1;
+//                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+//                        pinkGhost.changeMove(4);
+//                        pinkGhost.getMap()[12][11] = 1;
                     }
 
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 4) {
@@ -501,9 +505,9 @@ public class GameUsualActivity extends AppCompatActivity {
                         blueGhost.getImageView().setX(1080 / 26 * 12);
                         blueGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         blueGhost.getMap()[12][11] = 0;
-                        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
-                        blueGhost.changeMove(4);
-                        blueGhost.getMap()[12][11] = 1;
+//                        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
+//                        blueGhost.changeMove(4);
+//                        blueGhost.getMap()[12][11] = 1;
                     }
 
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 1.7) {
@@ -512,13 +516,52 @@ public class GameUsualActivity extends AppCompatActivity {
                         orangeGhost.getImageView().setX(1080 / 26 * 13);
                         orangeGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         orangeGhost.getMap()[13][11] = 0;
-                        orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
-                        orangeGhost.changeMove(4);
-                        orangeGhost.getMap()[13][11] = 1;
+//                        orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
+//                        orangeGhost.changeMove(4);
+//                        orangeGhost.getMap()[13][11] = 1;
                     }
-                    lose=true;
-                    PausePushed(pauseButton);
+//                    lose=true;
+//                    PausePushed(pauseButton);
                 }
+
+                pacman_death.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        if(k==0){if(pacman_death.isPlaying())pacman_death.stop();}
+                        if(k!=0){
+
+
+                            redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
+                            redGhost.changeMove(4);
+                            redGhost.getMap()[13][11] = 1;
+
+                            if (bonusNum - Map.getBonusNumber() >= bonusNum / 10) {
+
+                                pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+                                pinkGhost.changeMove(4);
+                                pinkGhost.getMap()[12][11] = 1;
+                            }
+
+                            if (bonusNum - Map.getBonusNumber() >= bonusNum / 4) {
+
+                                blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
+                                blueGhost.changeMove(4);
+                                blueGhost.getMap()[12][11] = 1;
+                            }
+
+                            if (bonusNum - Map.getBonusNumber() >= bonusNum / 1.7) {
+
+                                orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
+                                orangeGhost.changeMove(4);
+                                orangeGhost.getMap()[13][11] = 1;
+                            }
+
+                        lose=true;
+                        PausePushed(pauseButton);}
+                    }
+                });
+
+
             }
         };
 
@@ -861,7 +904,7 @@ public class GameUsualActivity extends AppCompatActivity {
                     click[0] = 4;
                 }
             }
-            pacman.changeMove(click[0]);
+            if(!pacman_death.isPlaying())pacman.changeMove(click[0]);
         }
     }
 
@@ -880,6 +923,19 @@ public class GameUsualActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void PausePushed(View view) {
         if (!isPaused) {
+
+            if(lose){
+
+                lose=false;
+                pacman.getSet()[0].cancel();
+                pacman.getImageView().setX(1080 / 26 * 13);
+                pacman.getImageView().setY(1080 / 26 * 28 + 100);
+                pacman.getImageView().setBackgroundResource(R.drawable.pacman_move_animation);
+                AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
+                pacmanAnimation.start();
+                pacman.getImageView().setRotation(0);
+            }
+
             isPaused = true;
 
             if (SettingsActivity.getLanguage().equals("English")) {
@@ -899,16 +955,7 @@ public class GameUsualActivity extends AppCompatActivity {
             pinkGhost.getSet()[0].pause();
 
 
-        } else {if(lose){
-            lose=false;
-            pacman.getSet()[0].cancel();
-            pacman.getImageView().setX(1080 / 26 * 13);
-            pacman.getImageView().setY(1080 / 26 * 28 + 100);
-            pacman.getImageView().setBackgroundResource(R.drawable.pacman_move_animation);
-            AnimationDrawable pacmanAnimation = (AnimationDrawable) pacman.getImageView().getBackground();
-            pacmanAnimation.start();
-            pacman.getImageView().setRotation(0);
-        }
+        } else {
             isPaused = false;
 
             if (SettingsActivity.getLanguage().equals("English")) {
