@@ -18,6 +18,7 @@ public class Pacman extends Unit {
 
     MediaPlayer pacman_ch;
     MediaPlayer pacman_fruit;
+    MediaPlayer pacman_intermission;
 
 
 
@@ -72,9 +73,18 @@ public class Pacman extends Unit {
 
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
         pacman_fruit=MediaPlayer.create(gUA,R.raw.pacman_eatfruit);
+        pacman_intermission=MediaPlayer.create(gUA,R.raw.pacman_intermission);
+
+        pacman_intermission.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                changeTypeToNormal.sendMessage(new Message());
+            }
+        });
 
         MusicThread musicThread=new MusicThread(pacman_ch);
         MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
+        MusicThread musicThreadIntermission=new MusicThread(pacman_intermission);
 
 
 
@@ -112,6 +122,7 @@ public class Pacman extends Unit {
                 if (Map.getBonus()[xMap][yMap].getType()==2){
                     GhostListener.setCanEat(true);
                     changeTypeToScare.sendMessage(new Message());
+                    if(SettingsActivity.getMusicEnabled())musicThreadIntermission.play();
                 }
 
 

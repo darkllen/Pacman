@@ -68,7 +68,7 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerOrange;
     private Handler handlerPink;
 
-    private Handler handlerReLose;
+    private Handler handlerRedLose;
     private Handler handlerBlueLose;
     private Handler handlerOrangeLose;
     private Handler handlerPinkLose;
@@ -201,9 +201,9 @@ public class GameUsualActivity extends AppCompatActivity {
         pacman_begin.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if (SettingsActivity.getMusicEnabled()) pacman_police.start();
-                if (SettingsActivity.getMusicEnabled())
-                    pacman_police.setLooping(true);//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
+                if (SettingsActivity.getMusicEnabled()) {pacman_police.start();
+                //if (SettingsActivity.getMusicEnabled())
+                    pacman_police.setLooping(true);}//todo there is a little pause before starting to play again - cut music file (pacman_chomp)
                 //pacman_police.setVolume(100,100);//??
             }
         });
@@ -706,7 +706,7 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
-        handlerReLose = new Handler() {
+        handlerRedLose = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 redGhost.getSet()[0].removeAllListeners();
@@ -839,10 +839,10 @@ public class GameUsualActivity extends AppCompatActivity {
                 run = true;
                 thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
                 thread.start();
-                MovementTypeThread typeThread = new MovementTypeThread(handlerReLose, handlerBlueLose,
+                MovementTypeThread typeThread = new MovementTypeThread(handlerRedLose, handlerBlueLose,
                         handlerOrangeLose, handlerPinkLose);
                 typeThread.start();
-                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerReLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose, handlerScore);
+                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerRedLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose, handlerScore);
                 eatPacman.start();
             }
             first[0] = true;
