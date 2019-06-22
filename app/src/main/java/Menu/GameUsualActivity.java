@@ -482,8 +482,8 @@ public class GameUsualActivity extends AppCompatActivity {
                     redGhost.getSet()[0].removeAllListeners();
                     redGhost.getSet()[0].cancel();
                     redGhost.getImageView().setX(1080 / 26 * 13);
-                    redGhost.getImageView().setY(1080 / 26 * 12 + 100);
-                    redGhost.getMap()[13][11] = 0;
+                    redGhost.getImageView().setY(1080 / 26 * 10 + 100);
+
 //                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
 //                    redGhost.changeMove(4);
 //                    redGhost.getMap()[13][11] = 1;
@@ -493,7 +493,7 @@ public class GameUsualActivity extends AppCompatActivity {
                         pinkGhost.getSet()[0].cancel();
                         pinkGhost.getImageView().setX(1080 / 26 * 12);
                         pinkGhost.getImageView().setY(1080 / 26 * 12 + 100);
-                        pinkGhost.getMap()[12][11] = 0;
+
 //                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
 //                        pinkGhost.changeMove(4);
 //                        pinkGhost.getMap()[12][11] = 1;
@@ -532,12 +532,14 @@ public class GameUsualActivity extends AppCompatActivity {
 
 
                             redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
-                            redGhost.changeMove(4);
-                            redGhost.getMap()[13][11] = 1;
+                         //   redGhost.getMap()[13][11] = 0;
+                            redGhost.changeMove(1);
+                         //   redGhost.getMap()[13][11] = 1;
 
                             if (bonusNum - Map.getBonusNumber() >= bonusNum / 10) {
 
                                 pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
+                                pinkGhost.getMap()[12][11] = 0;
                                 pinkGhost.changeMove(4);
                                 pinkGhost.getMap()[12][11] = 1;
                             }
