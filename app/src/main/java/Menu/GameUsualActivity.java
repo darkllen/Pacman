@@ -487,19 +487,11 @@ public class GameUsualActivity extends AppCompatActivity {
                     redGhost.getImageView().setX(1080 / 26 * 13);
                     redGhost.getImageView().setY(1080 / 26 * 10 + 100);
 
-//                    redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
-//                    redGhost.changeMove(4);
-//                    redGhost.getMap()[13][11] = 1;
-
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 10) {
                         pinkGhost.getSet()[0].removeAllListeners();
                         pinkGhost.getSet()[0].cancel();
                         pinkGhost.getImageView().setX(1080 / 26 * 12);
                         pinkGhost.getImageView().setY(1080 / 26 * 12 + 100);
-
-//                        pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
-//                        pinkGhost.changeMove(4);
-//                        pinkGhost.getMap()[12][11] = 1;
                     }
 
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 4) {
@@ -508,9 +500,6 @@ public class GameUsualActivity extends AppCompatActivity {
                         blueGhost.getImageView().setX(1080 / 26 * 12);
                         blueGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         blueGhost.getMap()[12][11] = 0;
-//                        blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
-//                        blueGhost.changeMove(4);
-//                        blueGhost.getMap()[12][11] = 1;
                     }
 
                     if (bonusNum - Map.getBonusNumber() >= bonusNum / 1.7) {
@@ -519,12 +508,7 @@ public class GameUsualActivity extends AppCompatActivity {
                         orangeGhost.getImageView().setX(1080 / 26 * 13);
                         orangeGhost.getImageView().setY(1080 / 26 * 12 + 100);
                         orangeGhost.getMap()[13][11] = 0;
-//                        orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
-//                        orangeGhost.changeMove(4);
-//                        orangeGhost.getMap()[13][11] = 1;
                     }
-//                    lose=true;
-//                    PausePushed(pauseButton);
                 }
 
                 pacman_death.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -535,9 +519,7 @@ public class GameUsualActivity extends AppCompatActivity {
 
 
                             redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
-                         //   redGhost.getMap()[13][11] = 0;
                             redGhost.changeMove(1);
-                         //   redGhost.getMap()[13][11] = 1;
 
                             if (bonusNum - Map.getBonusNumber() >= bonusNum / 10) {
 

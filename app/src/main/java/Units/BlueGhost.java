@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
-import android.os.Message;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -41,7 +40,6 @@ public class BlueGhost extends Unit {
         AnimationDrawable ghostAnimation = (AnimationDrawable) this.getImageView().getBackground();
         this.getImageView().setY(this.getStartY()+100);
         this.getImageView().setX(this.getStartX());
-     //   this.getImageView().bringToFront();
         ghostAnimation.start();
 
 
@@ -93,7 +91,6 @@ public class BlueGhost extends Unit {
 
                 }
                 rightDestination = 1080/26*(t);
-                // imageView.setRotation(0);
                 if (uneatable){
                     this.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
                 }else if (GhostListener.isCanEat()){

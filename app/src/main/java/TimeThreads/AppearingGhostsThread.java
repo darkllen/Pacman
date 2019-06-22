@@ -6,7 +6,6 @@ import android.os.Message;
 
 import com.example.pacman.Map.Map;
 
-import Units.PinkGhost;
 
 public class AppearingGhostsThread extends Thread {
     Handler handlerRed;

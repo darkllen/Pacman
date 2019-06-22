@@ -75,7 +75,6 @@ public class Map {
         startMap = new int[y + 2][x + 2];
         map = new int[height][width];
         bonus=new Point[height][width];
-        //System.out.println(y+" "+x+" "+width+" "+height);
         fillStartMap();
 
         figureNumber++;
@@ -133,7 +132,6 @@ public class Map {
         combineOneTileFigures();
 
         //todo combine the smallest figures?
-       // combineRandom();
 
         addTunnels();
 

@@ -1,7 +1,5 @@
 package Bonus;
 
-import android.widget.ImageView;
-
 public class Point {
 
     private int type;//1-regular point, 2-big point for eating monsters, 3-bonus (fruits), 0 - empty?

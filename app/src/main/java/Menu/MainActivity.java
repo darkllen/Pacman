@@ -3,27 +3,26 @@ package Menu;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
-import android.os.Message;
+
+
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
+
+
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.pacman.Map.Map;
+
+
 import com.example.pacman.R;
 
 import java.util.Objects;
 
-import TimeThreads.MainMenuThread;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -346,25 +345,7 @@ public class MainActivity extends AppCompatActivity {
         setPinkGhostFirst.setDuration(5000);
         setPinkGhostFirst.start();
 
-
-      /*  MainMenuThread thread = new MainMenuThread(pacmanHandlerFirst);
-        thread.start();*/
-
     }
-
-
-//    public void saveData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putString(LANGUAGE,SettingsActivity);
-//        editor.putBoolean(MUSIC,musicEnabled);
-//        if(soundEnabled)editor.putInt(SOUND,1);else editor.putInt(SOUND,0);
-//        //editor.putBoolean(SOUND,soundEnabled);
-//
-//        editor.apply();
-//        Toast.makeText(this,"Data Saved",Toast.LENGTH_SHORT).show();
-//    }
 
     public void loadData(){
         SharedPreferences sharedPreferences = this.getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);

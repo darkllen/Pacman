@@ -1,10 +1,8 @@
 package Menu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -75,12 +73,10 @@ public class SettingsActivity extends AppCompatActivity {
         Button languageBack=findViewById(R.id.language_back);
         languageBack.setOnClickListener(v->{
             if(language.equals("Ukranian")) {
-                //languageImageView.setImageResource(R.drawable.english);
                 language="English";
                 updateViews();
             }
             else {
-                //languageImageView.setImageResource(R.drawable.ukranian);
                 language="Ukranian";
                 updateViews();
             }
@@ -89,12 +85,10 @@ public class SettingsActivity extends AppCompatActivity {
         Button languageForward=findViewById(R.id.language_forward);
         languageForward.setOnClickListener(v->{
             if(language.equals("Ukranian")) {
-                //languageImageView.setImageResource(R.drawable.english);
                 language="English";
                 updateViews();
             }
             else {
-                //languageImageView.setImageResource(R.drawable.ukranian);
                 language="Ukranian";
                 updateViews();
             }
@@ -107,17 +101,6 @@ public class SettingsActivity extends AppCompatActivity {
         updateViews();
 
 
-
-//
-//        if(SettingsActivity.getLanguage().equals("English")){
-//            mText.setText("Music:");
-//            sText.setText("Sound:");
-//        }
-//        if(SettingsActivity.getLanguage().equals("Ukranian")){
-//            mText.setText("Музика:");
-//            sText.setText("Звуки:");
-//        }
-
     }
 
     public void saveData() {
@@ -127,7 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString(LANGUAGE,language);
         editor.putBoolean(MUSIC,musicEnabled);
         if(soundEnabled)editor.putInt(SOUND,1);else editor.putInt(SOUND,0);
-        //editor.putBoolean(SOUND,soundEnabled);
 
         editor.apply();
         Toast.makeText(this,"Data Saved",Toast.LENGTH_SHORT).show();
