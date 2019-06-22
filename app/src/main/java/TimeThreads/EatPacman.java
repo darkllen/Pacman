@@ -1,5 +1,6 @@
 package TimeThreads;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import Units.OrangeGhost;
 import Units.Pacman;
 import Units.PinkGhost;
 import Units.RedGhost;
+import Units.Unit;
 
 public class EatPacman extends Thread {
     RedGhost redGhost;
@@ -76,11 +78,25 @@ public class EatPacman extends Thread {
                     msg2.arg2 = 0;
                     handlerScore.sendMessage(msg2);
                     handlerRed.sendMessage(new Message());
+                    redGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn1 = (AnimationDrawable) redGhost.getImageView().getBackground();
+                    GhostAn1.start();
+                    blueGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn2 = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                    GhostAn2.start();
+                    orangeGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn3 = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                    GhostAn3.start();
+                    pinkGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn4 = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                    GhostAn4.start();
+                    Unit.uneatable = true;
                     try{
                         sleep(1500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    Unit.uneatable = false;
                 }else {
                 redGhost.getMap()[currX][currY]=0;
                 lives--;
@@ -107,11 +123,25 @@ public class EatPacman extends Thread {
                     msg2.arg2 = 0;
                     handlerScore.sendMessage(msg2);
                     handlerPink.sendMessage(new Message());
+                    redGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn1 = (AnimationDrawable) redGhost.getImageView().getBackground();
+                    GhostAn1.start();
+                    blueGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn2 = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                    GhostAn2.start();
+                    orangeGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn3 = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                    GhostAn3.start();
+                    pinkGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn4 = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                    GhostAn4.start();
+                    Unit.uneatable = true;
                     try{
                         sleep(1500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    Unit.uneatable = false;
                 }else {
                 pinkGhost.getMap()[currX][currY]=0;
                 lives--;
@@ -138,11 +168,25 @@ public class EatPacman extends Thread {
                     msg2.arg2 = 0;
                     handlerScore.sendMessage(msg2);
                     handlerOrange.sendMessage(new Message());
+                    redGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn1 = (AnimationDrawable) redGhost.getImageView().getBackground();
+                    GhostAn1.start();
+                    blueGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn2 = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                    GhostAn2.start();
+                    orangeGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn3 = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                    GhostAn3.start();
+                    pinkGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn4 = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                    GhostAn4.start();
+                    Unit.uneatable = true;
                     try{
                         sleep(1500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    Unit.uneatable = false;
                 } else {
                 orangeGhost.getMap()[currX][currY]=0;
                 lives--;
@@ -169,11 +213,25 @@ public class EatPacman extends Thread {
                     msg2.arg2 = 0;
                     handlerScore.sendMessage(msg2);
                     handlerBlue.sendMessage(new Message());
+                    redGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn1 = (AnimationDrawable) redGhost.getImageView().getBackground();
+                    GhostAn1.start();
+                    blueGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn2 = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                    GhostAn2.start();
+                    orangeGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn3 = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                    GhostAn3.start();
+                    pinkGhost.getImageView().setBackgroundResource(R.drawable.uneatable_monster);
+                    AnimationDrawable GhostAn4 = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                    GhostAn4.start();
+                    Unit.uneatable = true;
                     try{
                         sleep(1500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    Unit.uneatable = false;
                 }else {
                 blueGhost.getMap()[currX][currY]=0;
                 lives--;
