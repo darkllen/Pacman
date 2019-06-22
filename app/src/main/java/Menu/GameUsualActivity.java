@@ -1,12 +1,10 @@
 package Menu;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArraySet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +25,10 @@ import com.example.pacman.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 
 import Menu.Listeners.GhostListener;
 import Music.MusicThread;
@@ -74,10 +68,13 @@ public class GameUsualActivity extends AppCompatActivity {
     private Handler handlerOrange;
     private Handler handlerPink;
 
-    private Handler handlerRedChangeMove;
-    private Handler handlerBlueChangeMove;
-    private Handler handlerOrangeChangeMove;
-    private Handler handlerPinkChangeMove;
+    private Handler handlerReLose;
+    private Handler handlerBlueLose;
+    private Handler handlerOrangeLose;
+    private Handler handlerPinkLose;
+
+    private Handler changeMovementTypeTo3;
+    private Handler changeMovementTypeToNormal;
 
     private Handler nextLevelHandler;
 
@@ -545,9 +542,107 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
+        changeMovementTypeTo3 = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                redGhost.getImageView().setBackgroundResource(R.drawable.invisible);
+                AnimationDrawable redGhostAn = (AnimationDrawable) redGhost.getImageView().getBackground();
+                redGhostAn.start();
+
+                blueGhost.getImageView().setBackgroundResource(R.drawable.invisible);
+                AnimationDrawable blueGhostAn = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                blueGhostAn.start();
+
+                orangeGhost.getImageView().setBackgroundResource(R.drawable.invisible);
+                AnimationDrawable orangeGhostAn = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                orangeGhostAn.start();
+
+                pinkGhost.getImageView().setBackgroundResource(R.drawable.invisible);
+                AnimationDrawable pinkGhostAn = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                pinkGhostAn.start();
+
+            }
+        };
+
+        changeMovementTypeToNormal = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                GhostListener.setCanEat(false);
+                switch (redGhost.getPrev()){
+                    case 1:
+                        redGhost.getImageView().setBackgroundResource(R.drawable.red_right);
+                        break;
+                    case 2:
+                        redGhost.getImageView().setBackgroundResource(R.drawable.red_left);
+                        break;
+                    case 3:
+                        redGhost.getImageView().setBackgroundResource(R.drawable.red_down);
+                        break;
+                    case 4:
+                        redGhost.getImageView().setBackgroundResource(R.drawable.red_up);
+                        break;
+                }
+                AnimationDrawable redGhostAn = (AnimationDrawable) redGhost.getImageView().getBackground();
+                redGhostAn.start();
+
+                switch (blueGhost.getPrev()){
+                    case 1:
+                        blueGhost.getImageView().setBackgroundResource(R.drawable.blue_right);
+                        break;
+                    case 2:
+                        blueGhost.getImageView().setBackgroundResource(R.drawable.blue_left);
+                        break;
+                    case 3:
+                        blueGhost.getImageView().setBackgroundResource(R.drawable.blue_down);
+                        break;
+                    case 4:
+                        blueGhost.getImageView().setBackgroundResource(R.drawable.blue_up);
+                        break;
+                }
+                AnimationDrawable blueGhostAn = (AnimationDrawable) blueGhost.getImageView().getBackground();
+                blueGhostAn.start();
+
+                switch (orangeGhost.getPrev()){
+                    case 1:
+                        orangeGhost.getImageView().setBackgroundResource(R.drawable.orange_right);
+                        break;
+                    case 2:
+                        orangeGhost.getImageView().setBackgroundResource(R.drawable.orange_left);
+                        break;
+                    case 3:
+                        orangeGhost.getImageView().setBackgroundResource(R.drawable.orange_down);
+                        break;
+                    case 4:
+                        orangeGhost.getImageView().setBackgroundResource(R.drawable.orange_up);
+                        break;
+                }
+                AnimationDrawable orangeGhostAn = (AnimationDrawable) orangeGhost.getImageView().getBackground();
+                orangeGhostAn.start();
+
+                switch (pinkGhost.getPrev()){
+                    case 1:
+                        pinkGhost.getImageView().setBackgroundResource(R.drawable.pink_right);
+                        break;
+                    case 2:
+                        pinkGhost.getImageView().setBackgroundResource(R.drawable.pink_left);
+                        break;
+                    case 3:
+                        pinkGhost.getImageView().setBackgroundResource(R.drawable.pink_down);
+                        break;
+                    case 4:
+                        pinkGhost.getImageView().setBackgroundResource(R.drawable.pink_up);
+                        break;
+                }
+                AnimationDrawable pinkGhostAn = (AnimationDrawable) pinkGhost.getImageView().getBackground();
+                pinkGhostAn.start();
+
+            }
+        };
+
+
 
         //create new Thread for pacman unit
-        pacman = new Pacman(findViewById(R.id.image), m, handlerPacman, handlerBonus, handlerScore, nextLevelHandler, this);
+        pacman = new Pacman(findViewById(R.id.image), m, handlerPacman, handlerBonus, handlerScore, nextLevelHandler, this, changeMovementTypeTo3, changeMovementTypeToNormal);
         pacman.start();
         pacman.getImageView().bringToFront();
 
@@ -611,40 +706,56 @@ public class GameUsualActivity extends AppCompatActivity {
             }
         };
 
-        handlerRedChangeMove = new Handler() {
+        handlerReLose = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 redGhost.getSet()[0].removeAllListeners();
                 redGhost.getSet()[0].cancel();
+                redGhost.getImageView().setX(1080 / 26 * 13);
+                redGhost.getImageView().setY(1080 / 26 * 12 + 100);
+                redGhost.getMap()[13][11] = 0;
                 redGhost.setAnimatorListener(new GhostListener(redGhost, pacman, m, 1, 0, 0));
-                redGhost.changeMove(redGhost.getOppositeMove());
+                redGhost.changeMove(4);
+                redGhost.getMap()[13][11] = 1;
             }
         };
-        handlerBlueChangeMove = new Handler() {
+        handlerBlueLose = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 blueGhost.getSet()[0].removeAllListeners();
                 blueGhost.getSet()[0].cancel();
+                blueGhost.getImageView().setX(1080 / 26 * 12);
+                blueGhost.getImageView().setY(1080 / 26 * 12 + 100);
+                blueGhost.getMap()[12][11] = 0;
                 blueGhost.setAnimatorListener(new GhostListener(blueGhost, pacman, m, 1, -2, 0, redGhost));
-                blueGhost.changeMove(blueGhost.getOppositeMove());
+                blueGhost.changeMove(4);
+                blueGhost.getMap()[12][11] = 1;
             }
         };
-        handlerOrangeChangeMove = new Handler() {
+        handlerOrangeLose = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 orangeGhost.getSet()[0].removeAllListeners();
                 orangeGhost.getSet()[0].cancel();
+                orangeGhost.getImageView().setX(1080 / 26 * 13);
+                orangeGhost.getImageView().setY(1080 / 26 * 12 + 100);
+                orangeGhost.getMap()[13][11] = 0;
                 orangeGhost.setAnimatorListener(new GhostListener(orangeGhost, pacman, m, 1, 0, 0));
-                orangeGhost.changeMove(orangeGhost.getOppositeMove());
+                orangeGhost.changeMove(4);
+                orangeGhost.getMap()[13][11] = 1;
             }
         };
-        handlerPinkChangeMove = new Handler() {
+        handlerPinkLose = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 pinkGhost.getSet()[0].removeAllListeners();
                 pinkGhost.getSet()[0].cancel();
+                pinkGhost.getImageView().setX(1080 / 26 * 12);
+                pinkGhost.getImageView().setY(1080 / 26 * 12 + 100);
+                pinkGhost.getMap()[12][11] = 0;
                 pinkGhost.setAnimatorListener(new GhostListener(pinkGhost, pacman, m, 1, 4, 0));
-                pinkGhost.changeMove(pinkGhost.getOppositeMove());
+                pinkGhost.changeMove(4);
+                pinkGhost.getMap()[12][11] = 1;
             }
         };
 
@@ -728,10 +839,10 @@ public class GameUsualActivity extends AppCompatActivity {
                 run = true;
                 thread = new AppearingGhostsThread(handlerRed, handlerBlue, handlerOrange, handlerPink);
                 thread.start();
-                MovementTypeThread typeThread = new MovementTypeThread(handlerRedChangeMove,handlerBlueChangeMove,
-                        handlerOrangeChangeMove,handlerPinkChangeMove);
+                MovementTypeThread typeThread = new MovementTypeThread(handlerReLose, handlerBlueLose,
+                        handlerOrangeLose, handlerPinkLose);
                 typeThread.start();
-                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives);
+                EatPacman eatPacman = new EatPacman(redGhost,blueGhost,orangeGhost,pinkGhost,pacman,handlerLives, handlerReLose, handlerBlueLose, handlerOrangeLose, handlerPinkLose);
                 eatPacman.start();
             }
             first[0] = true;
@@ -874,12 +985,12 @@ public class GameUsualActivity extends AppCompatActivity {
 
         pauseTextView.setVisibility(View.VISIBLE);
         pauseTextView.bringToFront();
-        pauseTextView.setTextSize(70);
+        pauseTextView.setTextSize(50);
         if (SettingsActivity.getLanguage().equals("English")) {
             pauseTextView.setText("GAME OVER");
         }
         if (SettingsActivity.getLanguage().equals("Ukranian")) {
-            pauseTextView.setTextSize(60);
+            pauseTextView.setTextSize(50);
             pauseTextView.setText("ВИ ПРОГРАЛИ");
         }
 

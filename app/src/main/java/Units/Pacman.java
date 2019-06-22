@@ -9,6 +9,7 @@ import com.example.pacman.Map.Map;
 import com.example.pacman.R;
 
 import Menu.GameUsualActivity;
+import Menu.Listeners.GhostListener;
 import Menu.SettingsActivity;
 import Music.MusicThread;
 
@@ -17,6 +18,8 @@ public class Pacman extends Unit {
 
     MediaPlayer pacman_ch;
     MediaPlayer pacman_fruit;
+
+
 
 
     GameUsualActivity gUA;
@@ -31,6 +34,9 @@ public class Pacman extends Unit {
     Handler handlerScore;
     Handler handlerNextLevel;
 
+    Handler changeTypeToScare;
+    Handler changeTypeToNormal;
+
     public int lives = GameUsualActivity.getLivesStartNumber();
 
     long starttime = -1;
@@ -42,12 +48,14 @@ public class Pacman extends Unit {
 
     //values in numbers are tested and not accurate(
 
-    public Pacman(ImageView imageView, int[][] map, Handler handler, Handler handlerBonus, Handler handlerScore, Handler handlerNextLevel, GameUsualActivity gUA) {
+    public Pacman(ImageView imageView, int[][] map, Handler handler, Handler handlerBonus, Handler handlerScore, Handler handlerNextLevel, GameUsualActivity gUA, Handler changeTypeToScare,  Handler changeTypeToNormal) {
         super(imageView, map, handler);
         this.handlerBonus=handlerBonus;
         this.handlerScore=handlerScore;
         this.handlerNextLevel = handlerNextLevel;
         this.gUA=gUA;
+        this.changeTypeToScare = changeTypeToScare;
+        this.changeTypeToNormal = changeTypeToNormal;
     }
 
     @Override
@@ -95,8 +103,16 @@ public class Pacman extends Unit {
 
 
                 if(Map.getBonus()[xMap][yMap].getType()==3)
-                {if(SettingsActivity.getSoundEnabled())musicThreadFruit.play();}else
+                {
+
+                    if(SettingsActivity.getSoundEnabled())musicThreadFruit.play();
+                }else
                 {if(SettingsActivity.getSoundEnabled())musicThread.play();}
+
+                if (Map.getBonus()[xMap][yMap].getType()==2){
+                    GhostListener.setCanEat(true);
+                    changeTypeToScare.sendMessage(new Message());
+                }
 
 
                 Map.setLevelScore(Map.getLevelScore() + Map.getBonus()[xMap][yMap].getScore());

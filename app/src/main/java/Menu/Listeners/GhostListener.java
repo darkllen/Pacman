@@ -26,6 +26,7 @@ public class GhostListener implements Animator.AnimatorListener {
     RedGhost ghost;
 
     static int movementType = 1;
+    static boolean canEat = false;
 
 
 
@@ -72,9 +73,21 @@ public class GhostListener implements Animator.AnimatorListener {
         this.ghost = ghost;
     }
 
+    public static boolean isCanEat() {
+        return canEat;
+    }
+
+    public static void setCanEat(boolean canEat) {
+        GhostListener.canEat = canEat;
+    }
+
     @Override
     public void onAnimationStart(Animator animation) {
 
+    }
+
+    public static int getMovementType() {
+        return movementType;
     }
 
     @Override
@@ -83,15 +96,19 @@ public class GhostListener implements Animator.AnimatorListener {
             case 1:
                 xNum = xAbolute;
                 yNum = yAbsolute;
+                break;
             case 2:
                 xNum = - xAbolute;
                 yNum = -yAbsolute;
+                break;
             case 3:
                 yNum = -xAbolute;
                 xNum = -yAbsolute;
+                break;
             case 4:
                 yNum =  xAbolute;
                 xNum = yAbsolute;
+                break;
         }
 
         int pacmanX = (int) pacman.getImageView().getX() + 1080/26*xNum;
@@ -168,9 +185,36 @@ public class GhostListener implements Animator.AnimatorListener {
                  downDistance = (pacmanX-inDownCaseX)*(pacmanX-inDownCaseX) + (pacmanY-inDownCaseY)*(pacmanY-inDownCaseY);
             }
         }
-
+        Random random = new Random();
+        int r = random.nextInt(4)+1;
         switch (prev){
             case 1:
+                if (isCanEat()){
+                    if (up!=1&&down!=1&&right!=1){
+                        while (r==2){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1&&down!=1){
+                        while (r==2 || r ==1){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (right!=1&&down!=1){
+                        while (r==2 || r ==4){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1&&right!=1){
+                        while (r==2 || r ==3){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1){
+                        r=4;
+                    } else if (down!=1){
+                        r=3;
+                    }
+                    prev = r;
+                    unit.changeMove(r);
+                    return;
+                }
                  if ((Math.min(upDistance, Math.min(rightDistance,downDistance))==upDistance &&(up!=1&&down!=1&&right!=1)) ||
                          (Math.min(upDistance, downDistance)==upDistance && up!=1 && down!=1 && right==1) ||
                          (Math.min(upDistance, rightDistance)==upDistance && up!=1 && right!=1 && down==1) ||
@@ -196,6 +240,33 @@ public class GhostListener implements Animator.AnimatorListener {
                     return;
                 }
             case 2:
+                if (isCanEat()){
+                    if (up!=1&&down!=1&&left!=1){
+                        while (r==1){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1&&down!=1){
+                        while (r==2 || r ==1){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1&&down!=1){
+                        while (r==1 || r ==4){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1&&left!=1){
+                        while (r==1 || r ==3){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (up!=1){
+                        r=4;
+                    } else if (down!=1){
+                        r=3;
+                    }
+                    prev = r;
+                    unit.changeMove(r);
+                    return;
+                }
+
                 if ((Math.min(upDistance, Math.min(leftDistance,downDistance))==upDistance &&(up!=1&&down!=1&&left!=1)) ||
                         (Math.min(upDistance, downDistance)==upDistance && up!=1 && down!=1 && left==1) ||
                         (Math.min(upDistance, leftDistance)==upDistance && up!=1 && left!=1 && down==1) ||
@@ -221,6 +292,33 @@ public class GhostListener implements Animator.AnimatorListener {
                     return;
                 }
             case 3:
+                if (isCanEat()){
+                    if (left!=1&&down!=1&&right!=1){
+                        while (r==4){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1&&down!=1){
+                        while (r==4 || r ==1){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (right!=1&&down!=1){
+                        while (r==4 || r ==2){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1&&right!=1){
+                        while (r==4 || r ==3){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1){
+                        r=2;
+                    } else if (right!=1){
+                        r=1;
+                    }
+                    prev = r;
+                    unit.changeMove(r);
+                    return;
+                }
+
                 if ((Math.min(leftDistance, Math.min(rightDistance,downDistance))==leftDistance &&(left!=1&&down!=1&&right!=1)) ||
                         (Math.min(leftDistance, downDistance)==leftDistance && left!=1 && down!=1 && right==1) ||
                         (Math.min(leftDistance, rightDistance)==leftDistance && left!=1 && right!=1 && down==1) ||
@@ -246,6 +344,33 @@ public class GhostListener implements Animator.AnimatorListener {
                     return;
                 }
             case 4:
+                if (isCanEat()){
+                    if (left!=1&&up!=1&&right!=1){
+                        while (r==3){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1&&up!=1){
+                        while (r==3 || r ==1){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (right!=1&&up!=1){
+                        while (r==3 || r ==2){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1&&right!=1){
+                        while (r==4 || r ==3){
+                            r = random.nextInt(4)+1;
+                        }
+                    } else if (left!=1){
+                        r=2;
+                    } else if (right!=1){
+                        r=1;
+                    }
+                    prev = r;
+                    unit.changeMove(r);
+                    return;
+                }
+
                 if ((Math.min(leftDistance, Math.min(rightDistance,upDistance))==leftDistance &&(left!=1&&up!=1&&right!=1)) ||
                         (Math.min(leftDistance, upDistance)==leftDistance && left!=1 && up!=1 && right==1) ||
                         (Math.min(leftDistance, rightDistance)==leftDistance && left!=1 && right!=1 && up==1) ||

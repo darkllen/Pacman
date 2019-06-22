@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.pacman.R;
 
 import Menu.GameUsualActivity;
+import Menu.Listeners.GhostListener;
 
 public class PinkGhost extends Unit {
     public PinkGhost(ImageView imageView, int[][] map, Handler handler) {
@@ -94,7 +95,13 @@ public class PinkGhost extends Unit {
                 }
                 rightDestination = 1080/26*(t);
                 // imageView.setRotation(0);
-                this.getImageView().setBackgroundResource(R.drawable.pink_right);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.pink_right);
+                }
+                AnimationDrawable pinkGhostAn = (AnimationDrawable) this.getImageView().getBackground();
+                pinkGhostAn.start();
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -138,7 +145,13 @@ public class PinkGhost extends Unit {
                 }
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
-                this.getImageView().setBackgroundResource(R.drawable.pink_left);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.pink_left);
+                }
+                AnimationDrawable pinkGhostAn2 = (AnimationDrawable) this.getImageView().getBackground();
+                pinkGhostAn2.start();
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -167,7 +180,13 @@ public class PinkGhost extends Unit {
                 }
                 bottomDestination = 1080/26*(t)+100;
                 //imageView.setRotation(90);
-                this.getImageView().setBackgroundResource(R.drawable.pink_down);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.pink_down);
+                }
+                AnimationDrawable pinkGhostAn3 = (AnimationDrawable) this.getImageView().getBackground();
+                pinkGhostAn3.start();
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -181,6 +200,7 @@ public class PinkGhost extends Unit {
                 set[0].start();
                 break;
             case 4:
+                ((GhostListener)this.getAnimatorListener()).setPrev(4);
                 t = yMap;
                 for (int i = yMap; i>0;i--){
                     if (map[xMap][i]!=1){
@@ -196,7 +216,13 @@ public class PinkGhost extends Unit {
                 }
                 upDestination = 1080/26*(t)+100;
                 //imageView.setRotation(270);
-                this.getImageView().setBackgroundResource(R.drawable.pink_up);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.pink_up);
+                }
+                AnimationDrawable pinkGhostAn4 = (AnimationDrawable) this.getImageView().getBackground();
+                pinkGhostAn4.start();
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();

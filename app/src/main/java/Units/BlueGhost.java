@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.pacman.R;
 
 import Menu.GameUsualActivity;
+import Menu.Listeners.GhostListener;
 
 public class BlueGhost extends Unit {
     public BlueGhost(ImageView imageView, int[][] map, Handler handler) {
@@ -93,7 +94,13 @@ public class BlueGhost extends Unit {
                 }
                 rightDestination = 1080/26*(t);
                 // imageView.setRotation(0);
-                this.getImageView().setBackgroundResource(R.drawable.blue_right);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.blue_right);
+                }
+                AnimationDrawable blueGhostAn = (AnimationDrawable) this.getImageView().getBackground();
+                blueGhostAn.start();
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -137,7 +144,13 @@ public class BlueGhost extends Unit {
                 }
                 leftDestination = 1080/26*(t);
                 //imageView.setRotation(180);
-                this.getImageView().setBackgroundResource(R.drawable.blue_left);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.blue_left);
+                }
+                AnimationDrawable blueGhostAn2 = (AnimationDrawable) this.getImageView().getBackground();
+                blueGhostAn2.start();
                 xNew = imageView.getX();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -166,7 +179,13 @@ public class BlueGhost extends Unit {
                 }
                 bottomDestination = 1080/26*(t)+100;
                 //imageView.setRotation(90);
-                this.getImageView().setBackgroundResource(R.drawable.blue_down);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.blue_down);
+                }
+                AnimationDrawable blueGhostAn3 = (AnimationDrawable) this.getImageView().getBackground();
+                blueGhostAn3.start();
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
@@ -180,6 +199,7 @@ public class BlueGhost extends Unit {
                 set[0].start();
                 break;
             case 4:
+                ((GhostListener)this.getAnimatorListener()).setPrev(4);
                 t = yMap;
                 for (int i = yMap; i>0;i--){
                     if (map[xMap][i]!=1){
@@ -195,7 +215,13 @@ public class BlueGhost extends Unit {
                 }
                 upDestination = 1080/26*(t)+100;
                 //imageView.setRotation(270);
-                this.getImageView().setBackgroundResource(R.drawable.blue_up);
+                if (GhostListener.isCanEat()){
+                    this.getImageView().setBackgroundResource(R.drawable.invisible);
+                }else {
+                    this.getImageView().setBackgroundResource(R.drawable.blue_up);
+                }
+                AnimationDrawable blueGhostAn4 = (AnimationDrawable) this.getImageView().getBackground();
+                blueGhostAn4.start();
                 xNew = imageView.getY();
                 set[0].cancel();
                 set[0] = new AnimatorSet();
