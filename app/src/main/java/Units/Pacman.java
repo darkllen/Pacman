@@ -19,6 +19,7 @@ public class Pacman extends Unit {
     MediaPlayer pacman_ch;
     MediaPlayer pacman_fruit;
     MediaPlayer pacman_intermission;
+    MediaPlayer pacman_intermission2;
 
 
 
@@ -74,19 +75,27 @@ public class Pacman extends Unit {
         pacman_ch=MediaPlayer.create(gUA,R.raw.pacman_chomp);
         pacman_fruit=MediaPlayer.create(gUA,R.raw.pacman_eatfruit);
         pacman_intermission=MediaPlayer.create(gUA,R.raw.pacman_intermission);
+        pacman_intermission2=MediaPlayer.create(gUA,R.raw.pacman_intermission);
+
+
+
+        MusicThread musicThread=new MusicThread(pacman_ch);
+        MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
+        MusicThread musicThreadIntermission=new MusicThread(pacman_intermission);
+        MusicThread musicThreadIntermission2=new MusicThread(pacman_intermission2);
 
         pacman_intermission.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                musicThreadIntermission2.play();
+            }
+        });
+        pacman_intermission2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 changeTypeToNormal.sendMessage(new Message());
             }
         });
-
-        MusicThread musicThread=new MusicThread(pacman_ch);
-        MusicThread musicThreadFruit=new MusicThread(pacman_fruit);
-        MusicThread musicThreadIntermission=new MusicThread(pacman_intermission);
-
-
 
         while (true){
            // if(Unit.getIsPaused()){return;}
